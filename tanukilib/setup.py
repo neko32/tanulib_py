@@ -8,7 +8,8 @@ setup(
     install_requires = [
         'pandas',
         'numpy',
-        'opencv-python'
+        'opencv-python',
+        'python-magic',
     ]
 )
 
