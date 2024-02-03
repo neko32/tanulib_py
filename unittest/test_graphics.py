@@ -2,7 +2,7 @@ import cv2
 from tlib.datautil import gen_rand_alnum_str
 from tlib.graphics import *
 from unittest import TestCase, main
-from os import remove
+from os import remove, mkdir, rmdir
 from os.path import exists
 import magic
 
@@ -52,6 +52,15 @@ class GrapchicsTest(TestCase):
         magicwords = magic.from_file(dest_img_path)
         self.assertTrue("jpeg" in magicwords.lower())
         remove(dest_img_path)
+
+    def test_resize_all_imgs(self):
+        test_img_path = "./testdata/img"
+        dir_name = gen_rand_alnum_str(16)
+        dest_img_path = f"/tmp/{dir_name}"
+        mkdir(dest_img_path)
+        self.assertEqual(resize_all_imgs(test_img_path, dest_img_path, 200, 150), 2)
+        
+        rmdir(dest_img_path)
 
 
 if __name__ == "__main__":
