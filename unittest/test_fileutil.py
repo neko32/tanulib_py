@@ -3,6 +3,7 @@ from tlib.fileutil import *
 from tlib.datautil import gen_rand_alnum_str
 from os.path import exists
 from os import mkdir
+import csv
 
 class FileutilTest(TestCase):
 
@@ -39,6 +40,26 @@ class FileutilTest(TestCase):
         self.assertEqual(n_success, 10)
         self.assertEqual(n_fail, 0)
         self.assertFalse(exists(test_dir))
+
+    def test_gen_imagefiles_summary(self):
+        test_csv_name = gen_rand_alnum_str(16)
+        test_file = f"/tmp/{test_csv_name}.csv"
+
+        img_files_dir = "./testdata/img"
+        gen_image_files_summary(img_files_dir, test_file)
+        
+        self.assertTrue(exists(test_file))
+
+        with open(test_file, 'r') as fp:
+            csv_r = csv.reader(fp)
+            for i, row in enumerate(csv_r):
+                if i == 0:
+                    self.assertListEqual(row, ['filename', 'postfix', 'width', 'height', 'channel', 'magic'])
+                else:
+                    self.assertEqual(len(row), 6)
+
+        remove(test_file)
+
 
 if __name__ == "__main__":
     main()
