@@ -28,6 +28,7 @@ def rmdir_and_files(dir_path:str) -> (int, int):
 
 def gen_image_files_summary(dir_path:str, dest_csv_path:str) -> bool:
     try:
+        supported_postfix = ['jpg', 'jpeg', 'png', 'bmp']
         with open(dest_csv_path, 'w') as fp:
 
             csv_w = csv.writer(fp)
@@ -35,14 +36,16 @@ def gen_image_files_summary(dir_path:str, dest_csv_path:str) -> bool:
 
             for f in listdir(dir_path):
                 _, postfix = split_filename_postfix(f)
-                fpath = f"{dir_path}/{f}"
-                img = cv2.imread(fpath, cv2.IMREAD_UNCHANGED)
-                shape = img.shape
-                height = shape[0]
-                width = shape[1]
-                channel = shape[2]
-                magicwords = magic.from_file(fpath)
-                csv_w.writerow([f, postfix, width, height, channel, magicwords])
+                if postfix.lower() in supported_postfix:
+                    fpath = f"{dir_path}/{f}"
+                    img = cv2.imread(fpath, cv2.IMREAD_UNCHANGED)
+                    shape = img.shape
+                    height = shape[0]
+                    width = shape[1]
+                    channel = shape[2]
+                    magicwords = magic.from_file(fpath)
+                    csv_w.writerow([f, postfix, width, height, channel, magicwords])
+
     except Exception as e:
         print(e)
         return False

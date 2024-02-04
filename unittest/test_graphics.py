@@ -1,5 +1,6 @@
 import cv2
 from tlib.datautil import gen_rand_alnum_str
+from tlib.fileutil import rmdir_and_files
 from tlib.graphics import *
 from unittest import TestCase, main
 from os import remove, mkdir, rmdir
@@ -24,6 +25,8 @@ class GrapchicsTest(TestCase):
         h, w = resized.shape[:2]
         self.assertTrue(h == 115)
         self.assertTrue(w == 100)
+
+        remove(dest_img_path)
 
     def test_to_gray_image(self):
         test_img_path = "./testdata/img/cat_img1.jpg"
@@ -60,7 +63,7 @@ class GrapchicsTest(TestCase):
         mkdir(dest_img_path)
         self.assertEqual(resize_all_imgs(test_img_path, dest_img_path, 200, 150), 2)
         
-        rmdir(dest_img_path)
+        rmdir_and_files(dest_img_path)
 
 
 if __name__ == "__main__":
