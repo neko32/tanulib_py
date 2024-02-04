@@ -37,7 +37,7 @@ class GrapchicsTest(TestCase):
 
         self.assertTrue(to_gray_image(test_img_path, dest_img_path))
         must_be_gray = cv2.imread(dest_img_path, cv2.IMREAD_UNCHANGED)
-        self.assertEqual(len(must_be_gray.shape), 2)
+        self.assertTrue(is_grayscale(must_be_gray))
         remove(dest_img_path)
 
     def test_copy_image_from_jpg_to_png(self):
@@ -64,6 +64,41 @@ class GrapchicsTest(TestCase):
         self.assertEqual(resize_all_imgs(test_img_path, dest_img_path, 200, 150), 2)
         
         rmdir_and_files(dest_img_path)
+
+    def test_affine_transform(self):
+        input_img_path = "./testdata/img/cat_img1.jpg"
+        input_img = cv2.imread(input_img_path, cv2.IMREAD_UNCHANGED)
+        warped = affine_transform(input_img, 1, 45)
+        self.assertTrue(persist_img(warped, "/tmp/affine.jpg"))
+
+    def test_shift_invariance_same_grayscale_imgs(self):
+        input_img_path = "./testdata/img/cat_img1.jpg"
+        input_img = cv2.imread(input_img_path, cv2.IMREAD_GRAYSCALE)
+        self.assertTrue(is_shift_invarient_for_grayscale_imgs(input_img, input_img))
+
+    def test_shift_invariance_rotate_case(self):
+        input_img_path = "./testdata/img/cat_img1.jpg"
+        input_img = cv2.imread(input_img_path, cv2.IMREAD_GRAYSCALE)
+        rotated = cv2.rotate(input_img, cv2.ROTATE_90_CLOCKWISE)
+        self.assertTrue(is_shift_invarient_for_grayscale_imgs(input_img, rotated))
+
+    def test_shift_invariance_sheared_with_blackfill_case(self):
+        input_img_path = "./testdata/img/cat_img1.jpg"
+        input_img = cv2.imread(input_img_path, cv2.IMREAD_GRAYSCALE)
+        sheared = affine_transform(input_img, 1, 45)
+        self.assertFalse(is_shift_invarient_for_grayscale_imgs(input_img, sheared))
+
+    def test_shift_invariance_non_grayscale_input(self):
+        input_img_path = "./testdata/img/cat_img1.jpg"
+        input_img = cv2.imread(input_img_path, cv2.IMREAD_UNCHANGED)
+        input_img_grayed = cv2.imread(input_img_path, cv2.IMREAD_GRAYSCALE)
+        with self.assertRaises(Exception):
+            is_shift_invarient_for_grayscale_imgs(input_img, input_img)
+        with self.assertRaises(Exception):
+            is_shift_invarient_for_grayscale_imgs(input_img, input_img_grayed)
+        with self.assertRaises(Exception):
+            is_shift_invarient_for_grayscale_imgs(input_img_grayed, input_img)
+
 
 
 if __name__ == "__main__":
