@@ -80,3 +80,5 @@ def is_shift_invarient_for_grayscale_imgs(a:MatLike, b:MatLike) -> bool:
     b_hist = cv2.calcHist([b], [0], None, [256], [0, 256])
     return np.array_equal(a_hist, b_hist)
     
+def conv_from_bgr_to_hsv(src:MatLike) -> MatLike:
+    return cv2.cvtColor(src, cv2.COLOR_BGR2HSV)

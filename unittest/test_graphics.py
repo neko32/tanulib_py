@@ -3,7 +3,7 @@ from tlib.datautil import gen_rand_alnum_str
 from tlib.fileutil import rmdir_and_files
 from tlib.graphics import *
 from unittest import TestCase, main
-from os import remove, mkdir, rmdir
+from os import remove, mkdir
 from os.path import exists
 import magic
 
@@ -98,6 +98,12 @@ class GrapchicsTest(TestCase):
             is_shift_invarient_for_grayscale_imgs(input_img, input_img_grayed)
         with self.assertRaises(Exception):
             is_shift_invarient_for_grayscale_imgs(input_img_grayed, input_img)
+
+    def test_conv_bgr_to_hsv(self):
+        input_img_path = "./testdata/img/cat_img1.jpg"
+        input_img = cv2.imread(input_img_path, cv2.IMREAD_UNCHANGED)
+        hsv_img = conv_from_bgr_to_hsv(input_img)
+        self.assertFalse(np.array_equal(input_img, hsv_img))
 
 
 
