@@ -1,6 +1,8 @@
 import numpy as np
 import random
 import string
+import uuid
+import re
 from typing import Any
 
 
@@ -21,4 +23,12 @@ def is_str_alnum(s:str) -> bool:
         if c not in alnums:
             return False
     return True
+
+def gen_uuidv4() -> str:
+    return str(uuid.uuid4())
+
+def is_valid_uuidv4(s: str) -> bool:
+    reg = re.compile(r"^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[4][0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$")
+    found = reg.findall(s)
+    return len(found) > 0
 

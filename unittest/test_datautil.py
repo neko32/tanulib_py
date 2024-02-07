@@ -15,6 +15,11 @@ class DataUtilTest(TestCase):
         self.assertTrue(any([is_str_alnum(s) for s in outs]))
         self.assertTrue(all([len(s) == n for s in outs]))
         
+    def test_uuid(self):
+        s = gen_uuidv4()
+        self.assertTrue(is_valid_uuidv4(s))
+        self.assertFalse(is_valid_uuidv4("takoneko-nekotako"))
+
 
 
 
