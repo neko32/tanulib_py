@@ -26,12 +26,18 @@ class DataUtilTest(TestCase):
         valid_uuid3 = "3f703955-aaba-3e70-a3cb-baff6aa3b28f"
         valid_uuid4 = "3f72d10b-d705-4115-99e0-9534fcfb4f75"
         valid_uuid5 = "a8f6ae40-d8a7-58f0-be05-a22f94eca9ec"
+        invalid_uuid1 = "adsdf"
+        invalid_uuid2 = "a8f6ae40-d8a7--8f0-be05-a22f94eca9ec"
 
         self.assertEqual(get_uuid_version(valid_uuid1), 1)
         self.assertEqual(get_uuid_version(valid_uuid2), 2)
         self.assertEqual(get_uuid_version(valid_uuid3), 3)
         self.assertEqual(get_uuid_version(valid_uuid4), 4)
         self.assertEqual(get_uuid_version(valid_uuid5), 5)
+        with self.assertRaises(Exception):
+            get_uuid_version(invalid_uuid1)
+        with self.assertRaises(Exception):
+            get_uuid_version(invalid_uuid2)
 
 
 
