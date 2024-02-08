@@ -32,3 +32,11 @@ def is_valid_uuidv4(s: str) -> bool:
     found = reg.findall(s)
     return len(found) > 0
 
+def get_uuid_version(uuid_s:str) -> int:
+    idx = 14
+    if len(uuid_s) < idx:
+        raise Exception(f"{uuid_s} length is invalid")
+    ch = uuid_s[idx]
+    if not ch.isdigit():
+        raise Exception(f"{uuid_s} {ch} is not valid")
+    return int(ch)
