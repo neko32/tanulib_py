@@ -39,7 +39,13 @@ class DataUtilTest(TestCase):
         with self.assertRaises(Exception):
             get_uuid_version(invalid_uuid2)
 
-
+    def test_can_be_guid(self):
+        invalid_guid = "3f72d10b-d705-4115-99e0-9534fcfb4f75"
+        valid_guid1 = "3F72D10B-D705-4115-99E0-9534FCFB4F75"
+        valid_guid2 = "3F72D10B-D705-9115-25E0-9534FCFB4F75"
+        self.assertTrue(can_be_guid(valid_guid1))
+        self.assertTrue(can_be_guid(valid_guid2))
+        self.assertFalse(can_be_guid(invalid_guid))
 
 
 if __name__ == "__main__":
