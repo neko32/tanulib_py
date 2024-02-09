@@ -10,6 +10,8 @@ setup(
         'numpy',
         'opencv-python',
         'python-magic',
+        'keras',
+        'tensorflow==2.13',
     ]
 )
 
