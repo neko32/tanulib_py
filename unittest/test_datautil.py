@@ -47,6 +47,20 @@ class DataUtilTest(TestCase):
         self.assertTrue(can_be_guid(valid_guid2))
         self.assertFalse(can_be_guid(invalid_guid))
 
+    def test_round_to_nearest_half_up(self):
+        v = 250.7259
+        with self.assertRaises(Exception):
+            round_to_nearest_half_up(v, 0)
+        self.assertEqual(round_to_nearest_half_up(v, 1), 251)
+        self.assertEqual(round_to_nearest_half_up(v, 2), 250.7)
+        self.assertEqual(round_to_nearest_half_up(v, 3), 250.73)
+        nv = -250.7259
+        with self.assertRaises(Exception):
+            round_to_nearest_half_up(nv, 0)
+        self.assertEqual(round_to_nearest_half_up(nv, 1), -251)
+        self.assertEqual(round_to_nearest_half_up(nv, 2), -250.7)
+        self.assertEqual(round_to_nearest_half_up(nv, 3), -250.73)
+
 
 if __name__ == "__main__":
     main()
