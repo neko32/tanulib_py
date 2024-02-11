@@ -47,5 +47,17 @@ class StringTest(TestCase):
         self.assertEqual(from_snake_case_to_camel_case("ta"), "ta")
         self.assertEqual(from_snake_case_to_camel_case("Ta"), "Ta")
 
+    def test_snake_to_chain(self):
+        s1 = "neko_tako"
+        s2 = "nekotako"
+        s3 = "neko_tako"
+        s4 = "Neko_Tako"
+        s5 = "NEKO_TAKO"
+        self.assertEqual(from_snake_to_chain_case(s1), 'neko-tako')
+        self.assertEqual(from_snake_to_chain_case(s2), 'nekotako')
+        self.assertEqual(from_snake_to_chain_case(s3), 'neko-tako')
+        self.assertEqual(from_snake_to_chain_case(s4), 'neko-tako')
+        self.assertEqual(from_snake_to_chain_case(s5), 'neko-tako')
+
 if __name__ == "__main__":
     main()

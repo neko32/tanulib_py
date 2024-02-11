@@ -29,3 +29,6 @@ def from_snake_case_to_camel_case(s:str) -> str:
 
 def from_snake_case_to_pascal_case(s:str) -> str:
     return "".join([capitalize(w) for w in s.split("_")])
+
+def from_snake_to_chain_case(s:str) -> str:
+    return s.replace('_', '-').lower()
