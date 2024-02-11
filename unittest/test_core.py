@@ -27,5 +27,12 @@ class CoreTest(TestCase):
         for i, r in enumerate(exec_parallel_sync(5, calc_with_wait_multi_params_out, ipt)):
             self.assertEqual(r, ipt[i][0] * ipt[i][1])
 
+    def test_exec(self):
+        cmds = ['lsb_release', '-a']
+        ret_code, stdout, stderr = exec_cmd(cmds)
+        print(ret_code)
+        print(stdout)
+        print(stderr)
+
 if __name__ == "__main__":
     main()
