@@ -1,0 +1,10 @@
+{
+    "firstName": "Pico",
+    "lastName": "Yamada",
+    "age": 10,
+    "hobbies": ["run", "eat", "sleep"],
+    "address": {
+        "zip": 11201,
+        "country": "US"
+    }
+}
