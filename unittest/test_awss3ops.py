@@ -5,23 +5,31 @@ import os
 class AWSS3OpsTest(TestCase):
 
     def setUp(self):
+        self.bucket_name = "testbk1"
         os.environ['ENV'] = 'local_ut'
 
+    def tearDown(self) -> None:
+        self.assertTrue(s3ops.delete_s3_bucket(self.bucket_name))
+        return super().tearDown()
+
     def test_s3_basic_ops(self):
-        bucket_name = "testbk1"
-        bucket_created = False
-        try:
-            rez = s3ops.create_s3_bucket(bucket_name, s3ops.ACLTypes.private)
-            print(rez)
-            bucket_created = True
-            
-            self.assertTrue(s3ops.delete_s3_bucket(bucket_name))
-            bucket_created = False
-            
-        except Exception as e:
-            print(f"error occurred - {e}")
-            if bucket_created:
-                s3ops.delete_s3_bucket(bucket_name)
+        test_json1_fpath = "./testdata/json/test_simple.json"
+        test_json1_key = "testsimple1"
+        rez = s3ops.create_s3_bucket(self.bucket_name, s3ops.ACLTypes.private)
+        print(rez)
+        
+        with open(test_json1_fpath, 'r') as fp:
+            test_json1_data = bytes(fp.read(), 'utf-16')
+        
+        put_rez = s3ops.put_object_to_s3_bucket(f"{self.bucket_name}", s3ops.ACLTypes.private, test_json1_key, test_json1_data)
+        print(put_rez)
+
+        lsrez = s3ops.list_object_in_s3_bucket(f"{self.bucket_name}")
+        for ks in lsrez.list_key_and_size():
+            print(f"{ks.key}:{ks.size}")
+            self.assertTrue(s3ops.delete_object_from_s3_bucket(self.bucket_name, ks.key))
+
+
 
 
 if __name__ == '__main__':
