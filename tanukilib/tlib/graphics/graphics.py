@@ -205,4 +205,99 @@ def draw_text(a:MatLike,
                 thickness = line_thickness,
                 lineType = LINE_TYPE_MAP[line_type])
 
-                    
+def draw_circle(a: MatLike,
+                center_coordinate: Tuple[int, int],
+                radius: int,
+                color: BGRA = BGRA(0, 0, 0, None),
+                line_thickness = 0,
+                line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.circle(img = a,
+                center = center_coordinate,
+                radius = radius,
+                color = color.to_tuple_bgr(),
+                thickness = line_thickness,
+                lineType = LINE_TYPE_MAP[line_type])
+
+def fill_circle(a: MatLike,
+                center_coordinate: Tuple[int, int],
+                radius: int,
+                color: BGRA = BGRA(0, 0, 0, None),
+                line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.circle(img = a,
+                center = center_coordinate,
+                radius = radius,
+                color = color.to_tuple_bgr(),
+                thickness = -1,
+                lineType = LINE_TYPE_MAP[line_type])
+
+def draw_ellipse(a: MatLike,
+                center_coordinate: Tuple[int, int],
+                axes: Tuple[int, int],
+                angle: float = 0,
+                color: BGRA = BGRA(0, 0, 0, None),
+                line_thickness: int = 1,
+                line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.ellipse(img = a,
+                center = center_coordinate,
+                axes = axes,
+                angle = angle,
+                startAngle = 0,
+                endAngle = 360,
+                color = color.to_tuple_bgr(),
+                thickness = line_thickness,
+                lineType = LINE_TYPE_MAP[line_type])
+
+def fill_ellipse(a: MatLike,
+                center_coordinate: Tuple[int, int],
+                axes: Tuple[int, int],
+                angle: float = 0,
+                color: BGRA = BGRA(0, 0, 0, None),
+                line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.ellipse(img = a,
+                center = center_coordinate,
+                axes = axes,
+                angle = angle,
+                startAngle = 0,
+                endAngle = 360,
+                color = color.to_tuple_bgr(),
+                thickness = -1,
+                lineType = LINE_TYPE_MAP[line_type])
+
+
+def draw_arc(a: MatLike,
+                center_coordinate: Tuple[int, int],
+                axes: Tuple[int, int],
+                angle: float = 0,
+                start_angle: float = 0,
+                end_angle: float = 45,
+                color: BGRA = BGRA(0, 0, 0, None),
+                line_thickness: int = 1,
+                line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.ellipse(img = a,
+                center = center_coordinate,
+                axes = axes,
+                angle = angle,
+                startAngle = start_angle,
+                endAngle = end_angle,
+                color = color.to_tuple_bgr(),
+                thickness = line_thickness,
+                lineType = LINE_TYPE_MAP[line_type])
+
+
+def fill_arc(a: MatLike,
+                center_coordinate: Tuple[int, int],
+                axes: Tuple[int, int],
+                angle: float = 0,
+                start_angle: float = 0,
+                end_angle: float = 45,
+                color: BGRA = BGRA(0, 0, 0, None),
+                line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.ellipse(img = a,
+                center = center_coordinate,
+                axes = axes,
+                angle = angle,
+                startAngle = start_angle,
+                endAngle = end_angle,
+                color = color.to_tuple_bgr(),
+                thickness = -1,
+                lineType = LINE_TYPE_MAP[line_type])
