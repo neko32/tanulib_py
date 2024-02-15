@@ -1,9 +1,10 @@
 import cv2
 from cv2.typing import MatLike
 import numpy as np
-from typing import List
+from typing import Tuple, Optional
 from os.path import isdir
 from os import listdir
+from enum import Enum, auto
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY, cv2.IMWRITE_PNG_STRATEGY_DEFAULT]
@@ -12,6 +13,66 @@ _TLIG_W_FLG_MAP = {
     "jpg": _TLIBG_W_JPG_DEFAULT,
     "jpeg": _TLIBG_W_JPG_DEFAULT,
 }
+
+class FontFace(Enum):
+    FONT_FACE_PLAIN = auto()
+    FONT_FACE_ITALIC = auto()
+    FONT_FACE_SIMPLEX = auto()
+    FONT_FACE_TRIPLEX = auto()
+    FONT_FACE_DUPLEX = auto()
+    FONT_FACE_COMPLEX = auto()
+    FONT_FACE_SCRIPT_SIMPLEX = auto()
+    FONT_FACE_SCRIPT_COMPLEX = auto()
+    FONT_FACE_COMPLEX_SMALL = auto()
+
+FONT_FACE_MAP = {
+    FontFace.FONT_FACE_PLAIN: cv2.FONT_HERSHEY_PLAIN,
+    FontFace.FONT_FACE_ITALIC: cv2.FONT_ITALIC,
+    FontFace.FONT_FACE_SIMPLEX: cv2.FONT_HERSHEY_SIMPLEX,
+    FontFace.FONT_FACE_DUPLEX: cv2.FONT_HERSHEY_DUPLEX,
+    FontFace.FONT_FACE_TRIPLEX: cv2.FONT_HERSHEY_TRIPLEX,
+    FontFace.FONT_FACE_COMPLEX: cv2.FONT_HERSHEY_COMPLEX,
+    FontFace.FONT_FACE_COMPLEX_SMALL: cv2.FONT_HERSHEY_COMPLEX_SMALL,
+    FontFace.FONT_FACE_SCRIPT_SIMPLEX: cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
+    FontFace.FONT_FACE_SCRIPT_COMPLEX: cv2.FONT_HERSHEY_SCRIPT_COMPLEX,
+}
+
+class LineType(Enum):
+    LINE_TYPE_4 = auto()
+    LINE_TYPE_8 = auto()
+    LINE_TYPE_AA = auto()
+
+LINE_TYPE_MAP = {
+    LineType.LINE_TYPE_4: cv2.LINE_4,
+    LineType.LINE_TYPE_8: cv2.LINE_8,
+    LineType.LINE_TYPE_AA: cv2.LINE_AA,
+}
+
+class BGRA:
+    def __init__(self, b:int, g:int, r:int, a:Optional[int] = None):
+        self._b = b
+        self._g = g
+        self._r = r
+        self._a = a
+    
+    @property
+    def blue(self) -> int:
+        return self._b
+
+    @property
+    def green(self) -> int:
+        return self._g
+
+    @property
+    def red(self) -> int:
+        return self._r
+
+    @property
+    def alpha(self) -> int:
+        return self._a
+
+    def to_tuple_bgr(self) -> Tuple[int, int, int]:
+        return (self.blue, self.green, self.red)
 
 def resize_img(src_path:str, dest_path:str, new_width:int, new_height:int) -> bool:
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
@@ -82,3 +143,66 @@ def is_shift_invarient_for_grayscale_imgs(a:MatLike, b:MatLike) -> bool:
     
 def conv_from_bgr_to_hsv(src:MatLike) -> MatLike:
     return cv2.cvtColor(src, cv2.COLOR_BGR2HSV)
+
+def gen_white_canvas(w:int, h:int) -> MatLike:
+    return np.full(shape = [h, w, 3], fill_value = 255, dtype = np.uint8)
+
+def gen_black_canvas(w:int, h:int) -> MatLike:
+    return np.zeros(shape = [h, w, 3], dtype = np.uint8)
+
+def draw_rect(a:MatLike, 
+                st:Tuple[int, int],
+                end:Tuple[int, int],
+                color:BGRA = BGRA(0, 0, 0, None),
+                line_type: LineType = LineType.LINE_TYPE_8,
+                line_thickness:int = 1) -> None:
+    cv2.rectangle(a, 
+                    pt1 = st,
+                    pt2 = end,
+                    color = color.to_tuple_bgr(),
+                    thickness = line_thickness,
+                    lineType = LINE_TYPE_MAP[line_type])
+
+def fill_rect(a:MatLike,
+                st:Tuple[int, int],
+                end:Tuple[int, int],
+                color:BGRA = BGRA(0, 0, 0, None),
+                line_type:LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.rectangle(a, 
+                    pt1 = st,
+                    pt2 = end,
+                    color = color.to_tuple_bgr(),
+                    thickness = -1,
+                    lineType = LINE_TYPE_MAP[line_type])
+
+def draw_line(a:MatLike,
+                st:Tuple[int, int],
+                end:Tuple[int, int],
+                color:BGRA = BGRA(0, 0, 0, None),
+                line_thickness:int = 1,
+                line_type:LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.line(a,
+                pt1 = st,
+                pt2 = end,
+                color = color.to_tuple_bgr(),
+                thickness = line_thickness,
+                lineType = LINE_TYPE_MAP[line_type])
+
+def draw_text(a:MatLike,
+                text:str,
+                loc:Tuple[int, int],
+                color:BGRA = BGRA(0, 0, 0, None),
+                line_thickness:int = 1,
+                line_type:LineType = LineType.LINE_TYPE_8,
+                font_scale:float = 1.0,
+                font_face:FontFace = FontFace.FONT_FACE_PLAIN) -> None:
+    cv2.putText(a, 
+                text = text,
+                org = loc,
+                fontFace = FONT_FACE_MAP[font_face],
+                fontScale = font_scale,
+                color = color.to_tuple_bgr(),
+                thickness = line_thickness,
+                lineType = LINE_TYPE_MAP[line_type])
+
+                    
