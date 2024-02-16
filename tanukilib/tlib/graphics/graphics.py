@@ -117,7 +117,10 @@ def copy_img(src_path:str, dest_path) -> bool:
     cfg = _TLIG_W_FLG_MAP[prefix]
     return cv2.imwrite(dest_path, buf, cfg)
 
-def to_gray_image(src_path:str, dest_path:str) -> bool:
+def from_bgr_to_gray_scale(img:MatLike) -> MatLike:
+    return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+def persist_as_gray_image(src_path:str, dest_path:str) -> bool:
     buf = cv2.imread(src_path, cv2.IMREAD_GRAYSCALE)
     return cv2.imwrite(dest_path, buf)
 

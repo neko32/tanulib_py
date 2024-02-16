@@ -28,14 +28,14 @@ class GrapchicsTest(TestCase):
 
         remove(dest_img_path)
 
-    def test_to_gray_image(self):
+    def test_persist_as_gray_image(self):
         test_img_path = "./testdata/img/cat_img1.jpg"
         dest_img_path = self.gen_dest_fname()
 
         if exists(dest_img_path):
             remove(dest_img_path)
 
-        self.assertTrue(to_gray_image(test_img_path, dest_img_path))
+        self.assertTrue(persist_as_gray_image(test_img_path, dest_img_path))
         must_be_gray = cv2.imread(dest_img_path, cv2.IMREAD_UNCHANGED)
         self.assertTrue(is_grayscale(must_be_gray))
         remove(dest_img_path)

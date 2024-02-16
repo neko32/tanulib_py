@@ -29,7 +29,7 @@ def main():
 
     cv2.imwrite(fname, img)
 
-    print("done.")
+    print("img_draw sample done.")
 
 
 if __name__ == "__main__":
