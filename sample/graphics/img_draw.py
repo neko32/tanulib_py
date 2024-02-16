@@ -23,6 +23,9 @@ def main():
     fill_ellipse(img, [400, 50], [40, 20], 0, BGRA(30, 256, 128))
     draw_arc(img, [280, 350], [25, 40], 20, 0, 45, BGRA(20, 100, 60), 3, LineType.LINE_TYPE_AA)
     fill_arc(img, [380, 150], [30, 30], 0, 180, 260, BGRA(20, 20, 190), LineType.LINE_TYPE_AA)
+    put_marker(img, (295, 325), MarkerType.MARKER_TYPE_TILTED_CROSS, BGRA(0, 255, 50))
+    fill_polylines(img, [(20, 50), (50, 20), (100, 50), (50, 130)], BGRA(25, 35, 92), LineType.LINE_TYPE_4)
+    draw_polylines(img, [[100, 50], [120, 180], [50, 250], [270, 120], [220, 50]], BGRA(0, 0, 0), True, 4)
 
     cv2.imwrite(fname, img)
 

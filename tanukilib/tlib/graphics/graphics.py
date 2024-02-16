@@ -1,7 +1,7 @@
 import cv2
 from cv2.typing import MatLike
 import numpy as np
-from typing import Tuple, Optional
+from typing import Tuple, Optional, List
 from os.path import isdir
 from os import listdir
 from enum import Enum, auto
@@ -46,6 +46,25 @@ LINE_TYPE_MAP = {
     LineType.LINE_TYPE_4: cv2.LINE_4,
     LineType.LINE_TYPE_8: cv2.LINE_8,
     LineType.LINE_TYPE_AA: cv2.LINE_AA,
+}
+
+class MarkerType(Enum):
+    MARKER_TYPE_CROSS = auto()
+    MARKER_TYPE_TILTED_CROSS = auto()
+    MARKER_TYPE_STAR = auto()
+    MARKER_TYPE_DIAMOND = auto()
+    MARKER_TYPE_SQUARE = auto()
+    MARKER_TYPE_TRIANGLE_UP = auto()
+    MARKER_TYPE_TRIANGLE_DOWN = auto()
+
+MARKER_TYPE_MAP = {
+    MarkerType.MARKER_TYPE_CROSS: cv2.MARKER_CROSS,
+    MarkerType.MARKER_TYPE_TILTED_CROSS: cv2.MARKER_TILTED_CROSS,
+    MarkerType.MARKER_TYPE_STAR: cv2.MARKER_STAR,
+    MarkerType.MARKER_TYPE_DIAMOND: cv2.MARKER_DIAMOND,
+    MarkerType.MARKER_TYPE_SQUARE: cv2.MARKER_SQUARE,
+    MarkerType.MARKER_TYPE_TRIANGLE_UP: cv2.MARKER_TRIANGLE_UP,
+    MarkerType.MARKER_TYPE_TRIANGLE_DOWN: cv2.MARKER_TRIANGLE_DOWN,
 }
 
 class BGRA:
@@ -188,6 +207,28 @@ def draw_line(a:MatLike,
                 thickness = line_thickness,
                 lineType = LINE_TYPE_MAP[line_type])
 
+def draw_polylines(a: MatLike,
+                    coordinates:List[Tuple[int, int]],
+                    color:BGRA = BGRA(0, 0, 0, None),
+                    is_closed:bool = True,
+                    line_thickness:int = 1,
+                    line_type:LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.polylines(img = a, 
+                    pts = [np.array(coordinates, np.int32).reshape((-1, 1, 2))], 
+                    isClosed = is_closed,
+                    color = color.to_tuple_bgr(),
+                    thickness = line_thickness,
+                    lineType = LINE_TYPE_MAP[line_type])
+
+def fill_polylines(a: MatLike,
+                    coordinates:List[Tuple[int, int]],
+                    color:BGRA = BGRA(0, 0, 0, None),
+                    line_type:LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.fillPoly(img = a, 
+                    pts = [np.array(coordinates, np.int32).reshape((-1, 1, 2))], 
+                    color = color.to_tuple_bgr(),
+                    lineType = LINE_TYPE_MAP[line_type])
+
 def draw_text(a:MatLike,
                 text:str,
                 loc:Tuple[int, int],
@@ -301,3 +342,19 @@ def fill_arc(a: MatLike,
                 color = color.to_tuple_bgr(),
                 thickness = -1,
                 lineType = LINE_TYPE_MAP[line_type])
+
+def put_marker(a:MatLike,
+                loc:Tuple[int, int],
+                marker_type: MarkerType,
+                color:BGRA = BGRA(0, 0, 0, None),
+                line_thickness:int = 1,
+                line_type:LineType = LineType.LINE_TYPE_8,
+                marker_size:int = 20) -> None:
+    cv2.drawMarker(img = a,
+                    position = loc,
+                    color = color.to_tuple_bgr(),
+                    markerType = MARKER_TYPE_MAP[marker_type],
+                    markerSize = marker_size,
+                    thickness = line_thickness,
+                    line_type = LINE_TYPE_MAP[line_type])
+
