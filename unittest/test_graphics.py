@@ -9,6 +9,15 @@ import magic
 
 class GrapchicsTest(TestCase):
 
+    def test_imread_wrapper(self):
+        good_path = "./testdata/img/cat_img1.jpg"
+        bad_path = "./testdata/img/sonnan_sonzai_shineyo.jpg"
+        f = imread_wrapper(good_path, cv2.IMREAD_GRAYSCALE)
+        self.assertTrue(is_grayscale(f))
+        with self.assertRaises(Exception) as e:
+            imread_wrapper(bad_path)
+
+
     def gen_dest_fname(self, length:int = 16, postfix:str = "jpg") -> str:
         return f"/tmp/{gen_rand_alnum_str(length)}.{postfix}"
 

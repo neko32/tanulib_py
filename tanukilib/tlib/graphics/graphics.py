@@ -2,7 +2,7 @@ import cv2
 from cv2.typing import MatLike
 import numpy as np
 from typing import Tuple, Optional, List
-from os.path import isdir
+from os.path import isdir, exists
 from os import listdir
 from enum import Enum, auto
 
@@ -92,6 +92,11 @@ class BGRA:
 
     def to_tuple_bgr(self) -> Tuple[int, int, int]:
         return (self.blue, self.green, self.red)
+
+def imread_wrapper(fpath:str, flags:int = cv2.IMREAD_UNCHANGED) -> MatLike:
+    if not exists(fpath):
+        raise Exception(f"file {fpath} doesn't exist")
+    return cv2.imread(fpath, flags)
 
 def resize_img(src_path:str, dest_path:str, new_width:int, new_height:int) -> bool:
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
