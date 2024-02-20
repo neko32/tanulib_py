@@ -50,6 +50,7 @@ class VersionMgmtTest(TestCase):
         obvious_prev_ver = "openssl-v0.0.0"
         obvious_fut_ver = "openssl-v100.0.0"
         version_from_git = git_ver_chk.fetch_retrieve_version()
+        print(f"fetched latest ver is {git_ver_chk.latest_version_cache}")
         comparator = RustOpenSSLVersionComparator(obvious_prev_ver, version_from_git)
         self.assertTrue(comparator.is_more_latest_version_available())
         comparator = RustOpenSSLVersionComparator(obvious_fut_ver, version_from_git)

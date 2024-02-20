@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import TypeVar, Optional
 from enum import Enum, auto
 import requests
 
@@ -85,6 +85,7 @@ class GithubReleaseLatestVersion(LatestVersionFetch):
     def __init__(self, owner:str, repo:str) -> None:
         self.repo = repo
         self.owner = owner
+        self.fetched_latestion_version = None
 
     def fetch_retrieve_version(self) -> T:
         url = f"https://api.github.com/repos/{self.owner}/{self.repo}/releases/latest"
@@ -95,5 +96,10 @@ class GithubReleaseLatestVersion(LatestVersionFetch):
         if resp.status_code != 200:
             raise Exception(f"failed to access to the site - {url}")
         resp_json = resp.json()
+        self.fetched_latestion_version = resp_json['tag_name']
         return resp_json['tag_name']
+
+    @property
+    def latest_version_cache(self) -> Optional[str]:
+        return self.fetched_latestion_version
         
