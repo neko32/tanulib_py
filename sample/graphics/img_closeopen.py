@@ -5,26 +5,24 @@ from os import remove
 from os.path import exists
 
 def perf_morth(img:MatLike, morph_type:str) -> MatLike:
-    preprocessed = preprocess_for_morph(img)
-    if morph_type == "open":
-        return morph_remove_noise_aka_open(preprocessed)
-    elif morph_type == "close":
-        return morph_remove_dots_aka_close(preprocessed)
+    preprocessed = preprocess_for_morph(img, True)
+    if morph_type == "closeopen":
+        return morph_remove_noises_aka_closeopen(preprocessed)
     else:
         raise Exception("not supported")
 
 def main():
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
-    f_open_name = f"{tmp_home_dir}/morph_open_sample.jpg"
-    f_close_name = f"{tmp_home_dir}/morph_close_sample.jpg"
+    f_name = f"{tmp_home_dir}/morph_closeopen_sample.jpg"
 
-    files = [f_open_name, f_close_name]
-    morph_type = ["open", "close"] 
+    files = [f_name]
+    morph_type = ["closeopen"]
 
     for f,mt in zip(files, morph_type):
         if exists(f):
             remove(f)
-        img = imread_wrapper("../img/sample_img.jpg", cv2.IMREAD_UNCHANGED)
+        img = imread_wrapper("../img/sabi.jpg", cv2.IMREAD_GRAYSCALE)
+        img = invert_grayscale(img)
         morphed = perf_morth(img, mt)
         cv2.imwrite(f, morphed)
 

@@ -132,6 +132,9 @@ def persist_as_gray_image(src_path:str, dest_path:str) -> bool:
 def is_grayscale(img:MatLike) -> bool:
     return len(img.shape) == 2
 
+def invert_grayscale(img:MatLike) -> MatLike:
+    return cv2.bitwise_not(img)
+
 def affine_transform(src:MatLike, scale:int, angle:int) -> MatLike:
     h, w = src.shape[:2]
     center = (w // 2, h // 2)
