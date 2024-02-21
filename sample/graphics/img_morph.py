@@ -4,7 +4,8 @@ import os
 from os import remove
 from os.path import exists
 
-def perf_morth(img:MatLike, morph_type:str) -> MatLike:
+
+def perf_morth(img: MatLike, morph_type: str) -> MatLike:
     preprocessed = preprocess_for_morph(img)
     if morph_type == "open":
         return morph_remove_noise_aka_open(preprocessed)
@@ -13,15 +14,16 @@ def perf_morth(img:MatLike, morph_type:str) -> MatLike:
     else:
         raise Exception("not supported")
 
+
 def main():
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
     f_open_name = f"{tmp_home_dir}/morph_open_sample.jpg"
     f_close_name = f"{tmp_home_dir}/morph_close_sample.jpg"
 
     files = [f_open_name, f_close_name]
-    morph_type = ["open", "close"] 
+    morph_type = ["open", "close"]
 
-    for f,mt in zip(files, morph_type):
+    for f, mt in zip(files, morph_type):
         if exists(f):
             remove(f)
         img = imread_wrapper("../img/sample_img.jpg", cv2.IMREAD_UNCHANGED)
@@ -29,6 +31,7 @@ def main():
         cv2.imwrite(f, morphed)
 
     print("img_morph sample done.")
+
 
 if __name__ == "__main__":
     main()
