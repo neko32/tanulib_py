@@ -1,4 +1,5 @@
 import datetime
+from dateutil.tz import gettz
 
 def cur_datetime_as_std_fmt_str(date_delimitor:str = '-',
                                 time_delimitor:str = ':',
@@ -37,3 +38,8 @@ def get_datetime_as_std_fmt_str(year:int,
     if with_tz:
         fmt += "%z"
     return datetime.datetime(year, month, day, hour, minute, sec, tzinfo = timezone).strftime(fmt)
+
+
+def from_epoch_to_datetime(epoch:int, tz_id:str) -> datetime.datetime:
+    tz = gettz(tz_id)
+    return datetime.datetime.fromtimestamp(epoch, tz)
