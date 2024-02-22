@@ -24,6 +24,22 @@ def round_to_nearest_half_up(v: float, decimal_point: int) -> float:
     )
 
 
+def round_to_nearest_half_down(v: float, decimal_point: int) -> float:
+    decimal_str = _quote_decimal_str(decimal_point)
+    return float(decimal.Decimal(str(v)).quantize(
+        decimal.Decimal(decimal_str),
+        decimal.ROUND_HALF_DOWN)
+    )
+
+
+def round_to_nearest_half_even(v: float, decimal_point: int) -> float:
+    decimal_str = _quote_decimal_str(decimal_point)
+    return float(decimal.Decimal(str(v)).quantize(
+        decimal.Decimal(decimal_str),
+        decimal.ROUND_HALF_EVEN)
+    )
+
+
 def round_truncate(v: float, decimal_point: int) -> float:
     decimal_str = _quote_decimal_str(decimal_point)
     return float(decimal.Decimal(str(v)).quantize(
@@ -45,4 +61,12 @@ def round_ceil(v: float, decimal_point: int) -> float:
     return float(decimal.Decimal(str(v)).quantize(
         decimal.Decimal(decimal_str),
         decimal.ROUND_CEILING)
+    )
+
+
+def round_up(v: float, decimal_point: int) -> float:
+    decimal_str = _quote_decimal_str(decimal_point)
+    return float(decimal.Decimal(str(v)).quantize(
+        decimal.Decimal(decimal_str),
+        decimal.ROUND_UP)
     )

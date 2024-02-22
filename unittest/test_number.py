@@ -30,6 +30,34 @@ class DataUtilTest(TestCase):
         self.assertEqual(round_to_nearest_half_up(nv, 2), -250.7)
         self.assertEqual(round_to_nearest_half_up(nv, 3), -250.73)
 
+    def test_round_to_nearest_half_down(self):
+        v = 250.7259
+        with self.assertRaises(Exception):
+            round_to_nearest_half_down(v, 0)
+        self.assertEqual(round_to_nearest_half_down(v, 1), 251)
+        self.assertEqual(round_to_nearest_half_down(v, 2), 250.7)
+        self.assertEqual(round_to_nearest_half_down(v, 3), 250.73)  # wrong?
+        nv = -250.7259
+        with self.assertRaises(Exception):
+            round_to_nearest_half_up(nv, 0)
+        self.assertEqual(round_to_nearest_half_down(nv, 1), -251)
+        self.assertEqual(round_to_nearest_half_down(nv, 2), -250.7)
+        self.assertEqual(round_to_nearest_half_down(nv, 3), -250.73)  # wrong?
+
+    def test_round_to_nearest_half_even(self):
+        v = 250.7259
+        with self.assertRaises(Exception):
+            round_to_nearest_half_even(v, 0)
+        self.assertEqual(round_to_nearest_half_even(v, 1), 251)
+        self.assertEqual(round_to_nearest_half_even(v, 2), 250.7)
+        self.assertEqual(round_to_nearest_half_even(v, 3), 250.73)  # wrong?
+        nv = -250.7259
+        with self.assertRaises(Exception):
+            round_to_nearest_half_even(nv, 0)
+        self.assertEqual(round_to_nearest_half_even(nv, 1), -251)  # wrong?
+        self.assertEqual(round_to_nearest_half_even(nv, 2), -250.7)
+        self.assertEqual(round_to_nearest_half_even(nv, 3), -250.73)
+
     def test_round_truncate(self):
         v = 250.7259
         with self.assertRaises(Exception):
@@ -43,6 +71,20 @@ class DataUtilTest(TestCase):
         self.assertEqual(round_truncate(nv, 1), -250)
         self.assertEqual(round_truncate(nv, 2), -250.7)
         self.assertEqual(round_truncate(nv, 3), -250.72)
+
+    def test_round_up(self):
+        v = 250.7259
+        with self.assertRaises(Exception):
+            round_up(v, 0)
+        self.assertEqual(round_up(v, 1), 251)
+        self.assertEqual(round_up(v, 2), 250.8)
+        self.assertEqual(round_up(v, 3), 250.73)
+        nv = -250.7259
+        with self.assertRaises(Exception):
+            round_up(nv, 0)
+        self.assertEqual(round_up(nv, 1), -251)
+        self.assertEqual(round_up(nv, 2), -250.8)
+        self.assertEqual(round_up(nv, 3), -250.73)
 
     def test_round_floor(self):
         v = 250.7259
