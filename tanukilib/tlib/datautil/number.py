@@ -30,3 +30,19 @@ def round_truncate(v: float, decimal_point: int) -> float:
         decimal.Decimal(decimal_str),
         decimal.ROUND_DOWN)
     )
+
+
+def round_floor(v: float, decimal_point: int) -> float:
+    decimal_str = _quote_decimal_str(decimal_point)
+    return float(decimal.Decimal(str(v)).quantize(
+        decimal.Decimal(decimal_str),
+        decimal.ROUND_FLOOR)
+    )
+
+
+def round_ceil(v: float, decimal_point: int) -> float:
+    decimal_str = _quote_decimal_str(decimal_point)
+    return float(decimal.Decimal(str(v)).quantize(
+        decimal.Decimal(decimal_str),
+        decimal.ROUND_CEILING)
+    )
