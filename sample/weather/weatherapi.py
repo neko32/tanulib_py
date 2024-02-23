@@ -1,10 +1,12 @@
 from tlib.physics.weather import WeatherAPIProvider, WeatherRegion
+from tlib.core.cfg import Cfg
 import os
 import pprint
 
 
 def main():
-    api_key = os.environ['API__WEATHER__local_ut__APIKEY']
+    cfg = Cfg('local_ut')
+    api_key = cfg.get_api_conf_value('WEATHER', 'APIKEY')
     wp = WeatherAPIProvider()
     wp.set_apikey(api_key)
     wr = WeatherRegion(city="Tokyo")
