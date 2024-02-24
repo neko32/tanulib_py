@@ -5,6 +5,7 @@ from typing import Tuple, Optional, List
 from os.path import isdir, exists
 from os import listdir
 from enum import Enum, auto
+from tlib.graphics.movie import Effecter
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY,
@@ -123,13 +124,23 @@ class BGRA:
         return (self.blue, self.green, self.red)
 
 
+class GrayImageEffecter(Effecter):
+    def process(self, img: MatLike) -> MatLike:
+        return from_bgr_to_gray_scale(img)
+
+
 def imread_wrapper(fpath: str, flags: int = cv2.IMREAD_UNCHANGED) -> MatLike:
     if not exists(fpath):
         raise Exception(f"file {fpath} doesn't exist")
     return cv2.imread(fpath, flags)
 
 
-def resize_img(src_path: str, dest_path: str, new_width: int, new_height: int) -> bool:
+def resize_img(
+        src_path: str,
+        dest_path: str,
+        new_width: int,
+        new_height: int
+) -> bool:
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
     resized = cv2.resize(buf, [new_width, new_height])
     prefix = dest_path.split('.')[-1].lower()
@@ -137,15 +148,23 @@ def resize_img(src_path: str, dest_path: str, new_width: int, new_height: int) -
     return cv2.imwrite(dest_path, resized, cfg)
 
 
-def resize_all_imgs(src_path: str, dest_path: str, new_width: int, new_height: int) -> int:
+def resize_all_imgs(
+        src_path: str,
+        dest_path: str,
+        new_width: int,
+        new_height: int) -> int:
     if not (isdir(src_path) and isdir(dest_path)):
         raise Exception(f"{src_path} and {dest_path} must be directory")
     cnt = 0
     for file in listdir(src_path):
         src_file = f"{src_path}/{file}"
         dest_file = f"{dest_path}/{file}"
-        cnt += 1 if resize_img(src_file, dest_file,
-                               new_width, new_height) else 0
+        cnt += 1 if resize_img(
+            src_file,
+            dest_file,
+            new_width,
+            new_height
+        ) else 0
 
     return cnt
 
@@ -225,79 +244,90 @@ def gen_black_canvas(w: int, h: int) -> MatLike:
     return np.zeros(shape=[h, w, 3], dtype=np.uint8)
 
 
-def draw_rect(a: MatLike,
-              st: Tuple[int, int],
-              end: Tuple[int, int],
-              color: BGRA = BGRA(0, 0, 0, None),
-              line_type: LineType = LineType.LINE_TYPE_8,
-              line_thickness: int = 1) -> None:
-    cv2.rectangle(a,
-                  pt1=st,
-                  pt2=end,
-                  color=color.to_tuple_bgr(),
-                  thickness=line_thickness,
-                  lineType=LINE_TYPE_MAP[line_type])
+def draw_rect(
+        a: MatLike,
+        st: Tuple[int, int],
+        end: Tuple[int, int],
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_type: LineType = LineType.LINE_TYPE_8,
+        line_thickness: int = 1) -> None:
+    cv2.rectangle(
+        a,
+        pt1=st,
+        pt2=end,
+        color=color.to_tuple_bgr(),
+        thickness=line_thickness,
+        lineType=LINE_TYPE_MAP[line_type])
 
 
-def fill_rect(a: MatLike,
-              st: Tuple[int, int],
-              end: Tuple[int, int],
-              color: BGRA = BGRA(0, 0, 0, None),
-              line_type: LineType = LineType.LINE_TYPE_8) -> None:
-    cv2.rectangle(a,
-                  pt1=st,
-                  pt2=end,
-                  color=color.to_tuple_bgr(),
-                  thickness=-1,
-                  lineType=LINE_TYPE_MAP[line_type])
+def fill_rect(
+        a: MatLike,
+        st: Tuple[int, int],
+        end: Tuple[int, int],
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.rectangle(
+        a,
+        pt1=st,
+        pt2=end,
+        color=color.to_tuple_bgr(),
+        thickness=-1,
+        lineType=LINE_TYPE_MAP[line_type])
 
 
-def draw_line(a: MatLike,
-              st: Tuple[int, int],
-              end: Tuple[int, int],
-              color: BGRA = BGRA(0, 0, 0, None),
-              line_thickness: int = 1,
-              line_type: LineType = LineType.LINE_TYPE_8) -> None:
-    cv2.line(a,
-             pt1=st,
-             pt2=end,
-             color=color.to_tuple_bgr(),
-             thickness=line_thickness,
-             lineType=LINE_TYPE_MAP[line_type])
+def draw_line(
+        a: MatLike,
+        st: Tuple[int, int],
+        end: Tuple[int, int],
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_thickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.line(
+        a,
+        pt1=st,
+        pt2=end,
+        color=color.to_tuple_bgr(),
+        thickness=line_thickness,
+        lineType=LINE_TYPE_MAP[line_type])
 
 
-def draw_polylines(a: MatLike,
-                   coordinates: List[Tuple[int, int]],
-                   color: BGRA = BGRA(0, 0, 0, None),
-                   is_closed: bool = True,
-                   line_thickness: int = 1,
-                   line_type: LineType = LineType.LINE_TYPE_8) -> None:
-    cv2.polylines(img=a,
-                  pts=[np.array(coordinates, np.int32).reshape((-1, 1, 2))],
-                  isClosed=is_closed,
-                  color=color.to_tuple_bgr(),
-                  thickness=line_thickness,
-                  lineType=LINE_TYPE_MAP[line_type])
+def draw_polylines(
+        a: MatLike,
+        coordinates: List[Tuple[int, int]],
+        color: BGRA = BGRA(0, 0, 0, None),
+        is_closed: bool = True,
+        line_thickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.polylines(
+        img=a,
+        pts=[np.array(coordinates, np.int32).reshape((-1, 1, 2))],
+        isClosed=is_closed,
+        color=color.to_tuple_bgr(),
+        thickness=line_thickness,
+        lineType=LINE_TYPE_MAP[line_type])
 
 
-def fill_polylines(a: MatLike,
-                   coordinates: List[Tuple[int, int]],
-                   color: BGRA = BGRA(0, 0, 0, None),
-                   line_type: LineType = LineType.LINE_TYPE_8) -> None:
-    cv2.fillPoly(img=a,
-                 pts=[np.array(coordinates, np.int32).reshape((-1, 1, 2))],
-                 color=color.to_tuple_bgr(),
-                 lineType=LINE_TYPE_MAP[line_type])
+def fill_polylines(
+        a: MatLike,
+        coordinates: List[Tuple[int, int]],
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    cv2.fillPoly(
+        img=a,
+        pts=[np.array(coordinates, np.int32).reshape((-1, 1, 2))],
+        color=color.to_tuple_bgr(),
+        lineType=LINE_TYPE_MAP[line_type])
 
 
-def draw_text(a: MatLike,
-              text: str,
-              loc: Tuple[int, int],
-              color: BGRA = BGRA(0, 0, 0, None),
-              line_thickness: int = 1,
-              line_type: LineType = LineType.LINE_TYPE_8,
-              font_scale: float = 1.0,
-              font_face: FontFace = FontFace.FONT_FACE_PLAIN) -> None:
+def draw_text(
+        a: MatLike,
+        text: str,
+        loc: Tuple[int, int],
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_thickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8,
+        font_scale: float = 1.0,
+        font_face: FontFace = FontFace.FONT_FACE_PLAIN) -> None:
     cv2.putText(a,
                 text=text,
                 org=loc,
@@ -314,12 +344,13 @@ def draw_circle(a: MatLike,
                 color: BGRA = BGRA(0, 0, 0, None),
                 line_thickness=0,
                 line_type: LineType = LineType.LINE_TYPE_8) -> None:
-    cv2.circle(img=a,
-               center=center_coordinate,
-               radius=radius,
-               color=color.to_tuple_bgr(),
-               thickness=line_thickness,
-               lineType=LINE_TYPE_MAP[line_type])
+    cv2.circle(
+        img=a,
+        center=center_coordinate,
+        radius=radius,
+        color=color.to_tuple_bgr(),
+        thickness=line_thickness,
+        lineType=LINE_TYPE_MAP[line_type])
 
 
 def fill_circle(a: MatLike,
@@ -327,21 +358,23 @@ def fill_circle(a: MatLike,
                 radius: int,
                 color: BGRA = BGRA(0, 0, 0, None),
                 line_type: LineType = LineType.LINE_TYPE_8) -> None:
-    cv2.circle(img=a,
-               center=center_coordinate,
-               radius=radius,
-               color=color.to_tuple_bgr(),
-               thickness=-1,
-               lineType=LINE_TYPE_MAP[line_type])
+    cv2.circle(
+        img=a,
+        center=center_coordinate,
+        radius=radius,
+        color=color.to_tuple_bgr(),
+        thickness=-1,
+        lineType=LINE_TYPE_MAP[line_type])
 
 
-def draw_ellipse(a: MatLike,
-                 center_coordinate: Tuple[int, int],
-                 axes: Tuple[int, int],
-                 angle: float = 0,
-                 color: BGRA = BGRA(0, 0, 0, None),
-                 line_thickness: int = 1,
-                 line_type: LineType = LineType.LINE_TYPE_8) -> None:
+def draw_ellipse(
+        a: MatLike,
+        center_coordinate: Tuple[int, int],
+        axes: Tuple[int, int],
+        angle: float = 0,
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_thickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -353,12 +386,13 @@ def draw_ellipse(a: MatLike,
                 lineType=LINE_TYPE_MAP[line_type])
 
 
-def fill_ellipse(a: MatLike,
-                 center_coordinate: Tuple[int, int],
-                 axes: Tuple[int, int],
-                 angle: float = 0,
-                 color: BGRA = BGRA(0, 0, 0, None),
-                 line_type: LineType = LineType.LINE_TYPE_8) -> None:
+def fill_ellipse(
+        a: MatLike,
+        center_coordinate: Tuple[int, int],
+        axes: Tuple[int, int],
+        angle: float = 0,
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -370,15 +404,16 @@ def fill_ellipse(a: MatLike,
                 lineType=LINE_TYPE_MAP[line_type])
 
 
-def draw_arc(a: MatLike,
-             center_coordinate: Tuple[int, int],
-             axes: Tuple[int, int],
-             angle: float = 0,
-             start_angle: float = 0,
-             end_angle: float = 45,
-             color: BGRA = BGRA(0, 0, 0, None),
-             line_thickness: int = 1,
-             line_type: LineType = LineType.LINE_TYPE_8) -> None:
+def draw_arc(
+        a: MatLike,
+        center_coordinate: Tuple[int, int],
+        axes: Tuple[int, int],
+        angle: float = 0,
+        start_angle: float = 0,
+        end_angle: float = 45,
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_thickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -390,14 +425,15 @@ def draw_arc(a: MatLike,
                 lineType=LINE_TYPE_MAP[line_type])
 
 
-def fill_arc(a: MatLike,
-             center_coordinate: Tuple[int, int],
-             axes: Tuple[int, int],
-             angle: float = 0,
-             start_angle: float = 0,
-             end_angle: float = 45,
-             color: BGRA = BGRA(0, 0, 0, None),
-             line_type: LineType = LineType.LINE_TYPE_8) -> None:
+def fill_arc(
+        a: MatLike,
+        center_coordinate: Tuple[int, int],
+        axes: Tuple[int, int],
+        angle: float = 0,
+        start_angle: float = 0,
+        end_angle: float = 45,
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_type: LineType = LineType.LINE_TYPE_8) -> None:
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -409,17 +445,19 @@ def fill_arc(a: MatLike,
                 lineType=LINE_TYPE_MAP[line_type])
 
 
-def put_marker(a: MatLike,
-               loc: Tuple[int, int],
-               marker_type: MarkerType,
-               color: BGRA = BGRA(0, 0, 0, None),
-               line_thickness: int = 1,
-               line_type: LineType = LineType.LINE_TYPE_8,
-               marker_size: int = 20) -> None:
-    cv2.drawMarker(img=a,
-                   position=loc,
-                   color=color.to_tuple_bgr(),
-                   markerType=MARKER_TYPE_MAP[marker_type],
-                   markerSize=marker_size,
-                   thickness=line_thickness,
-                   line_type=LINE_TYPE_MAP[line_type])
+def put_marker(
+        a: MatLike,
+        loc: Tuple[int, int],
+        marker_type: MarkerType,
+        color: BGRA = BGRA(0, 0, 0, None),
+        line_thickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8,
+        marker_size: int = 20) -> None:
+    cv2.drawMarker(
+        img=a,
+        position=loc,
+        color=color.to_tuple_bgr(),
+        markerType=MARKER_TYPE_MAP[marker_type],
+        markerSize=marker_size,
+        thickness=line_thickness,
+        line_type=LINE_TYPE_MAP[line_type])
