@@ -37,3 +37,28 @@ def filter_by_laplacian(
         scale=scale,
         ksize=kernel_size
     )
+
+
+def filter_by_box_mean(
+        img: MatLike,
+        kernel_size: int = 3,
+        normalize: bool = True
+) -> MatLike:
+    out = np.zeros(shape=img.shape, dtype=img.dtype)
+    cv2.boxFilter(
+        src=img,
+        ddepth=IMG_DEPTH_MAP[ImageDepthType.IMG_DEPTH_8UINT],
+        dst=out,
+        ksize=(kernel_size, kernel_size),
+        normalize=normalize)
+
+    width, height = out.shape
+    out_buf = np.zeros(shape=img.shape, dtype=img.dtype)
+    for h in range(height):
+        for w in range(width):
+            if img[w][h] >= out[w][h]:
+                out_buf[w][h] = 255
+            else:
+                out_buf[w][h] = 0
+
+    return out_buf
