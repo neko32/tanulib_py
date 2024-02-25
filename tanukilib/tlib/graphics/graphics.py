@@ -129,6 +129,12 @@ class GrayImageEffecter(Effecter):
         return from_bgr_to_gray_scale(img)
 
 
+GAMMA_CORRECTION_TOO_DARKER = 0.1
+GAMMA_CORRECTION_REASONABLY_DARKER = 0.5
+GAMMA_CORRECTION_REASONABLY_BRIGHTER = 2.0
+GAMMA_CORRECTION_TOO_BRIGHTER = 3.0
+GAMMA_CORRECTION_ALMOST_WHITE = 4.0
+
 def imread_wrapper(fpath: str, flags: int = cv2.IMREAD_UNCHANGED) -> MatLike:
     if not exists(fpath):
         raise Exception(f"file {fpath} doesn't exist")
@@ -470,3 +476,13 @@ def get_minmax_pix_loc(img: MatLike) -> Tuple[List[int], List[int]]:
     maxposs = list(zip(maxposs[0], maxposs[1]))
 
     return (minposs, maxposs)
+
+
+def apply_gamma_correction(
+        img: MatLike,
+        gamma: float = 2.0,
+) -> MatLike:
+    lookup_tbl = np.zeros(shape=[256,], dtype=np.uint8)
+    for i in range(256):
+        lookup_tbl[i] = 255.0 * (float(i) / 255.) ** (1. / gamma)
+    return cv2.LUT(img, lookup_tbl)
