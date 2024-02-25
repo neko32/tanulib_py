@@ -461,3 +461,12 @@ def put_marker(
         markerSize=marker_size,
         thickness=line_thickness,
         line_type=LINE_TYPE_MAP[line_type])
+
+
+def get_minmax_pix_loc(img: MatLike) -> Tuple[List[int], List[int]]:
+    minposs = np.where(img == np.min(img))
+    maxposs = np.where(img == np.max(img))
+    minposs = list(zip(minposs[0], minposs[1]))
+    maxposs = list(zip(maxposs[0], maxposs[1]))
+
+    return (minposs, maxposs)
