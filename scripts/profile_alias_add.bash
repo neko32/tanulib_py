@@ -5,6 +5,7 @@ echo copy the following to your profile
 export TANULIB_HOME=/home/yourhomedir/dir_tanulib_located
 export TANULIB_CONF_DIR=${TANULIB_HOME}/conf's dir
 export HOME_TMP_DIR="replace with your home dir's tmp"
+export HOME_DB_PATH=/home/yourhomedir/db loc
 export ENV=local
 
 export AWS_PROFILE=localstack
