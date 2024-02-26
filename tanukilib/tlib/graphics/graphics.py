@@ -135,6 +135,7 @@ GAMMA_CORRECTION_REASONABLY_BRIGHTER = 2.0
 GAMMA_CORRECTION_TOO_BRIGHTER = 3.0
 GAMMA_CORRECTION_ALMOST_WHITE = 4.0
 
+
 def imread_wrapper(fpath: str, flags: int = cv2.IMREAD_UNCHANGED) -> MatLike:
     if not exists(fpath):
         raise Exception(f"file {fpath} doesn't exist")
@@ -486,3 +487,36 @@ def apply_gamma_correction(
     for i in range(256):
         lookup_tbl[i] = 255.0 * (float(i) / 255.) ** (1. / gamma)
     return cv2.LUT(img, lookup_tbl)
+
+
+def is_high_contract(
+    col1: Tuple[int, int, int],
+    col2: Tuple[int, int, int],
+    verbose: bool = False
+) -> bool:
+    # brightness diff test formula
+    # abs((299 * R1 + 587 * G1 + 114 * B1) / 1000) -
+    # (299 * R2 + 587 * G2 + 114 * B2) / 1000) > 125
+    # hue diff test formula
+    # abs(R1 - R2) + abs(G1 - G2) + abs(B1 - B2) > 500
+    b1, g1, r1 = col1
+    b2, g2, r2 = col2
+    # brightness test
+    bd1 = (r1 * 299 + g1 * 587 + b1 * 114) // 1000
+    bd2 = (r2 * 299 + g2 * 587 + b2 * 114) // 1000
+    brightness_diff = abs(bd1 - bd2)
+    if verbose:
+        print(f"bd1={bd1},bd2={bd2},brightness_diff={brightness_diff}")
+    if brightness_diff <= 125:
+        if verbose:
+            print("brightness check failed - not high contract")
+        return False
+    hue_diff = abs(b1 - b2) + abs(g1 - g2) + abs(r1 - r2)
+    if verbose:
+        print(f"hue_diff={hue_diff}")
+    if hue_diff <= 500:
+        if verbose:
+            print("hue check failed - not high contract")
+            return False
+    print("both brightness and hue check passed. High contract")
+    return True

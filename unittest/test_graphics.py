@@ -133,6 +133,14 @@ class GrapchicsTest(TestCase):
         self.assertEqual(minposs, min_expected)
         self.assertEqual(maxposs, max_expected)
 
+    def test_is_highcontrast(self):
+        col1_1 = (60, 30, 20)
+        col1_2 = (180, 200, 255)
+        col2_1 = (100, 200, 220)
+        col2_2 = (180, 200, 255)
+        self.assertTrue(is_high_contract(col1_1, col1_2, True))
+        self.assertFalse(is_high_contract(col2_1, col2_2, True))
+
 
 if __name__ == "__main__":
     main()
