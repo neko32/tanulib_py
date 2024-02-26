@@ -14,6 +14,7 @@ setup(
         'tensorflow==2.13',
         'boto3',
         'python-dotenv',
+        'pydot',
     ]
 )
 
