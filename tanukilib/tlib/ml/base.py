@@ -10,7 +10,8 @@ from os.path import exists
 from tensorflow import data as tf_data
 
 PREFERRED_IMG_SIZE_CATDOG = (180, 180)
-PREFERRED_BATCH_SIZE_CATDOG = 128
+#PREFERRED_BATCH_SIZE_CATDOG = 128
+PREFERRED_BATCH_SIZE_CATDOG = 16
 
 class FlipMode(Enum):
     FLIP_HORIZONTAL = auto()

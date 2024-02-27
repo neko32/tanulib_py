@@ -1,17 +1,17 @@
-from typing import Optional
+from typing import Optional, Tuple
 from os import remove, rmdir, listdir
 import cv2
 import csv
 import magic
 
-def split_filename_postfix(file_name:str) -> (str, Optional[str]):
+def split_filename_postfix(file_name:str) -> Tuple[str, Optional[str]]:
     sp = file_name.split('.')
     if len(sp) == 1:
         return (sp[0], None)
     else:
         return (".".join(sp[0:-1]), sp[-1])
 
-def rmdir_and_files(dir_path:str) -> (int, int):
+def rmdir_and_files(dir_path:str) -> Tuple[int, int]:
     success_n = 0
     fail_n = 0
     for f in listdir(dir_path):
@@ -51,5 +51,12 @@ def gen_image_files_summary(dir_path:str, dest_csv_path:str) -> bool:
         return False
     return True
 
+def is_JFIF_img_file(fpath:str) -> bool:
+    try:
+        with open(fpath, 'rb') as fp:
+            return b"JFIF" in fp.peek(10)
+    except Exception as e:
+        print(e)
+        return False
 
 
