@@ -62,6 +62,13 @@ class DateReprTest(TestCase):
         self.assertEqual(dt.timestamp(), epoch)
         self.assertEqual(date_s, "2024-02-22T13:08:23+0900")
 
+    def test_last_day_of_month(self):
+        self.assertEqual(last_day_of_month(2024, 2), 29)
+        self.assertEqual(last_day_of_month(2024, 1), 31)
+        self.assertEqual(last_day_of_month(2024, 3), 31)
+        self.assertEqual(last_day_of_month(2024, 4), 30)
+        self.assertEqual(last_day_of_month(2023, 12), 31)
+
 
 if __name__ == "__main__":
     main()
