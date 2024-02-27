@@ -32,14 +32,14 @@ def traverse(dir: str, backup_dir: str, is_test_run: bool) -> int:
         for file in files:
             fpath = os.path.join(cur_path, file)
             is_JFIF = is_JFIF_img_file(fpath)
-            print(f"{fpath} is supported? {is_JFIF}")
+            # print(f"{fpath} is supported? {is_JFIF}")
             if not is_JFIF:
                 backup_file_path = os.path.join(backup_dir, file)
                 if is_test_run:
                     print(f"DRYRUN::{fpath} moved to {backup_file_path}")
-                    remove(fpath)
                 else:
                     copy(fpath, backup_file_path)
+                    remove(fpath)
                     print(f"{fpath} moved to {backup_file_path}")
                 cnt += 1
 
@@ -62,5 +62,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     dir = args.dir
     backup_dir = args.backup_dir
-    is_test_run = bool(args.testrun)
+    is_test_run = False if args.testrun.lower() == "false" else True
     main(dir, backup_dir, is_test_run)
