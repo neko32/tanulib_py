@@ -9,7 +9,7 @@ class SQLiteTest(TestCase):
     def quote_db_path(self, db_name: str) -> str:
         return f"{os.environ['HOME_DB_PATH']}/{db_name}"
 
-    def test_createtbl_ins_sel(self):
+    def test_crud(self):
         db_path = self.quote_db_path("tlibut.sqlite3")
         conn = sqlite3.connect(db_path)
         tbl_bld = TableBuilder(db_path, "NekoInfo")
@@ -79,6 +79,8 @@ class SQLiteTest(TestCase):
                     self.assertEqual(r[2], 17)
                     self.assertEqual(r[3], 'Playing with Toy')
             self.assertEqual(len(fetched_rows), 3)
+
+            self.assertTrue(drop_table(conn, "NekoInfo", True))
         except Exception as e:
             print(e)
             self.assertTrue(False)

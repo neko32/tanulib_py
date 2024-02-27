@@ -134,3 +134,23 @@ def insert_to_table(
     except Exception as e:
         print(e)
         return False
+
+
+def drop_table(
+    conn: sqlite3.Connection,
+    table_name: str,
+    verbose: bool = False
+) -> bool:
+    try:
+        if verbose:
+            print(f"droping table {table_name} .. ")
+        cursor = conn.cursor()
+        cursor.execute(f"drop table if exists {table_name}")
+        conn.commit()
+        cursor.close()
+        if verbose:
+            print(f"table {table_name} was dropped.")
+        return True
+    except Exception as e:
+        print(e)
+        return False
