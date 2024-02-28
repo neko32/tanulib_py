@@ -124,6 +124,32 @@ class BGRA:
         return (self.blue, self.green, self.red)
 
 
+class HSVColorSchema:
+
+    def __init__(self, h: int, s: int, v: int):
+        self._h = h
+        self._s = s
+        self._v = v
+
+    @property
+    def hue(self) -> int:
+        return self._h
+
+    @property
+    def saturation(self) -> int:
+        return self._s
+
+    @property
+    def value(self) -> int:
+        return self._v
+
+    def as_tuple(self) -> Tuple[int, int, int]:
+        return (self._h, self._s, self._v)
+
+    def as_mat(self) -> MatLike:
+        return np.array([self._h, self._s, self._v])
+
+
 class GrayImageEffecter(Effecter):
     def process(self, img: MatLike) -> MatLike:
         return from_bgr_to_gray_scale(img)
