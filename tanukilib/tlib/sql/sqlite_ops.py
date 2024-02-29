@@ -174,6 +174,38 @@ def update_table(
         return False
 
 
+def delete_from_table(
+    conn: sqlite3.Connection,
+    table_name: str,
+    col_names: Optional[List[str]] = None,
+    col_vals: Optional[List[Any]] = None,
+    verbose: bool = False
+) -> bool:
+    buf = f"DELETE FROM {table_name}"
+
+    if col_names is not None:
+        buf += " WHERE "
+        for col_name in col_names:
+            buf += f"{col_name}=? AND "
+        buf = buf[:-5]
+
+    try:
+        if verbose:
+            print("deleting rec(s) - running the below query:")
+            print(buf)
+            print(f"params to supply - {col_vals}")
+        cursor = conn.cursor()
+        cursor.executemany(buf, [col_vals])
+        conn.commit()
+        cursor.close()
+        if verbose:
+            print("deleting rec(s) done.")
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
 def drop_table(
     conn: sqlite3.Connection,
     table_name: str,

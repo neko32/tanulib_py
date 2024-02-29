@@ -50,7 +50,8 @@ class SQLiteTest(TestCase):
         data = [
             ("takori", 3),
             ("shima", 2),
-            ("torachan", 17)
+            ("torachan", 17),
+            ("byenara", 5)
         ]
 
         ins_rez = insert_to_table(
@@ -72,6 +73,15 @@ class SQLiteTest(TestCase):
             verbose=True
         )
         self.assertTrue(upd_rez)
+
+        del_rez = delete_from_table(
+            conn=conn,
+            table_name="NekoInfo",
+            col_names=['name'],
+            col_vals=['byenara'],
+            verbose=True
+        )
+        self.assertTrue(del_rez)
 
         try:
             rez = conn.execute("select * from NekoInfo")
