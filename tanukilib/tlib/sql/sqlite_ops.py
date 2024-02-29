@@ -116,7 +116,6 @@ def insert_to_table(
         recs: List[List[Any]],
         verbose: bool = False
 ) -> bool:
-    buf = f"insert into {table_name} values("
     values = ','.join(['?'] * len(recs[0]))
     buf = f"insert into {table_name} ({','.join(col_names)}) values({values})"
 
@@ -130,6 +129,45 @@ def insert_to_table(
         cursor.close()
         if verbose:
             print("inserting rec(s) done.")
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def update_table(
+        conn: sqlite3.Connection,
+        table_name: str,
+        col_names: List[str],
+        upd_values: List[Any],
+        where_col_names: Optional[List[str]],
+        where_vals: List[Any],
+        verbose: bool = False
+) -> bool:
+    buf = f"UPDATE {table_name} SET "
+    for col_name in col_names:
+        buf += f"{col_name}=?,"
+    buf = buf[:-1]
+
+    if where_col_names is not None:
+        buf += " WHERE "
+        for col_name in where_col_names:
+            buf += f"{col_name}=? AND "
+        buf = buf[:-5]
+
+    vals_param = tuple(upd_values + where_vals)
+
+    try:
+        if verbose:
+            print("updating rec(s) - running the below query:")
+            print(buf)
+            print(f"params to supply - {vals_param}")
+        cursor = conn.cursor()
+        cursor.executemany(buf, [vals_param])
+        conn.commit()
+        cursor.close()
+        if verbose:
+            print("updating rec(s) done.")
         return True
     except Exception as e:
         print(e)

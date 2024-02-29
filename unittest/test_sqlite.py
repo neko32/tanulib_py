@@ -62,13 +62,24 @@ class SQLiteTest(TestCase):
         )
         self.assertTrue(ins_rez)
 
+        upd_rez = update_table(
+            conn=conn,
+            table_name="NekoInfo",
+            col_names=['name', 'age'],
+            upd_values=['nekocha2', 15],
+            where_col_names=['name', 'age'],
+            where_vals=['takori', 3],
+            verbose=True
+        )
+        self.assertTrue(upd_rez)
+
         try:
             rez = conn.execute("select * from NekoInfo")
             fetched_rows = rez.fetchall()
             for nrow, r in enumerate(fetched_rows):
                 if nrow == 0:
-                    self.assertEqual(r[1], 'takori')
-                    self.assertEqual(r[2], 3)
+                    self.assertEqual(r[1], 'nekocha2')
+                    self.assertEqual(r[2], 15)
                     self.assertEqual(r[3], 'Playing with Toy')
                 elif nrow == 1:
                     self.assertEqual(r[1], 'shima')
