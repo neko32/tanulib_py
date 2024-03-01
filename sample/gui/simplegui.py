@@ -10,8 +10,11 @@ def btn1_left_clicked(event: tk.Event):
     global cnt
     cnt += 1
     ipt = gm_ref.widgets['ipt']
+    bbs = gm_ref.widgets['bbs']
     msg = f"input str is {ipt.get()}. clicked {cnt} times."
-    tkm.showinfo("btn1 left evt", msg)
+    tkm.showinfo("?", bbs.get('1.0', tk.END))
+    bbs.delete('1.0', tk.END)
+    bbs.insert(tk.END, msg)
     ipt.delete(0, tk.END)
 
 
@@ -21,6 +24,14 @@ def main():
     gb.add_label("l1", "Hello")
     gb.add_label("l2", "Cat")
     gb.add_textbox("ipt")
+    gb.add_textarea(
+        name='bbs',
+        width=60,
+        height=10,
+        wrap=tk.WORD,
+        default_str="たこなのか?",
+        with_scrollbar=True
+    )
     gb.add_button(
         "btn1",
         "click this button",

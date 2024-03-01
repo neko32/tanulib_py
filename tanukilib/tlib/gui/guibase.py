@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.scrolledtext as tksc
 from typing import List
 from enum import Enum, auto
 
@@ -80,6 +81,32 @@ class GUIManager:
         for evt in evt_callbacks[1:]:
             btn.bind(from_GUIEvent_to_str(evt.event), evt.callback, '+')
         self.widgets[name] = btn
+
+    def add_textarea(
+        self,
+        name: str,
+        width: int = 30,
+        height: int = 5,
+        wrap: str = tk.CHAR,
+        with_scrollbar: bool = False,
+        default_str: str = ""
+    ) -> None:
+
+        txt = tk.Text(
+            self.frame,
+            width=width,
+            height=height,
+            wrap=wrap) if not with_scrollbar \
+            else \
+            tksc.ScrolledText(
+                self.frame,
+                width=width,
+                height=height,
+                wrap=wrap
+        )
+
+        txt.insert('1.0', default_str)
+        self.widgets[name] = txt
 
     def build(self):
         self.root.title(self.title)
