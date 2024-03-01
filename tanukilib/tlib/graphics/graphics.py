@@ -17,6 +17,12 @@ _TLIG_W_FLG_MAP = {
 }
 
 
+class FlipDirection(Enum):
+    FLIP_HORIZONTAL = 0
+    FLIP_VERTICAL = 1
+    FLIP_HORIZONTAL_AND_VERTICAL = -1
+
+
 class ImageDepthType(Enum):
     IMG_DEPTH_8UINT = auto()
     IMG_DEPTH_8INT = auto()
@@ -566,3 +572,10 @@ def add_watermark(
         src2=watermark_img,
         beta=watermark_ratio,
         gamma=gamma)
+
+
+def flip_image(
+        img: MatLike,
+        flip_direction: FlipDirection
+) -> MatLike:
+    return cv2.flip(img, flip_direction.value)
