@@ -546,3 +546,23 @@ def is_high_contract(
             return False
     print("both brightness and hue check passed. High contract")
     return True
+
+
+def add_watermark(
+    base_img: MatLike,
+    watermark_img: MatLike,
+    watermark_ratio: float,
+    gamma: float,
+) -> MatLike:
+    if watermark_ratio < 0 or watermark_ratio > 1.:
+        raise ValueError(
+            f"watermark_ratio must be between 0 and \
+                1 but it was {watermark_ratio}")
+
+    base_ratio = 1. - watermark_ratio
+    return cv2.addWeighted(
+        src1=base_img,
+        alpha=base_ratio,
+        src2=watermark_img,
+        beta=watermark_ratio,
+        gamma=gamma)
