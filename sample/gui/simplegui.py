@@ -11,7 +11,10 @@ def btn1_left_clicked(event: tk.Event):
     cnt += 1
     ipt = gm_ref.widgets['ipt']
     bbs = gm_ref.widgets['bbs']
+    chk1 = gm_ref.widgets['chk1_val']
     msg = f"input str is {ipt.get()}. clicked {cnt} times."
+    if chk1.get():
+        msg = f"[=^_^=]{msg}"
     tkm.showinfo("?", bbs.get('1.0', tk.END))
     bbs.delete('1.0', tk.END)
     bbs.insert(tk.END, msg)
@@ -32,6 +35,7 @@ def main():
         default_str="たこなのか?",
         with_scrollbar=True
     )
+    gb.add_checkbox("chk1", "add PREFIX [=^_^=]", True)
     gb.add_button(
         "btn1",
         "click this button",

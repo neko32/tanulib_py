@@ -68,6 +68,7 @@ class GUIManager:
         stv = tk.StringVar(self.frame, default_str)
         txt = tk.Entry(self.frame, textvariable=stv)
         self.widgets[name] = txt
+        self.widgets[f"{name}_val"] = stv
 
     def add_button(
         self,
@@ -108,8 +109,23 @@ class GUIManager:
         txt.insert('1.0', default_str)
         self.widgets[name] = txt
 
+    def add_checkbox(
+        self,
+        name: str,
+        text: str,
+        default_val: bool = False
+    ) -> None:
+        bv = tk.BooleanVar(value=default_val)
+        chkbox = tk.Checkbutton(
+            self.frame,
+            text=text,
+            variable=bv
+        )
+        self.widgets[name] = chkbox
+        self.widgets[f"{name}_val"] = bv
+
     def build(self):
         self.root.title(self.title)
         self.root.geometry(self._to_geometry())
-        [w.pack() for w in self.widgets.values()]
+        [w.pack() for n, w in self.widgets.items() if not n.endswith("_val")]
         return self.root
