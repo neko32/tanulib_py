@@ -114,6 +114,15 @@ class DataUtilTest(TestCase):
         self.assertEqual(round_ceil(nv, 2), -250.7)
         self.assertEqual(round_ceil(nv, 3), -250.72)
 
+    def test_two_compliment(self):
+        with self.assertRaises(ValueError):
+            get_two_complement(3)
+        th = from_binary_to_hex
+        self.assertEqual(th(get_two_complement(-1)).lower(), "0xffffffff")
+        self.assertEqual(th(get_two_complement(-1, 16)).lower(), "0xffff")
+        self.assertEqual(th(get_two_complement(-1, 8)).lower(), "0xff")
+        self.assertEqual(th(get_two_complement(-17)).lower(), "0xffffffef")
+
 
 if __name__ == "__main__":
     main()

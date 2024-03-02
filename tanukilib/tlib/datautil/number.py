@@ -70,3 +70,14 @@ def round_up(v: float, decimal_point: int) -> float:
         decimal.Decimal(decimal_str),
         decimal.ROUND_UP)
     )
+
+
+def get_two_complement(n: int, n_digits: int = 32) -> str:
+    if n >= 0:
+        raise ValueError(f"value {n} must be negative")
+    return bin(((1 << n_digits) - 1) & n)
+
+
+def from_binary_to_hex(bs: str) -> str:
+    bs = bs if bs.startswith("0b") else f"0b{bs}"
+    return hex(int(bs, base=2))
