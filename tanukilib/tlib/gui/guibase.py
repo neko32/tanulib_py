@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.scrolledtext as tksc
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from enum import Enum, auto
 
 
@@ -129,14 +129,18 @@ class GUIManager:
         name: str,
         text_and_vals: List[Tuple[str, int]],
         default_val: int,
+        label_frame_value: Optional[str] = None
     ) -> None:
         n = 0
         vobj_name = f"{name}_val"
-        vobj = tk.IntVar(self.frame, default_val)
+        fr = self.frame if label_frame_value is None \
+            else tk.LabelFrame(self.frame, text=label_frame_value)
+
+        vobj = tk.IntVar(fr, default_val)
         for text, value in text_and_vals:
             btn_name = f"{name}_{n}"
             btn = tk.Radiobutton(
-                self.frame,
+                fr,
                 text=text,
                 value=value,
                 variable=vobj
@@ -144,6 +148,8 @@ class GUIManager:
             self.widgets[btn_name] = btn
             n += 1
         self.widgets[vobj_name] = vobj
+        if label_frame_value is not None:
+            self.widgets[f"{name}_labelframe"] = fr
 
     def build(self):
         self.root.title(self.title)

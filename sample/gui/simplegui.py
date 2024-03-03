@@ -41,7 +41,8 @@ def main():
     gb.add_radiobutton(
         name="myradio",
         text_and_vals=[("ねこ", 1), ("いぬ", 2)],
-        default_val=1
+        default_val=1,
+        label_frame_value="RADIO GRP"
     )
     gb.add_button(
         "btn1",
