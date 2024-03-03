@@ -12,7 +12,9 @@ def btn1_left_clicked(event: tk.Event):
     ipt = gm_ref.widgets['ipt']
     bbs = gm_ref.widgets['bbs']
     chk1 = gm_ref.widgets['chk1_val']
-    msg = f"input str is {ipt.get()}. clicked {cnt} times."
+    radv = gm_ref.widgets['myradio_val']
+    msg = f"input str is {ipt.get()}. clicked {cnt} times. \
+        also radio chosen {radv.get()}"
     if chk1.get():
         msg = f"[=^_^=]{msg}"
     tkm.showinfo("?", bbs.get('1.0', tk.END))
@@ -36,6 +38,11 @@ def main():
         with_scrollbar=True
     )
     gb.add_checkbox("chk1", "add PREFIX [=^_^=]", True)
+    gb.add_radiobutton(
+        name="myradio",
+        text_and_vals=[("ねこ", 1), ("いぬ", 2)],
+        default_val=1
+    )
     gb.add_button(
         "btn1",
         "click this button",

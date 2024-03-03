@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.scrolledtext as tksc
-from typing import List
+from typing import List, Tuple
 from enum import Enum, auto
 
 
@@ -123,6 +123,27 @@ class GUIManager:
         )
         self.widgets[name] = chkbox
         self.widgets[f"{name}_val"] = bv
+
+    def add_radiobutton(
+        self,
+        name: str,
+        text_and_vals: List[Tuple[str, int]],
+        default_val: int,
+    ) -> None:
+        n = 0
+        vobj_name = f"{name}_val"
+        vobj = tk.IntVar(self.frame, default_val)
+        for text, value in text_and_vals:
+            btn_name = f"{name}_{n}"
+            btn = tk.Radiobutton(
+                self.frame,
+                text=text,
+                value=value,
+                variable=vobj
+            )
+            self.widgets[btn_name] = btn
+            n += 1
+        self.widgets[vobj_name] = vobj
 
     def build(self):
         self.root.title(self.title)
