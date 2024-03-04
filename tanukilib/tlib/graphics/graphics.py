@@ -579,3 +579,15 @@ def flip_image(
         flip_direction: FlipDirection
 ) -> MatLike:
     return cv2.flip(img, flip_direction.value)
+
+
+def equalize_hist(
+        img: MatLike
+) -> MatLike:
+    channels = cv2.split(img)
+    eqhs = []
+    if len(channels) != 3:
+        raise Exception("input must have 3 channels")
+    for i in range(len(channels)):
+        eqhs.append(cv2.equalizeHist(channels[i]))
+    return cv2.merge(eqhs)
