@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.ttk as ttk
 import tkinter.scrolledtext as tksc
 from typing import List, Tuple, Optional, Any
 from enum import Enum, auto
@@ -186,6 +187,32 @@ class GUIManager:
                 lb.select_set(idx)
         self.widgets[f"{name}_val"] = lv
         self.widgets[name] = lb
+
+    def add_dropdownbox(
+        self,
+        name: str,
+        values: Tuple[str],
+        default_value: Optional[str] = None,
+        select_callback: Optional[Any] = None
+    ) -> None:
+        dbox = ttk.Combobox(
+            self.frame,
+            values=values,
+            state='readonly'
+        )
+        if default_value is not None:
+            idx = 0
+            found = False
+            while idx < len(values):
+                if default_value == values[idx]:
+                    found = True
+                    break
+                idx += 1
+            if found:
+                dbox.current(idx)
+        if select_callback is not None:
+            dbox.bind("<<ComboboxSelected>>", select_callback)
+        self.widgets[name] = dbox
 
     def build(self):
         self.root.title(self.title)

@@ -31,6 +31,13 @@ def listbox_sel(event: tk.Event):
     tkm.showinfo("list", msg)
 
 
+def dropbox_sel(event: tk.Event):
+    global gm_ref
+    dbox = gm_ref.widgets["mydrop"]
+    msg = f"dropdown selected item is {dbox.get()}"
+    tkm.showinfo("dropdown!", msg)
+
+
 def main():
     global gm_ref
     gb = GUIManager("takori", 200, 500, 640, 480)
@@ -58,6 +65,12 @@ def main():
         select_mode=SelectMode.SINGLE,
         default_value="piko",
         select_callback=listbox_sel
+    )
+    gb.add_dropdownbox(
+        name="mydrop",
+        values=("Sapporo", "Tokyo", "Osaka", "Kyoto"),
+        default_value="Tokyo",
+        select_callback=dropbox_sel
     )
     gb.add_button(
         "btn1",
