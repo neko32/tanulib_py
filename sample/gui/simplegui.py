@@ -13,8 +13,9 @@ def btn1_left_clicked(event: tk.Event):
     bbs = gm_ref.widgets['bbs']
     chk1 = gm_ref.widgets['chk1_val']
     radv = gm_ref.widgets['myradio_val']
+    spin = gm_ref.widgets['myspin']
     msg = f"input str is {ipt.get()}. clicked {cnt} times. \
-        also radio chosen {radv.get()}"
+        also radio chosen {radv.get()} + spin {spin.get()}"
     if chk1.get():
         msg = f"[=^_^=]{msg}"
     tkm.showinfo("?", bbs.get('1.0', tk.END))
@@ -71,6 +72,12 @@ def main():
         values=("Sapporo", "Tokyo", "Osaka", "Kyoto"),
         default_value="Tokyo",
         select_callback=dropbox_sel
+    )
+    gb.add_spinbox(
+        name="myspin",
+        lower_limit=0,
+        upper_limit=10,
+        increment=0.5
     )
     gb.add_button(
         "btn1",

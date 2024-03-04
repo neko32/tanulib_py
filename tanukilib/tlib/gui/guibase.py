@@ -214,6 +214,21 @@ class GUIManager:
             dbox.bind("<<ComboboxSelected>>", select_callback)
         self.widgets[name] = dbox
 
+    def add_spinbox(
+        self,
+        name: str,
+        lower_limit: float,
+        upper_limit: float,
+        increment: float = 1.
+    ) -> None:
+        spin = tk.Spinbox(
+            self.frame,
+            from_=lower_limit,
+            to=upper_limit,
+            increment=increment
+        )
+        self.widgets[name] = spin
+
     def build(self):
         self.root.title(self.title)
         self.root.geometry(self._to_geometry())
