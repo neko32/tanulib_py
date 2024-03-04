@@ -1,11 +1,18 @@
 import tkinter as tk
 import tkinter.scrolledtext as tksc
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Any
 from enum import Enum, auto
 
 
 class GUIEvent(Enum):
     EVT_LEFTCLICK = auto()
+
+
+class SelectMode(Enum):
+    BROWSE = "browse"
+    SINGLE = "single"
+    MULTIPLE = "multiple"
+    extended = "extended"
 
 
 def from_GUIEvent_to_str(evt: GUIEvent) -> str:
@@ -150,6 +157,35 @@ class GUIManager:
         self.widgets[vobj_name] = vobj
         if label_frame_value is not None:
             self.widgets[f"{name}_labelframe"] = fr
+
+    def add_listbox(
+        self,
+        name: str,
+        values: List[str],
+        select_mode: SelectMode = SelectMode.BROWSE,
+        default_value: Optional[str] = None,
+        select_callback: Optional[Any] = None
+    ) -> None:
+        lv = tk.StringVar(self.frame, value=values)
+        lb = tk.Listbox(
+            self.frame,
+            listvariable=lv,
+            selectmode=select_mode.value
+        )
+        if select_callback is not None:
+            lb.bind("<<ListboxSelect>>", select_callback)
+        if default_value is not None:
+            idx = 0
+            found = False
+            while idx < len(values):
+                if default_value == values[idx]:
+                    found = True
+                    break
+                idx += 1
+            if found:
+                lb.select_set(idx)
+        self.widgets[f"{name}_val"] = lv
+        self.widgets[name] = lb
 
     def build(self):
         self.root.title(self.title)

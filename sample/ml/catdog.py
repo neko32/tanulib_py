@@ -6,7 +6,7 @@ from os.path import exists
 
 def main():
 
-    model_store_loc = os.path.join(os.envinron["TANUAPP_ML_DIR", "catdog"])
+    model_store_loc = os.path.join(os.environ["TANUAPP_ML_DIR"], "catdog")
     if not exists(model_store_loc):
         mkdir(model_store_loc)
 
@@ -53,7 +53,7 @@ def main():
     #    remove("./model.png")
     # keras.utils.plot_model(model, show_shapes = True)
 
-    epochs = 2
+    epochs = 30
     callbacks = [
         keras.callbacks.ModelCheckpoint(model_store_loc)
     ]

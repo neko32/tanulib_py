@@ -23,6 +23,14 @@ def btn1_left_clicked(event: tk.Event):
     ipt.delete(0, tk.END)
 
 
+def listbox_sel(event: tk.Event):
+    global gm_ref
+    lv = gm_ref.widgets["mylist"]
+
+    msg = f"{lv.curselection()} is chosen"
+    tkm.showinfo("list", msg)
+
+
 def main():
     global gm_ref
     gb = GUIManager("takori", 200, 500, 640, 480)
@@ -43,6 +51,13 @@ def main():
         text_and_vals=[("ねこ", 1), ("いぬ", 2)],
         default_val=1,
         label_frame_value="RADIO GRP"
+    )
+    gb.add_listbox(
+        name="mylist",
+        values=['tako', 'neko', 'piko'],
+        select_mode=SelectMode.SINGLE,
+        default_value="piko",
+        select_callback=listbox_sel
     )
     gb.add_button(
         "btn1",
