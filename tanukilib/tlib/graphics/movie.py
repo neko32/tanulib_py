@@ -7,12 +7,12 @@ from typing import List
 
 class Effecter(ABC):
     @abstractmethod
-    def process(self, img: MatLike) -> MatLike:
+    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         pass
 
 
 class NoOpEffect(Effecter):
-    def process(self, img: MatLike) -> MatLike:
+    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return img
 
 
@@ -29,7 +29,6 @@ class MoviePlay:
             effects: List[Effecter]) -> None:
         if not exists(movie_file_path):
             raise Exception(f"file {movie_file_path} not found")
-        cv2.VideoCapture()
         vt = cv2.VideoCapture(self.index, self.api_pref)
         if not vt.open(movie_file_path):
             raise Exception(f"movie {movie_file_path} failed to play")
@@ -40,7 +39,7 @@ class MoviePlay:
                 break
 
             for effect in effects:
-                r = effect.process(r)
+                r = effect.process(r, vt)
 
             cv2.imshow(wnd_name, r)
 

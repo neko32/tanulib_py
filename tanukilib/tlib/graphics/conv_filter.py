@@ -16,7 +16,7 @@ class LaplacianEffecter(Effecter):
         self.kernel_size = kernel_size
         self.scale = scale
 
-    def process(self, img: MatLike) -> MatLike:
+    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return filter_by_laplacian(
             img,
             self.output_img_depth,

@@ -157,7 +157,7 @@ class HSVColorSchema:
 
 
 class GrayImageEffecter(Effecter):
-    def process(self, img: MatLike) -> MatLike:
+    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return from_bgr_to_gray_scale(img)
 
 

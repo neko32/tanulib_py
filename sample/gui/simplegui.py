@@ -39,6 +39,12 @@ def dropbox_sel(event: tk.Event):
     tkm.showinfo("dropdown!", msg)
 
 
+def slider_move(event: tk.Event):
+    global gm_ref
+    variable = gm_ref.widgets['myslide_val']
+    print(f"slide:{variable.get()}")
+
+
 def main():
     global gm_ref
     gb = GUIManager("takori", 200, 500, 640, 480)
@@ -78,6 +84,14 @@ def main():
         lower_limit=0,
         upper_limit=10,
         increment=0.5
+    )
+    gb.add_slider(
+        name="myslide",
+        default_val=10.,
+        lower_limit=0,
+        upper_limit=50.,
+        length=150,
+        slide_callback=slider_move
     )
     gb.add_button(
         "btn1",

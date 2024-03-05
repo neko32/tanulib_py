@@ -57,5 +57,5 @@ class BackgroundSubtractionEffects(Effecter):
             alpha
         )
 
-    def process(self, img: MatLike) -> MatLike:
+    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return self.se.update(img)

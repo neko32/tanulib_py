@@ -16,6 +16,11 @@ class SelectMode(Enum):
     extended = "extended"
 
 
+class Orient(Enum):
+    HORIZONTAL = "horizontal"
+    VERTICAL = "vertical"
+
+
 def from_GUIEvent_to_str(evt: GUIEvent) -> str:
     if evt == GUIEvent.EVT_LEFTCLICK:
         return "<Button-1>"
@@ -228,6 +233,38 @@ class GUIManager:
             increment=increment
         )
         self.widgets[name] = spin
+
+    def add_slider(
+        self,
+        name: str,
+        default_val: float,
+        lower_limit: float,
+        upper_limit: float,
+        length: int,
+        slide_callback: Any,
+        orient: Orient = Orient.HORIZONTAL,
+        need_float_precision: bool = True,
+    ) -> None:
+        scalev = tk.DoubleVar() if need_float_precision else tk.IntVar()
+        defv = default_val if default_val >= lower_limit \
+            and default_val <= upper_limit else lower_limit
+        scalev.set(defv)
+
+        slider = tk.Scale(
+            self.frame,
+            from_=lower_limit,
+            to=upper_limit,
+            variable=scalev,
+            orient=orient.value,
+            length=length,
+            command=slide_callback
+        )
+
+        self.widgets[f"{name}_val"] = scalev
+        self.widgets[name] = slider
+
+        if slide_callback is not None:
+            slider.bind("")
 
     def build(self):
         self.root.title(self.title)
