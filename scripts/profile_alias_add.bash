@@ -23,5 +23,7 @@ alias tlibu='tlib_uninstall.bash'
 alias gotlib="cd ${TANULIB_HOME}"
 alias lsst='localstack_start.bash'
 alias lsstop='localstack_stop.bash'
+alias ap8='autopep8 -i'
+alias apf='apf.bash'
 
 export PATH=${PATH}:${TANULIB_HOME}/scripts
