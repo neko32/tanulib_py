@@ -5,7 +5,6 @@ from typing import Tuple, Optional, List
 from os.path import isdir, exists
 from os import listdir
 from enum import Enum, auto
-from tlib.graphics.movie import Effecter
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY,
@@ -154,11 +153,6 @@ class HSVColorSchema:
 
     def as_mat(self) -> MatLike:
         return np.array([self._h, self._s, self._v])
-
-
-class GrayImageEffecter(Effecter):
-    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
-        return from_bgr_to_gray_scale(img)
 
 
 GAMMA_CORRECTION_TOO_DARKER = 0.1

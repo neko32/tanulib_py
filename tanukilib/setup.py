@@ -13,6 +13,7 @@ setup(
         'keras',
         'tensorflow==2.13',
         'boto3',
+        'pillow',
         'python-dotenv',
         'pydot',
     ]
