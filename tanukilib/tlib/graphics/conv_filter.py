@@ -39,6 +39,28 @@ def filter_by_laplacian(
     )
 
 
+def filter_by_log(
+        img: MatLike,
+        output_img_depth: ImageDepthType,
+        kernel_size: int,
+        scale: float = 1.0,
+        sigma_x: float = 0,
+        sigma_y: float = 0
+) -> MatLike:
+    g = cv2.GaussianBlur(
+        src=img,
+        ksize=(kernel_size, kernel_size),
+        sigmaX=sigma_x,
+        sigmaY=sigma_y
+    )
+    return filter_by_laplacian(
+        img=g,
+        output_img_depth=output_img_depth,
+        kernel_size=kernel_size,
+        scale=scale
+    )
+
+
 def filter_by_box_mean(
         img: MatLike,
         kernel_size: int = 3,
