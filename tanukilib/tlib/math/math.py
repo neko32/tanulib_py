@@ -1,4 +1,4 @@
-
+import numpy as np
 
 def factorial(n: int) -> int:
     if n < 0:
@@ -24,3 +24,7 @@ def calc_ncr(n: int, r: int) -> int:
     numerator = calc_npr(n, r)
     denominator = factorial(r)
     return numerator // denominator
+
+
+def sigmoid(x: float) -> float:
+    return 1 / (1. + np.exp(-x))

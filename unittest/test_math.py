@@ -1,4 +1,5 @@
 from tlib.math import *
+import numpy as np
 from unittest import TestCase, main
 
 
@@ -37,6 +38,14 @@ class MathTest(TestCase):
             calc_ncr(3, 4)
             calc_ncr(-2, 5)
             calc_ncr(6, -2)
+
+    def test_sigmoid(self):
+        xl = np.arange(-5., 5., step=0.5)
+        prev_y = -1
+        for x in xl:
+            y = sigmoid(x)
+            self.assertTrue(y >= 0. and y <= 1. and prev_y < y)
+            prev_y = y
 
 
 if __name__ == "__main__":
