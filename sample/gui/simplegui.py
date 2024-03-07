@@ -44,6 +44,17 @@ def slider_move(event: tk.Event):
     variable = gm_ref.widgets['myslide_val']
     print(f"slide:{variable.get()}")
 
+def menu_open_hit():
+    tkm.showinfo("O", "OPEN MENU")
+    
+def menu_close_hit():
+    tkm.showwarning("CLOSE", "close!")
+
+def menu_help_hit():
+    tkm.showinfo("hint..", "HINT?")
+
+def menu_version_hit():
+    tkm.showinfo("VERSION", "0.1.0")
 
 def main():
     global gm_ref
@@ -98,6 +109,15 @@ def main():
         "click this button",
         [EventCallBack(GUIEvent.EVT_LEFTCLICK, btn1_left_clicked)]
     )
+
+    gb.add_menu("File")
+    gb.add_menu("Option")
+    gb.add_menuitem("File", "Open", menu_open_hit)
+    gb.add_menuitem("File", "Close", menu_close_hit)
+    gb.add_menuitem("Option", "Help", menu_help_hit)
+    gb.add_menu_separator("Option")
+    gb.add_menuitem("Option", "Version", menu_version_hit)
+
     r = gb.build()
     gm_ref = gb
     r.mainloop()

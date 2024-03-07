@@ -61,6 +61,8 @@ class GUIManager:
         self.root = tk.Tk()
         self.frame = tk.Frame(self.root)
         self.frame.pack(fill=tk.BOTH, expand=True)
+        self.menubar = None
+        self.menus = {}
 
     def _to_geometry(self) -> str:
         return f"{self.width}x{self.height}+{self.x_loc}+{self.y_loc}"
@@ -266,8 +268,45 @@ class GUIManager:
         if slide_callback is not None:
             slider.bind("")
 
+    def add_menu(self, name: str, tear_off: bool = False) -> None:
+        if self.menubar is None:
+            self.menubar = tk.Menu(self.frame)
+        self.menus[name] = tk.Menu(self.menubar, tearoff=False)
+
+    def add_menuitem(
+        self,
+        target_name: str,
+        label: str,
+        cmd: Optional[Any]
+    ) -> None:
+        if self.menubar is None:
+            raise Exception("menu must be created")
+        if target_name not in self.menus:
+            raise Exception(f"menu {target_name} not found")
+        self.menus[target_name].add_command(
+            label=label,
+            command=cmd
+        )
+
+    def add_menu_separator(
+        self,
+        target_name: str
+    ) -> None:
+        if self.menubar is None:
+            raise Exception("menu must be created")
+        if target_name not in self.menus:
+            raise Exception(f"menu {target_name} not found")
+        self.menus[target_name].add_separator()
+
     def build(self):
         self.root.title(self.title)
         self.root.geometry(self._to_geometry())
+        if self.menubar is not None:
+            for label, menu in self.menus.items():
+                self.menubar.add_cascade(
+                    label=label,
+                    menu=menu
+                )
+            self.root["menu"] = self.menubar
         [w.pack() for n, w in self.widgets.items() if not n.endswith("_val")]
         return self.root
