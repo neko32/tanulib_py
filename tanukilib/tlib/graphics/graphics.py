@@ -585,3 +585,24 @@ def equalize_hist(
     for i in range(len(channels)):
         eqhs.append(cv2.equalizeHist(channels[i]))
     return cv2.merge(eqhs)
+
+
+def detect_corner_by_harris(
+        img: MatLike,
+        block_size: int = 2,
+        sobel_aperture: int = 3,
+        k: float = 0.04,
+        threshold: float = 0.01,
+        marker_color: BGRA = BGRA(0, 255, 0)
+) -> MatLike:
+    gray = from_bgr_to_gray_scale(img)
+    dst = cv2.cornerHarris(
+        src=gray,
+        blockSize=block_size,
+        ksize=sobel_aperture,
+        k=k
+    )
+    retbuf = img.copy()
+    retbuf[dst > threshold * dst.max()] = marker_color.to_tuple_bgr()
+
+    return retbuf
