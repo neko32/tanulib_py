@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog as fdlg
 import tkinter.ttk as ttk
 import tkinter.scrolledtext as tksc
 from typing import List, Tuple, Optional, Any
@@ -19,6 +20,23 @@ class SelectMode(Enum):
 class Orient(Enum):
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
+
+
+class FileDialogFileType:
+    def __init__(self, description: str, filter: str):
+        self._description = description
+        self._filter = filter
+
+    @property
+    def description(self) -> str:
+        return self._description
+
+    @property
+    def filter(self) -> str:
+        return self._filter
+
+    def as_tuple(self) -> Tuple[str, str]:
+        return (self._description, self._filter)
 
 
 def from_GUIEvent_to_str(evt: GUIEvent) -> str:
@@ -310,3 +328,39 @@ class GUIManager:
             self.root["menu"] = self.menubar
         [w.pack() for n, w in self.widgets.items() if not n.endswith("_val")]
         return self.root
+
+
+def open_file_dialog_for_fpath(
+        filetypes: List[FileDialogFileType],
+        init_dir: str,
+        title: str
+) -> str:
+    flist = list(map(lambda ftype: ftype.as_tuple(), filetypes))
+    return fdlg.askopenfilename(
+        initialdir=init_dir,
+        filetypes=flist,
+        title=title
+    )
+
+
+def open_file_dialog_for_write_fpath(
+        filetypes: List[FileDialogFileType],
+        init_dir: str,
+        title: str
+) -> str:
+    flist = list(map(lambda ftype: ftype.as_tuple(), filetypes))
+    return fdlg.asksaveasfilename(
+        initialdir=init_dir,
+        filetypes=flist,
+        title=title
+    )
+
+
+def open_file_dialog_for_dir(
+        init_dir: str,
+        title: str
+) -> str:
+    return fdlg.askdirectory(
+        initialdir=init_dir,
+        title=title
+    )

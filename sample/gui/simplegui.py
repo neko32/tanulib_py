@@ -1,5 +1,6 @@
 from tlib.gui.guibase import *
 import tkinter.messagebox as tkm
+import os
 
 gm_ref = None
 cnt = 0
@@ -44,17 +45,59 @@ def slider_move(event: tk.Event):
     variable = gm_ref.widgets['myslide_val']
     print(f"slide:{variable.get()}")
 
+
 def menu_open_hit():
-    tkm.showinfo("O", "OPEN MENU")
-    
+    fp = [FileDialogFileType("python", "*.py")]
+    lib_home = os.environ["TANULIB_HOME"]
+
+    fpath = open_file_dialog_for_fpath(
+        filetypes=fp,
+        init_dir=lib_home,
+        title="open file"
+    )
+    tkm.showinfo("file opened", f"trying to open {fpath}..")
+
+
+def menu_dir_hit():
+    lib_home = os.environ["TANULIB_HOME"]
+
+    fpath = open_file_dialog_for_dir(
+        init_dir=lib_home,
+        title="open dir"
+    )
+    if fpath != "":
+        tkm.showinfo("dir opened", f"trying to open {fpath}..")
+
+
+def menu_save_hit():
+    global gm_ref
+
+    bbs = gm_ref.widgets['bbs']
+
+    fp = [FileDialogFileType("text file", "*.txt")]
+    lib_home = os.environ["TANULIB_HOME"]
+
+    wpath = open_file_dialog_for_write_fpath(
+        filetypes=fp,
+        init_dir=lib_home,
+        title="書き込む。"
+    )
+    with open(wpath, "w") as fp:
+        bbs_s = bbs.get('1.0', tk.END)
+        fp.write(bbs_s)
+
+
 def menu_close_hit():
     tkm.showwarning("CLOSE", "close!")
+
 
 def menu_help_hit():
     tkm.showinfo("hint..", "HINT?")
 
+
 def menu_version_hit():
     tkm.showinfo("VERSION", "0.1.0")
+
 
 def main():
     global gm_ref
@@ -113,6 +156,8 @@ def main():
     gb.add_menu("File")
     gb.add_menu("Option")
     gb.add_menuitem("File", "Open", menu_open_hit)
+    gb.add_menuitem("File", "Save", menu_save_hit)
+    gb.add_menuitem("File", "Directory", menu_dir_hit)
     gb.add_menuitem("File", "Close", menu_close_hit)
     gb.add_menuitem("Option", "Help", menu_help_hit)
     gb.add_menu_separator("Option")
