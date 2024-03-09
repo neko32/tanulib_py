@@ -1,4 +1,6 @@
 import numpy as np
+from math import gcd
+
 
 def factorial(n: int) -> int:
     if n < 0:
@@ -28,3 +30,7 @@ def calc_ncr(n: int, r: int) -> int:
 
 def sigmoid(x: float) -> float:
     return 1 / (1. + np.exp(-x))
+
+
+def is_coprime(m: int, n: int) -> bool:
+    return gcd(m, n) == 1

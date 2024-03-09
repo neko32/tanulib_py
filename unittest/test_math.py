@@ -47,6 +47,10 @@ class MathTest(TestCase):
             self.assertTrue(y >= 0. and y <= 1. and prev_y < y)
             prev_y = y
 
+    def test_coprime(self):
+        self.assertTrue(is_coprime(8, 9))
+        self.assertFalse(is_coprime(6, 9))
+
 
 if __name__ == "__main__":
     main()
