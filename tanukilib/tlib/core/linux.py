@@ -1,12 +1,18 @@
 from tlib.core import exec_cmd
+import re
+from io import StringIO
+import pandas as pd
+
 
 # [TODO] biased with Ubuntu 22
+
+
 class LSBInfo:
     def __init__(self):
         ret_code, stdout, _ = exec_cmd(['lsb_release', '-a'])
         if ret_code != 0:
             raise Exception("lsb_release command failed")
-        
+
         for idx, line in enumerate(stdout.splitlines()):
             if not line.startswith("NO LSB"):
                 if idx == 0:
@@ -29,8 +35,20 @@ class LSBInfo:
     @property
     def release(self) -> str:
         return self._release
-        
+
     @property
     def codename(self) -> str:
         return self._codename
 
+
+def ss_tcp_udp_established() -> pd.DataFrame:
+    cmd = ['ss', '-uta']
+    _, out, _ = exec_cmd(cmd)
+    reg = re.compile(' +')
+    out = reg.sub(',', out)
+    reg = re.compile(',\n')
+    out = reg.sub('\n', out)
+    reg = re.compile(',$')
+    out = reg.sub('', out)
+    fs = StringIO(out)
+    return pd.read_csv(fs)

@@ -34,5 +34,12 @@ class CoreTest(TestCase):
         print(stdout)
         print(stderr)
 
+    def test_exec_with_pipe(self):
+        cmds = ['ls', '-al', '/tmp']
+        seconds_cmds = ['head', '-1']
+        stdout = exec_cmd_with_pipe(cmds, seconds_cmds)
+        print(stdout)
+        self.assertTrue(stdout.startswith("total "))
+
 if __name__ == "__main__":
     main()
