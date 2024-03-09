@@ -96,3 +96,4 @@ class MoviePlay:
                 break
 
         cv2.destroyAllWindows()
+        vt.release()
