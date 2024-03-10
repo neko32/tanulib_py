@@ -6,7 +6,7 @@ import cv2
 def main():
     for idx in range(11):
         try:
-            vt = VideoCapturer(idx, cv2.CAP_ANY)
+            vt = VideoCapturer(idx, cv2.CAP_V4L)
             print(vt.device_test())
         except Exception:
             print(f"device idx {idx} is not available or doesn't exist")

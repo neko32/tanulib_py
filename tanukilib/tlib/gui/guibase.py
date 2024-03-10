@@ -17,6 +17,12 @@ class SelectMode(Enum):
     extended = "extended"
 
 
+class LayoutType(Enum):
+    DEFAULT = "default"
+    GRID = "grid"
+    ABSOLUTE = "absolute"
+
+
 class Orient(Enum):
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
@@ -60,6 +66,20 @@ class EventCallBack:
         return self._callback
 
 
+class FrameInfo:
+    def __init__(
+            self,
+            name: str,
+            frame: tk.Frame,
+            padx: int = 0,
+            pady: int = 0
+    ):
+        self.name = name
+        self.frame = frame
+        self.padx = padx
+        self.pady = pady
+
+
 class GUIManager:
 
     def __init__(
@@ -68,7 +88,9 @@ class GUIManager:
         x_loc: int,
         y_loc: int,
         width: int,
-        height: int
+        height: int,
+        default_frame_padx: int = 0,
+        default_frame_pady: int = 0
     ) -> None:
         self.title = title
         self.x_loc = x_loc
@@ -77,29 +99,66 @@ class GUIManager:
         self.height = height
         self.widgets = {}
         self.root = tk.Tk()
-        self.frame = tk.Frame(self.root)
-        self.frame.pack(fill=tk.BOTH, expand=True)
+        frd = FrameInfo(
+            "default",
+            tk.Frame(self.root),
+            default_frame_padx,
+            default_frame_pady
+        )
+        self.frame = {frd.name: frd}
+        self.frame["default"].frame.pack(fill=tk.BOTH, expand=True)
         self.menubar = None
         self.menus = {}
+        self.is_grid_enabled = False
 
     def _to_geometry(self) -> str:
         return f"{self.width}x{self.height}+{self.x_loc}+{self.y_loc}"
 
+    def add_frame(
+        self,
+        name: str,
+        padx: int = 0,
+        pady: int = 0
+    ) -> None:
+        frd = FrameInfo(
+            name,
+            tk.Frame(self.root),
+            padx,
+            pady
+        )
+        self.frame[name] = frd
+
     def add_label(
         self,
         name: str,
-        text: str
+        text: str,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
-        label = tk.Label(self.frame, text=text)
+        frm = self.frame[frame_name].frame
+        label = tk.Label(frm, text=text)
+        if layout_type == LayoutType.GRID:
+            label.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         self.widgets[name] = label
 
     def add_textbox(
         self,
         name: str,
-        default_str: str = ""
+        default_str: str = "",
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
-        stv = tk.StringVar(self.frame, default_str)
-        txt = tk.Entry(self.frame, textvariable=stv)
+        frm = self.frame[frame_name].frame
+        stv = tk.StringVar(frm, default_str)
+        txt = tk.Entry(frm, textvariable=stv)
+        if layout_type == LayoutType.GRID:
+            txt.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         self.widgets[name] = txt
         self.widgets[f"{name}_val"] = stv
 
@@ -107,9 +166,17 @@ class GUIManager:
         self,
         name: str,
         value: str,
-        evt_callbacks: List[EventCallBack]
+        evt_callbacks: List[EventCallBack],
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
-        btn = tk.Button(self.frame, text=value)
+        frm = self.frame[frame_name].frame
+        btn = tk.Button(frm, text=value)
+        if layout_type == LayoutType.GRID:
+            btn.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         head_evt = evt_callbacks[0]
         btn.bind(from_GUIEvent_to_str(head_evt.event), head_evt.callback)
         for evt in evt_callbacks[1:]:
@@ -123,21 +190,28 @@ class GUIManager:
         height: int = 5,
         wrap: str = tk.CHAR,
         with_scrollbar: bool = False,
-        default_str: str = ""
+        default_str: str = "",
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
-
+        frm = self.frame[frame_name].frame
         txt = tk.Text(
-            self.frame,
+            frm,
             width=width,
             height=height,
             wrap=wrap) if not with_scrollbar \
             else \
             tksc.ScrolledText(
-                self.frame,
+                frm,
                 width=width,
                 height=height,
                 wrap=wrap
         )
+        if layout_type == LayoutType.GRID:
+            txt.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
 
         txt.insert('1.0', default_str)
         self.widgets[name] = txt
@@ -146,14 +220,22 @@ class GUIManager:
         self,
         name: str,
         text: str,
-        default_val: bool = False
+        default_val: bool = False,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
+        frm = self.frame[frame_name].frame
         bv = tk.BooleanVar(value=default_val)
         chkbox = tk.Checkbutton(
-            self.frame,
+            frm,
             text=text,
             variable=bv
         )
+        if layout_type == LayoutType.GRID:
+            chkbox.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         self.widgets[name] = chkbox
         self.widgets[f"{name}_val"] = bv
 
@@ -162,12 +244,17 @@ class GUIManager:
         name: str,
         text_and_vals: List[Tuple[str, int]],
         default_val: int,
-        label_frame_value: Optional[str] = None
+        label_frame_value: Optional[str] = None,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
         n = 0
         vobj_name = f"{name}_val"
-        fr = self.frame if label_frame_value is None \
-            else tk.LabelFrame(self.frame, text=label_frame_value)
+        frm = self.frame[frame_name].frame
+        fr = frm if label_frame_value is None \
+            else tk.LabelFrame(frm, text=label_frame_value)
 
         vobj = tk.IntVar(fr, default_val)
         for text, value in text_and_vals:
@@ -180,6 +267,9 @@ class GUIManager:
             )
             self.widgets[btn_name] = btn
             n += 1
+        if layout_type == LayoutType.GRID:
+            fr.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         self.widgets[vobj_name] = vobj
         if label_frame_value is not None:
             self.widgets[f"{name}_labelframe"] = fr
@@ -190,14 +280,22 @@ class GUIManager:
         values: List[str],
         select_mode: SelectMode = SelectMode.BROWSE,
         default_value: Optional[str] = None,
-        select_callback: Optional[Any] = None
+        select_callback: Optional[Any] = None,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
-        lv = tk.StringVar(self.frame, value=values)
+        frm = self.frame[frame_name].frame
+        lv = tk.StringVar(frm, value=values)
         lb = tk.Listbox(
-            self.frame,
+            frm,
             listvariable=lv,
             selectmode=select_mode.value
         )
+        if layout_type == LayoutType.GRID:
+            lb.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         if select_callback is not None:
             lb.bind("<<ListboxSelect>>", select_callback)
         if default_value is not None:
@@ -218,13 +316,21 @@ class GUIManager:
         name: str,
         values: Tuple[str],
         default_value: Optional[str] = None,
-        select_callback: Optional[Any] = None
+        select_callback: Optional[Any] = None,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
+        frm = self.frame[frame_name].frame
         dbox = ttk.Combobox(
-            self.frame,
+            frm,
             values=values,
             state='readonly'
         )
+        if layout_type == LayoutType.GRID:
+            dbox.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         if default_value is not None:
             idx = 0
             found = False
@@ -244,14 +350,22 @@ class GUIManager:
         name: str,
         lower_limit: float,
         upper_limit: float,
-        increment: float = 1.
+        increment: float = 1.,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
+        frm = self.frame[frame_name].frame
         spin = tk.Spinbox(
-            self.frame,
+            frm,
             from_=lower_limit,
             to=upper_limit,
             increment=increment
         )
+        if layout_type == LayoutType.GRID:
+            spin.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
         self.widgets[name] = spin
 
     def add_slider(
@@ -264,14 +378,19 @@ class GUIManager:
         slide_callback: Any,
         orient: Orient = Orient.HORIZONTAL,
         need_float_precision: bool = True,
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
     ) -> None:
+        frm = self.frame[frame_name].frame
         scalev = tk.DoubleVar() if need_float_precision else tk.IntVar()
         defv = default_val if default_val >= lower_limit \
             and default_val <= upper_limit else lower_limit
         scalev.set(defv)
 
         slider = tk.Scale(
-            self.frame,
+            frm,
             from_=lower_limit,
             to=upper_limit,
             variable=scalev,
@@ -279,6 +398,10 @@ class GUIManager:
             length=length,
             command=slide_callback
         )
+
+        if layout_type == LayoutType.GRID:
+            slider.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
 
         self.widgets[f"{name}_val"] = scalev
         self.widgets[name] = slider
@@ -288,7 +411,7 @@ class GUIManager:
 
     def add_menu(self, name: str, tear_off: bool = False) -> None:
         if self.menubar is None:
-            self.menubar = tk.Menu(self.frame)
+            self.menubar = tk.Menu(self.frame["default"].frame)
         self.menus[name] = tk.Menu(self.menubar, tearoff=False)
 
     def add_menuitem(
@@ -326,7 +449,11 @@ class GUIManager:
                     menu=menu
                 )
             self.root["menu"] = self.menubar
-        [w.pack() for n, w in self.widgets.items() if not n.endswith("_val")]
+        if not self.is_grid_enabled:
+            [w.pack() for n, w in self.widgets.items() if not n.endswith("_val")]
+        else:
+            for _,frame in self.frame.items():
+                frame.frame.pack(padx = frame.padx, pady = frame.pady)
         return self.root
 
 
