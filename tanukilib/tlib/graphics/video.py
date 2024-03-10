@@ -91,7 +91,6 @@ class VideoAttribs:
     def auto_exposure(self) -> float:
         return self._auto_exposure
 
-    @property
     def summary(self) -> List[str]:
         buf = []
         buf.append(f"FRAME_WIDTH:{self._frame_width}")
