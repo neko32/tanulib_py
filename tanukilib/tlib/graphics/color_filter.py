@@ -21,6 +21,12 @@ def filter_by_hsv_color_range(
     return cv2.cvtColor(masked, cv2.COLOR_HSV2BGR) if back_to_bgr else masked
 
 
+def inverse_negative_positive(
+        img: MatLike
+) -> MatLike:
+    return 255 - img
+
+
 class BackgroundSubtractor:
     def __init__(
             self,
