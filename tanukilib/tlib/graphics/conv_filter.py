@@ -2,6 +2,12 @@ import cv2
 from tlib.graphics.graphics import *
 from cv2.typing import MatLike
 from tlib.graphics.movie import Effecter
+from enum import Enum, auto
+
+
+class SOBELOrder(Enum):
+    ORDER_X = auto()
+    ORDER_Y = auto()
 
 
 class LaplacianEffecter(Effecter):
@@ -84,3 +90,23 @@ def filter_by_box_mean(
                 out_buf[w][h] = 0
 
     return out_buf
+
+
+def filter_by_SOBEL(
+        img: MatLike,
+        output_img_depth: ImageDepthType,
+        order: SOBELOrder,
+        kernel_size: int = 3,
+        scale: float = 1.,
+        delta: float = 0.,
+) -> MatLike:
+    dx, dy = (1, 0) if order == SOBELOrder.ORDER_X else (0, 1)
+    return cv2.Sobel(
+        src=img,
+        ddepth=IMG_DEPTH_MAP[output_img_depth],
+        dx=dx,
+        dy=dy,
+        ksize=kernel_size,
+        scale=scale,
+        delta=delta
+    )

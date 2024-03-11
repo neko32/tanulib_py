@@ -3,11 +3,21 @@ from tkinter import filedialog as fdlg
 import tkinter.ttk as ttk
 import tkinter.scrolledtext as tksc
 from typing import List, Tuple, Optional, Any
-from enum import Enum, auto
+from enum import Enum
 
 
 class GUIEvent(Enum):
-    EVT_LEFTCLICK = auto()
+    EVT_CLICK = "<Button>"
+    EVT_LEFTCLICK = "<Button-1>"
+    EVT_MIDDLECLICK = "<Button-2>"
+    EVT_RIGHTCLICK = "<Button-3>"
+    EVT_KEYHIT = "<Key>"
+    EVT_LEFTCLICK_AND_MOVE = "<B1-Motion>"
+    EVT_MIDDLECLICK_AND_MOVE = "<B2-Motion>"
+    EVT_RIGHTCLICK_AND_MOVE = "<B3-Motion>"
+    EVT_MOUSE_IN_MOTION = "<Motion>"
+    EVT_MOUSE_ENTER = "<Enter>"
+    EVT_MOUSE_LEAVE = "<Leave>"
 
 
 class SelectMode(Enum):
@@ -15,6 +25,26 @@ class SelectMode(Enum):
     SINGLE = "single"
     MULTIPLE = "multiple"
     extended = "extended"
+
+
+class WidgetState(Enum):
+    NORMAL = tk.NORMAL
+    ACTIVE = tk.ACTIVE
+    DISABLED = tk.DISABLED
+
+
+def from_widget_state_to_bool(s: str) -> bool:
+    if s == WidgetState.NORMAL.value or s == WidgetState.ACTIVE.value:
+        return True
+    else:
+        return False
+
+
+def from_bool_to_widget_state(b: bool) -> WidgetState:
+    if b:
+        return WidgetState.ACTIVE
+    else:
+        return WidgetState.DISABLED
 
 
 class LayoutType(Enum):
@@ -43,13 +73,6 @@ class FileDialogFileType:
 
     def as_tuple(self) -> Tuple[str, str]:
         return (self._description, self._filter)
-
-
-def from_GUIEvent_to_str(evt: GUIEvent) -> str:
-    if evt == GUIEvent.EVT_LEFTCLICK:
-        return "<Button-1>"
-    else:
-        raise ValueError("not supported")
 
 
 class EventCallBack:
@@ -178,9 +201,9 @@ class GUIManager:
             btn.grid(row=grid_row, column=grid_col)
             self.is_grid_enabled = True
         head_evt = evt_callbacks[0]
-        btn.bind(from_GUIEvent_to_str(head_evt.event), head_evt.callback)
+        btn.bind(head_evt.event.value, head_evt.callback)
         for evt in evt_callbacks[1:]:
-            btn.bind(from_GUIEvent_to_str(evt.event), evt.callback, '+')
+            btn.bind(evt.event.value, evt.callback, '+')
         self.widgets[name] = btn
 
     def add_textarea(
@@ -439,6 +462,33 @@ class GUIManager:
             raise Exception(f"menu {target_name} not found")
         self.menus[target_name].add_separator()
 
+    def add_event_callback(
+        self,
+        widget_name: str,
+        evt: GUIEvent,
+        callback: Any
+    ) -> None:
+        self.widgets[widget_name].bind(
+            evt.value,
+            callback
+        )
+
+    def is_widget_active(
+        self,
+        widget_name: str
+    ) -> bool:
+        state = self.widgets[widget_name]["state"]
+        print(state)
+        return from_widget_state_to_bool(state)
+
+    def set_state(
+        self,
+        widget_name: str,
+        state: bool
+    ) -> None:
+        self.widgets[widget_name]["state"] = \
+            from_bool_to_widget_state(state).value
+
     def build(self):
         self.root.title(self.title)
         self.root.geometry(self._to_geometry())
@@ -452,8 +502,8 @@ class GUIManager:
         if not self.is_grid_enabled:
             [w.pack() for n, w in self.widgets.items() if not n.endswith("_val")]
         else:
-            for _,frame in self.frame.items():
-                frame.frame.pack(padx = frame.padx, pady = frame.pady)
+            for _, frame in self.frame.items():
+                frame.frame.pack(padx=frame.padx, pady=frame.pady)
         return self.root
 
 

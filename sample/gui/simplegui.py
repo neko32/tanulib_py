@@ -25,6 +25,15 @@ def btn1_left_clicked(event: tk.Event):
     ipt.delete(0, tk.END)
 
 
+def button_key_pressed(evt: tk.Event):
+    key = evt.keysym
+    print(key)
+    if key == "KP_Enter":
+        btn1_left_clicked(evt)
+    else:
+        tkm.showinfo("hit enter key dude")
+
+
 def listbox_sel(event: tk.Event):
     global gm_ref
     lv = gm_ref.widgets["mylist"]
@@ -99,6 +108,20 @@ def menu_version_hit():
     tkm.showinfo("VERSION", "0.1.0")
 
 
+def textarea_right_click(evt: tk.Event):
+    global gm_ref
+    msg = f"X:{evt.x},Y:{evt.y}"
+    btn_active = gm_ref.is_widget_active("btn1")
+    print(btn_active)
+    if btn_active:
+        print("trying to disble..")
+        gm_ref.set_state("btn1", False)
+    else:
+        print("trying to enable..")
+        gm_ref.set_state("btn1", True)
+    tkm.showinfo("right click!", msg)
+
+
 def main():
     global gm_ref
     gb = GUIManager("takori", 200, 500, 640, 480)
@@ -112,6 +135,11 @@ def main():
         wrap=tk.WORD,
         default_str="たこなのか?",
         with_scrollbar=True
+    )
+    gb.add_event_callback(
+        widget_name="bbs",
+        evt=GUIEvent.EVT_RIGHTCLICK,
+        callback=textarea_right_click
     )
     gb.add_checkbox("chk1", "add PREFIX [=^_^=]", True)
     gb.add_radiobutton(
@@ -151,6 +179,11 @@ def main():
         "btn1",
         "click this button",
         [EventCallBack(GUIEvent.EVT_LEFTCLICK, btn1_left_clicked)]
+    )
+    gb.add_event_callback(
+        widget_name="btn1",
+        evt=GUIEvent.EVT_KEYHIT,
+        callback=button_key_pressed
     )
 
     gb.add_menu("File")
