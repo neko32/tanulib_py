@@ -69,6 +69,34 @@ class DateReprTest(TestCase):
         self.assertEqual(last_day_of_month(2024, 4), 30)
         self.assertEqual(last_day_of_month(2023, 12), 31)
 
+    def test_yyyy_to_japan_eras(self):
+        # reiwa
+        self.assertEqual(from_yyyy_to_reiwa_era(2024), 6)
+        self.assertEqual(from_yyyy_to_reiwa_era(2020), 2)
+        self.assertEqual(from_yyyy_to_reiwa_era(2019), 1)
+        with self.assertRaises(ValueError):
+            from_yyyy_to_reiwa_era(2018)
+
+        # heisei
+        self.assertEqual(from_yyyy_to_heisei_era(2002), 14)
+        self.assertEqual(from_yyyy_to_heisei_era(2016), 28)
+        self.assertEqual(from_yyyy_to_heisei_era(2019), 31)
+        self.assertEqual(from_yyyy_to_heisei_era(1989), 1)
+        with self.assertRaises(ValueError):
+            from_yyyy_to_heisei_era(1988)
+            from_yyyy_to_heisei_era(2020)
+
+
+        # Showa
+        self.assertEqual(from_yyyy_to_showa_era(1989), 64)
+        self.assertEqual(from_yyyy_to_showa_era(1980), 55)
+        self.assertEqual(from_yyyy_to_showa_era(1937), 12)
+        self.assertEqual(from_yyyy_to_showa_era(1926), 1)
+        with self.assertRaises(ValueError):
+            from_yyyy_to_showa_era(1925)
+            from_yyyy_to_showa_era(1990)
+
+
 
 if __name__ == "__main__":
     main()

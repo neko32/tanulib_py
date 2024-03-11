@@ -65,3 +65,28 @@ def last_day_of_month(year: int, month: int) -> int:
     date_nextmonth = datetime.date(year=y, month=m, day=1)
     date_the_month = date_nextmonth - datetime.timedelta(days=1)
     return date_the_month.day
+
+
+def from_yyyy_to_heisei_era(year: int) -> int:
+    r = (year + 12) - 2000
+    if r <= 0:
+        raise ValueError("Heisei era started from 1989")
+    if r > 31:
+        raise ValueError("Heisei era ended at 2019")
+    return r
+
+
+def from_yyyy_to_showa_era(year: int) -> int:
+    r = year - 1925
+    if r <= 0:
+        raise ValueError("Showa era started from 1926")
+    if r > 64:
+        raise ValueError("Showa era ended at 1989")
+    return r
+
+
+def from_yyyy_to_reiwa_era(year: int) -> int:
+    r = year - 2018
+    if r <= 0:
+        raise ValueError("Reiwa era started from May 1st, 2019")
+    return r
