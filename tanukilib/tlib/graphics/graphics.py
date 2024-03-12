@@ -102,6 +102,33 @@ MARKER_TYPE_MAP = {
 }
 
 
+class Rect:
+    def __init__(self, x: int, y: int, w: int, h: int):
+        self._x = x
+        self._y = y
+        self._w = w
+        self._h = h
+
+    @property
+    def loc_x(self) -> int:
+        return self._x
+
+    @property
+    def loc_y(self) -> int:
+        return self._y
+
+    @property
+    def width(self) -> int:
+        return self._w
+
+    @property
+    def height(self) -> int:
+        return self._h
+
+    def as_tuple(self) -> Tuple[int, int, int, int]:
+        return (self._x, self._y, self._w, self._h)
+
+
 class BGRA:
     def __init__(self, b: int, g: int, r: int, a: Optional[int] = None):
         self._b = b

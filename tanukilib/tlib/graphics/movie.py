@@ -1,10 +1,11 @@
 import cv2
 from cv2.typing import MatLike
 from abc import ABC, abstractmethod
+from tlib.graphics import draw_text, from_bgr_to_gray_scale, \
+    BGRA, Rect, apply_otsu_threshold, draw_rect, LineType
+from collections import OrderedDict
 from os.path import exists
 from typing import List
-from tlib.graphics import draw_text, from_bgr_to_gray_scale, BGRA
-from collections import OrderedDict
 
 
 class Effecter(ABC):
@@ -17,9 +18,11 @@ class NoOpEffect(Effecter):
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return img
 
+
 class GrayImageEffecter(Effecter):
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return from_bgr_to_gray_scale(img)
+
 
 class MovieInfoOverlayEffect(Effecter):
 
@@ -60,6 +63,45 @@ class MovieInfoOverlayEffect(Effecter):
             color=BGRA(255, 255, 255),
             font_scale=1,
             loc=(loc_x, loc_y)
+        )
+        return img
+
+
+class MeanShiftEffect(Effecter):
+
+    def __init__(
+            self,
+            rect: Rect,
+            term_criteria_iteration: int = 10,
+            term_criteria_moveby: int = 1,
+            boundingbox_color:BGRA = BGRA(255, 0, 0),
+            boundingbox_line_type:LineType = LineType.LINE_TYPE_8,
+            boundingbox_thickness:int = 1
+    ):
+        self.track_window = rect
+        self.term = (
+            cv2.TermCriteria_COUNT | cv2.TERM_CRITERIA_EPS,
+            term_criteria_iteration,
+            term_criteria_moveby
+        )
+        self.boundingbox_color = boundingbox_color
+        self.boundingbox_line_type = boundingbox_line_type
+        self.boundingbox_thickness = boundingbox_thickness
+
+    def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+
+        gray = from_bgr_to_gray_scale(img)
+        th = apply_otsu_threshold(gray)
+        _, new_wnd = cv2.meanShift(th, self.track_window.as_tuple(), self.term)
+        x, y, w, h = new_wnd
+        self.track_window = Rect(x, y, w, h)
+        draw_rect(
+            img,
+            st=(x, y),
+            end=(x + w, y + h),
+            color=self.boundingbox_color,
+            line_type=self.boundingbox_line_type,
+            line_thickness=self.boundingbox_thickness
         )
         return img
 
