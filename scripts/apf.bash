@@ -10,4 +10,4 @@ fi
 file=$1
 
 autopep8 -i ${file}
-flake8 ${file}
+flake8 --max-line-length=100 ${file}
