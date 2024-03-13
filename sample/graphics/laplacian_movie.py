@@ -2,7 +2,7 @@
 from tlib.graphics.movie import *
 from tlib.graphics.conv_filter import LaplacianEffecter
 from tlib.graphics.graphics import ImageDepthType
-from tlib.graphics.movie import GrayImageEffecter
+from tlib.graphics.ext_effects import GrayImageEffecter
 import cv2
 
 

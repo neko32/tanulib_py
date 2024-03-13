@@ -1,6 +1,7 @@
 
 from tlib.graphics.movie import *
-from tlib.graphics import Rect
+from tlib.graphics import Rect, BGRA, LineType
+from tlib.graphics.ext_effects import MeanShiftEffect
 import cv2
 
 

@@ -1,5 +1,6 @@
 
 from tlib.graphics.movie import *
+from tlib.graphics.ext_effects import MovieInfoOverlayEffect
 import cv2
 
 
