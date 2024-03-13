@@ -1,6 +1,7 @@
 from tlib.graphics import *
 import cv2
 import os
+from pathlib import Path
 from os import remove
 from os.path import exists
 
@@ -8,7 +9,7 @@ from os.path import exists
 def main():
     img = gen_white_canvas(600, 400)
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
-    fname = f"{tmp_home_dir}/draw_sample.jpg"
+    fname = str(Path(tmp_home_dir).joinpath("draw_sample.jpg"))
 
     if exists(fname):
         remove(fname)

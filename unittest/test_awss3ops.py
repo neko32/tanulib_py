@@ -1,6 +1,7 @@
 from unittest import TestCase, main
 from tlib.aws import s3ops
 import os
+from pathlib import Path
 
 
 class AWSS3OpsTest(TestCase):
@@ -15,7 +16,7 @@ class AWSS3OpsTest(TestCase):
         return super().tearDown()
 
     def test_s3_basic_ops(self):
-        test_json1_fpath = "./testdata/json/test_simple.json"
+        test_json1_fpath = str(Path(__file__).joinpath("testdata", "json", "test_simple.json"))
         test_json1_key = "testsimple1"
         rez = s3ops.create_s3_bucket(self.bucket_name, s3ops.ACLTypes.private)
         print(rez)

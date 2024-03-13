@@ -5,6 +5,7 @@ from keras.optimizers import SGD
 import tensorflow as tf
 from typing import List, Any, Optional, Tuple
 import os
+from pathlib import Path
 from enum import Enum, auto
 from os.path import exists
 from tensorflow import data as tf_data
@@ -70,7 +71,7 @@ class InputDataPreprocessor:
     def __init__(self, dataset_name:str) -> None:
         if os.environ['TLIB_ML_DATA_DIR'] is None:
             raise Exception("TLIB_ML_DATA_DIR must be set")
-        dataset_path = f'{os.environ["TLIB_ML_DATA_DIR"]}/{dataset_name}'
+        dataset_path = str(Path(os.environ["TLIB_ML_DATA_DIR"]).joinpath(dataset_name))
         if not exists(dataset_path):
             raise Exception(f"{dataset_path} doesn't exist")
         self.dataset_path = dataset_path

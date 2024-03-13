@@ -1,15 +1,16 @@
 from tlib.graphics import *
 import cv2
 import os
+from pathlib import Path
 from os import remove
 from os.path import exists
 
 
 def main():
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
-    f_input_name = "../img/windows_logo_1440_1080.jpg"
-    f_output_name1 = f"{tmp_home_dir}/flip_vert.jpg"
-    f_output_name2 = f"{tmp_home_dir}/flip_horiz.jpg"
+    f_input_name = str(Path(__file__).parent.parent.joinpath("img", "windows_logo_1440_1080.jpg"))
+    f_output_name1 = str(Path(tmp_home_dir).joinpath("flip_vert.jpg"))
+    f_output_name2 = str(Path(tmp_home_dir).joinpath("flip_horiz.jpg"))
 
     for f in [f_output_name1, f_output_name2]:
         if exists(f):

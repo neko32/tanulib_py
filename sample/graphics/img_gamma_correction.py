@@ -1,15 +1,16 @@
 from tlib.graphics import *
 import cv2
 import os
+from pathlib import Path
 from os import remove
 from os.path import exists
 
 
 def main():
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
-    f_input_name = "../img/sample_img.jpg"
-    f_output_name1 = f"{tmp_home_dir}/gamma0.5.jpg"
-    f_output_name2 = f"{tmp_home_dir}/gamma2.jpg"
+    f_input_name = str(Path(__file__).parent.parent.joinpath("img", "sample_img.jpg"))
+    f_output_name1 = str(Path(tmp_home_dir).joinpath("gamma0.5.jpg"))
+    f_output_name2 = str(Path(tmp_home_dir).joinpath("gamma2.jpg"))
 
     if exists(f_output_name1):
         remove(f_output_name1)

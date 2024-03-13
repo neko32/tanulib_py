@@ -1,13 +1,14 @@
 
 import dotenv
 import os
+from pathlib import Path
 from typing import Optional
 
 
 class Cfg:
     def __init__(self, env: str):
         self.env = env
-        cfg_path = f"{os.environ['TANULIB_CONF_DIR']}/tlib/{self.env}.env"
+        cfg_path = Path(os.environ['TANULIB_CONF_DIR']).joinpath("tlib", self.env, ".env")
         if not dotenv.load_dotenv(cfg_path, verbose = True):
             raise Exception("failed to initialize config")
 

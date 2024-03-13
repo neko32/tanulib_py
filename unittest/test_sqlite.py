@@ -1,5 +1,6 @@
 from unittest import TestCase, main
 from tlib.sql import *
+from pathlib import Path
 import sqlite3
 import os
 
@@ -7,7 +8,7 @@ import os
 class SQLiteTest(TestCase):
 
     def quote_db_path(self, db_name: str) -> str:
-        return f"{os.environ['HOME_DB_PATH']}/{db_name}"
+        return str(Path(os.environ['HOME_DB_PATH']).joinpath(db_name))
 
     def test_crud(self):
         db_path = self.quote_db_path("tlibut.sqlite3")
