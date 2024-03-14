@@ -3,6 +3,7 @@ from typing import List, Optional, Dict
 
 
 class URL:
+    """A Wrapper of URL to provide convenient funtions"""
 
     def __init__(self, url_str: str) -> None:
         self.raw_url = url_str
@@ -14,15 +15,27 @@ class URL:
 
     @property
     def scheme(self) -> str:
+        """
+        Returns parsed scheme.
+        e.g. http, https
+        """
         return self.parsed.scheme
 
     def scheme_domain_port(self) -> str:
+        """
+        Returns cancatenated string of parsed scheme, domain and port
+        e.g. https://www.takoneko.org:3000
+        """
         buf = f"{self.scheme}://{self.parsed.hostname}"
         if self.parsed.port is not None:
             buf += f":{self.parsed.port}"
         return buf
 
     def path(self) -> Optional[List[str]]:
+        """
+        Returns list of path if exists. If not, None
+        e.g. http://tako.net/tako/neko -> list with "tako", "neko"
+        """
         paths = list(filter(lambda x: x != "", self.parsed.path.split('/')))
         if not paths:
             return None
@@ -30,6 +43,10 @@ class URL:
             return paths
 
     def query(self) -> Optional[Dict[str, str]]:
+        """
+        Returns map of each query's key and value if exists. If not None
+        e.g. http://neko.net?a=1&b=2  -> map {"a":"1","b":"2"}
+        """
         q = self.parsed.query
         if q == "":
             return None
