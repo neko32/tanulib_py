@@ -26,5 +26,6 @@ alias lsst='localstack_start.bash'
 alias lsstop='localstack_stop.bash'
 alias ap8='autopep8 -i'
 alias apf='apf.bash'
+alias tlibdgen='docgen.bash'
 
 export PATH=${PATH}:${TANULIB_HOME}/scripts
