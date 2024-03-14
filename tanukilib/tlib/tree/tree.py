@@ -6,21 +6,26 @@ T = TypeVar("T")
 
 
 class NodeInsertSide(Enum):
+    """Which side of BTree to insert"""
     SIDE_LEFT = auto()
     SIDE_RIGHT = auto()
 
 
 class BinaryTreeNode:
-    def __init__(self,
-                 v: Optional[T],
-                 left: Optional[BinaryTreeNode] = None,
-                 right: Optional[BinaryTreeNode] = None):
+    """Represents a node in Binary Tree"""
+    def __init__(
+            self,
+            v: Optional[T],
+            left: Optional[BinaryTreeNode] = None,
+            right: Optional[BinaryTreeNode] = None
+    ):
         self.value = v
         self.left = left
         self.right = right
 
 
 def add(n: BinaryTreeNode, v: T) -> None:
+    """add a node in BST manner"""
     new_n = BinaryTreeNode(v)
     if v < n.value:
         if n.left is None:
@@ -35,6 +40,7 @@ def add(n: BinaryTreeNode, v: T) -> None:
 
 
 def add_nonbst(n: BinaryTreeNode, v: T, side: NodeInsertSide) -> None:
+    """Add a node in non-BST manner"""
     new_n = BinaryTreeNode(v)
     if side == NodeInsertSide.SIDE_LEFT:
         n.left = new_n
@@ -43,6 +49,7 @@ def add_nonbst(n: BinaryTreeNode, v: T, side: NodeInsertSide) -> None:
 
 
 def build_non_bst_tree(directions: List[Tuple[str, T]]) -> BinaryTreeNode:
+    """Build non-BST Tree based on directions"""
     root = BinaryTreeNode(directions[0][1])
     for direction in directions[1:]:
         t = root
@@ -75,6 +82,7 @@ def build_non_bst_tree(directions: List[Tuple[str, T]]) -> BinaryTreeNode:
 
 
 def trav_preorder(n: BinaryTreeNode, buf: List[T], verbose: bool = True) -> None:
+    """Traverse the tree with preorder traversal"""
     if verbose:
         print(n.value)
     buf.append(n.value)
@@ -85,6 +93,7 @@ def trav_preorder(n: BinaryTreeNode, buf: List[T], verbose: bool = True) -> None
 
 
 def trav_inorder(n: BinaryTreeNode, buf: List[T], verbose: bool = True) -> List[T]:
+    """Traverse the tree with inorder traversal"""
     if n.left is not None:
         trav_inorder(n.left, buf, verbose)
     if verbose:
@@ -95,6 +104,7 @@ def trav_inorder(n: BinaryTreeNode, buf: List[T], verbose: bool = True) -> List[
 
 
 def trav_postorder(n: BinaryTreeNode, buf: List[T], verbose=True) -> List[T]:
+    """Traverse the tree with postorder traversal"""
     if n.left is not None:
         trav_postorder(n.left, buf, verbose)
     if n.right is not None:
