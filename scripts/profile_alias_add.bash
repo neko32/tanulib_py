@@ -5,6 +5,7 @@ echo copy the following to your profile
 export TANULIB_HOME=/home/yourhomedir/dir_tanulib_located
 export TANULIB_CONF_DIR=${TANULIB_HOME}/conf's dir
 export TANULIB_DOC_DIR=replace with your doc dir
+export TANULIB_BROWSER=microsoft-edge
 export HOME_TMP_DIR="replace with your home dir's tmp"
 export HOME_DB_PATH=/home/yourhomedir/db loc
 export TLIB_ML_DATA_DIR=replace with your ML data set dir
@@ -27,5 +28,6 @@ alias lsstop='localstack_stop.bash'
 alias ap8='autopep8 -i'
 alias apf='apf.bash'
 alias tlibdgen='docgen.bash'
+alias tlibdoc="${TANULIB_BROWSER} ${TANULIB_DOC_DIR}/api/index.html > dev/null 2>&1"
 
 export PATH=${PATH}:${TANULIB_HOME}/scripts
