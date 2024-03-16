@@ -102,7 +102,14 @@ class SQLiteTest(TestCase):
                     self.assertEqual(r[3], 'Playing with Toy')
             self.assertEqual(len(fetched_rows), 3)
 
+            tbl_info = get_table_info(db_path, "NekoInfo")
+            print(tbl_info)
+
+            tmp_out_csv = str(Path(os.environ["HOME_TMP_DIR"]).joinpath(
+                "test_sqlite_export.csv"))
+            export_to_csv(db_path, "NekoInfo", tmp_out_csv)
             self.assertTrue(drop_table(conn, "NekoInfo", True))
+
         except Exception as e:
             print(e)
             self.assertTrue(False)
