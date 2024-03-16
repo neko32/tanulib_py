@@ -1,21 +1,27 @@
 import string
 
-def is_str_alnum(s:str) -> bool:
+
+def is_str_alnum(s: str) -> bool:
+    """check if given string only consists of alnum"""
     alnums = string.ascii_letters + string.digits
     for c in s:
         if c not in alnums:
             return False
     return True
 
-def capitalize(s:str) -> str:
+
+def capitalize(s: str) -> str:
+    """Capitalize input string s"""
     if len(s) == 0:
-        return ""    
+        return ""
     elif len(s) == 1:
         return s.upper()
     else:
         return f"{s[0].upper()}{s[1:].lower()}"
 
-def from_snake_case_to_camel_case(s:str) -> str:
+
+def from_snake_case_to_camel_case(s: str) -> str:
+    """Convert given string s from snake ase to camel case"""
     words = s.split("_")
     buf = ""
     if len(words) == 0:
@@ -27,8 +33,12 @@ def from_snake_case_to_camel_case(s:str) -> str:
     buf = words[0][0] + words[0][1:].lower() + buf
     return buf
 
-def from_snake_case_to_pascal_case(s:str) -> str:
+
+def from_snake_case_to_pascal_case(s: str) -> str:
+    """Convert given string s from snake case to pascal case"""
     return "".join([capitalize(w) for w in s.split("_")])
 
-def from_snake_to_chain_case(s:str) -> str:
+
+def from_snake_to_chain_case(s: str) -> str:
+    """Convert given string s from snake ase to chain case"""
     return s.replace('_', '-').lower()

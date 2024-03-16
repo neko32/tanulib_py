@@ -68,38 +68,48 @@
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">import</span> <span class="nn">string</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="k">def</span> <span class="nf">is_str_alnum</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>    <span class="n">alnums</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>        <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alnums</span><span class="p">:</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>    <span class="k">return</span> <span class="kc">True</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="k">def</span> <span class="nf">capitalize</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span>    
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_camel_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="n">words</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="k">return</span> <span class="n">buf</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="k">return</span> <span class="n">buf</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="n">buf</span> <span class="o">+=</span> <span class="n">capitalize</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">buf</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">return</span> <span class="n">buf</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_pascal_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">capitalize</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)])</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="k">def</span> <span class="nf">from_snake_to_chain_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="k">def</span> <span class="nf">is_str_alnum</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;check if given string only consists of alnum&quot;&quot;&quot;</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>    <span class="n">alnums</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>        <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alnums</span><span class="p">:</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="k">return</span> <span class="kc">True</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="k">def</span> <span class="nf">capitalize</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Capitalize input string s&quot;&quot;&quot;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_camel_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert given string s from snake ase to camel case&quot;&quot;&quot;</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="n">words</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="k">return</span> <span class="n">buf</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>    <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        <span class="k">return</span> <span class="n">buf</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="n">buf</span> <span class="o">+=</span> <span class="n">capitalize</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">buf</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">return</span> <span class="n">buf</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_pascal_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert given string s from snake case to pascal case&quot;&quot;&quot;</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">capitalize</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)])</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="k">def</span> <span class="nf">from_snake_to_chain_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert given string s from snake ase to chain case&quot;&quot;&quot;</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -115,16 +125,19 @@
 
     </div>
     <a class="headerlink" href="#is_str_alnum"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="is_str_alnum-4"><a href="#is_str_alnum-4"><span class="linenos">4</span></a><span class="k">def</span> <span class="nf">is_str_alnum</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="is_str_alnum-5"><a href="#is_str_alnum-5"><span class="linenos">5</span></a>    <span class="n">alnums</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span>
-</span><span id="is_str_alnum-6"><a href="#is_str_alnum-6"><span class="linenos">6</span></a>    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
-</span><span id="is_str_alnum-7"><a href="#is_str_alnum-7"><span class="linenos">7</span></a>        <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alnums</span><span class="p">:</span>
-</span><span id="is_str_alnum-8"><a href="#is_str_alnum-8"><span class="linenos">8</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="is_str_alnum-9"><a href="#is_str_alnum-9"><span class="linenos">9</span></a>    <span class="k">return</span> <span class="kc">True</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="is_str_alnum-5"><a href="#is_str_alnum-5"><span class="linenos"> 5</span></a><span class="k">def</span> <span class="nf">is_str_alnum</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="is_str_alnum-6"><a href="#is_str_alnum-6"><span class="linenos"> 6</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;check if given string only consists of alnum&quot;&quot;&quot;</span>
+</span><span id="is_str_alnum-7"><a href="#is_str_alnum-7"><span class="linenos"> 7</span></a>    <span class="n">alnums</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span>
+</span><span id="is_str_alnum-8"><a href="#is_str_alnum-8"><span class="linenos"> 8</span></a>    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+</span><span id="is_str_alnum-9"><a href="#is_str_alnum-9"><span class="linenos"> 9</span></a>        <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alnums</span><span class="p">:</span>
+</span><span id="is_str_alnum-10"><a href="#is_str_alnum-10"><span class="linenos">10</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="is_str_alnum-11"><a href="#is_str_alnum-11"><span class="linenos">11</span></a>    <span class="k">return</span> <span class="kc">True</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>check if given string only consists of alnum</p>
+</div>
+
 
                 </section>
                 <section id="capitalize">
@@ -138,17 +151,20 @@
 
     </div>
     <a class="headerlink" href="#capitalize"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="capitalize-11"><a href="#capitalize-11"><span class="linenos">11</span></a><span class="k">def</span> <span class="nf">capitalize</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="capitalize-12"><a href="#capitalize-12"><span class="linenos">12</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="capitalize-13"><a href="#capitalize-13"><span class="linenos">13</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span>    
-</span><span id="capitalize-14"><a href="#capitalize-14"><span class="linenos">14</span></a>    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="capitalize-15"><a href="#capitalize-15"><span class="linenos">15</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-</span><span id="capitalize-16"><a href="#capitalize-16"><span class="linenos">16</span></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="capitalize-17"><a href="#capitalize-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="capitalize-14"><a href="#capitalize-14"><span class="linenos">14</span></a><span class="k">def</span> <span class="nf">capitalize</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="capitalize-15"><a href="#capitalize-15"><span class="linenos">15</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Capitalize input string s&quot;&quot;&quot;</span>
+</span><span id="capitalize-16"><a href="#capitalize-16"><span class="linenos">16</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="capitalize-17"><a href="#capitalize-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="capitalize-18"><a href="#capitalize-18"><span class="linenos">18</span></a>    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="capitalize-19"><a href="#capitalize-19"><span class="linenos">19</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+</span><span id="capitalize-20"><a href="#capitalize-20"><span class="linenos">20</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="capitalize-21"><a href="#capitalize-21"><span class="linenos">21</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Capitalize input string s</p>
+</div>
+
 
                 </section>
                 <section id="from_snake_case_to_camel_case">
@@ -162,21 +178,24 @@
 
     </div>
     <a class="headerlink" href="#from_snake_case_to_camel_case"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="from_snake_case_to_camel_case-19"><a href="#from_snake_case_to_camel_case-19"><span class="linenos">19</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_camel_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="from_snake_case_to_camel_case-20"><a href="#from_snake_case_to_camel_case-20"><span class="linenos">20</span></a>    <span class="n">words</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-</span><span id="from_snake_case_to_camel_case-21"><a href="#from_snake_case_to_camel_case-21"><span class="linenos">21</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="from_snake_case_to_camel_case-22"><a href="#from_snake_case_to_camel_case-22"><span class="linenos">22</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="from_snake_case_to_camel_case-23"><a href="#from_snake_case_to_camel_case-23"><span class="linenos">23</span></a>        <span class="k">return</span> <span class="n">buf</span>
-</span><span id="from_snake_case_to_camel_case-24"><a href="#from_snake_case_to_camel_case-24"><span class="linenos">24</span></a>    <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-</span><span id="from_snake_case_to_camel_case-25"><a href="#from_snake_case_to_camel_case-25"><span class="linenos">25</span></a>        <span class="k">return</span> <span class="n">buf</span>
-</span><span id="from_snake_case_to_camel_case-26"><a href="#from_snake_case_to_camel_case-26"><span class="linenos">26</span></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
-</span><span id="from_snake_case_to_camel_case-27"><a href="#from_snake_case_to_camel_case-27"><span class="linenos">27</span></a>        <span class="n">buf</span> <span class="o">+=</span> <span class="n">capitalize</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</span><span id="from_snake_case_to_camel_case-28"><a href="#from_snake_case_to_camel_case-28"><span class="linenos">28</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">buf</span>
-</span><span id="from_snake_case_to_camel_case-29"><a href="#from_snake_case_to_camel_case-29"><span class="linenos">29</span></a>    <span class="k">return</span> <span class="n">buf</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="from_snake_case_to_camel_case-24"><a href="#from_snake_case_to_camel_case-24"><span class="linenos">24</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_camel_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="from_snake_case_to_camel_case-25"><a href="#from_snake_case_to_camel_case-25"><span class="linenos">25</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert given string s from snake ase to camel case&quot;&quot;&quot;</span>
+</span><span id="from_snake_case_to_camel_case-26"><a href="#from_snake_case_to_camel_case-26"><span class="linenos">26</span></a>    <span class="n">words</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+</span><span id="from_snake_case_to_camel_case-27"><a href="#from_snake_case_to_camel_case-27"><span class="linenos">27</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="from_snake_case_to_camel_case-28"><a href="#from_snake_case_to_camel_case-28"><span class="linenos">28</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="from_snake_case_to_camel_case-29"><a href="#from_snake_case_to_camel_case-29"><span class="linenos">29</span></a>        <span class="k">return</span> <span class="n">buf</span>
+</span><span id="from_snake_case_to_camel_case-30"><a href="#from_snake_case_to_camel_case-30"><span class="linenos">30</span></a>    <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+</span><span id="from_snake_case_to_camel_case-31"><a href="#from_snake_case_to_camel_case-31"><span class="linenos">31</span></a>        <span class="k">return</span> <span class="n">buf</span>
+</span><span id="from_snake_case_to_camel_case-32"><a href="#from_snake_case_to_camel_case-32"><span class="linenos">32</span></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
+</span><span id="from_snake_case_to_camel_case-33"><a href="#from_snake_case_to_camel_case-33"><span class="linenos">33</span></a>        <span class="n">buf</span> <span class="o">+=</span> <span class="n">capitalize</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span id="from_snake_case_to_camel_case-34"><a href="#from_snake_case_to_camel_case-34"><span class="linenos">34</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">buf</span>
+</span><span id="from_snake_case_to_camel_case-35"><a href="#from_snake_case_to_camel_case-35"><span class="linenos">35</span></a>    <span class="k">return</span> <span class="n">buf</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Convert given string s from snake ase to camel case</p>
+</div>
+
 
                 </section>
                 <section id="from_snake_case_to_pascal_case">
@@ -190,12 +209,15 @@
 
     </div>
     <a class="headerlink" href="#from_snake_case_to_pascal_case"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="from_snake_case_to_pascal_case-31"><a href="#from_snake_case_to_pascal_case-31"><span class="linenos">31</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_pascal_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="from_snake_case_to_pascal_case-32"><a href="#from_snake_case_to_pascal_case-32"><span class="linenos">32</span></a>    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">capitalize</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)])</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="from_snake_case_to_pascal_case-38"><a href="#from_snake_case_to_pascal_case-38"><span class="linenos">38</span></a><span class="k">def</span> <span class="nf">from_snake_case_to_pascal_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="from_snake_case_to_pascal_case-39"><a href="#from_snake_case_to_pascal_case-39"><span class="linenos">39</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert given string s from snake case to pascal case&quot;&quot;&quot;</span>
+</span><span id="from_snake_case_to_pascal_case-40"><a href="#from_snake_case_to_pascal_case-40"><span class="linenos">40</span></a>    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">capitalize</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)])</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Convert given string s from snake case to pascal case</p>
+</div>
+
 
                 </section>
                 <section id="from_snake_to_chain_case">
@@ -209,12 +231,15 @@
 
     </div>
     <a class="headerlink" href="#from_snake_to_chain_case"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="from_snake_to_chain_case-34"><a href="#from_snake_to_chain_case-34"><span class="linenos">34</span></a><span class="k">def</span> <span class="nf">from_snake_to_chain_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="from_snake_to_chain_case-35"><a href="#from_snake_to_chain_case-35"><span class="linenos">35</span></a>    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="from_snake_to_chain_case-43"><a href="#from_snake_to_chain_case-43"><span class="linenos">43</span></a><span class="k">def</span> <span class="nf">from_snake_to_chain_case</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="from_snake_to_chain_case-44"><a href="#from_snake_to_chain_case-44"><span class="linenos">44</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert given string s from snake ase to chain case&quot;&quot;&quot;</span>
+</span><span id="from_snake_to_chain_case-45"><a href="#from_snake_to_chain_case-45"><span class="linenos">45</span></a>    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Convert given string s from snake ase to chain case</p>
+</div>
+
 
                 </section>
     </main>

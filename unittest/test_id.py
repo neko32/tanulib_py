@@ -1,6 +1,7 @@
 from tlib.datautil import *
 from unittest import TestCase, main
 
+
 class IdTest(TestCase):
 
     def test_uuid(self):

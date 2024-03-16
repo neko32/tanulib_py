@@ -1,6 +1,7 @@
 from unittest import TestCase, main
 from tlib.datautil import *
 
+
 class StringTest(TestCase):
 
     def test_capitalize(self):
@@ -58,6 +59,7 @@ class StringTest(TestCase):
         self.assertEqual(from_snake_to_chain_case(s3), 'neko-tako')
         self.assertEqual(from_snake_to_chain_case(s4), 'neko-tako')
         self.assertEqual(from_snake_to_chain_case(s5), 'neko-tako')
+
 
 if __name__ == "__main__":
     main()

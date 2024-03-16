@@ -85,6 +85,25 @@ class HashTest(TestCase):
         )
         self.assertEqual(b_sha256.hex(), hexs_sha256)
 
+    def test_to_hex(self):
+        x = b'Takomix'
+        h = to_hex(x)
+        self.assertEqual(h, "54616b6f6d6978")
+
+    def test_to_binary(self):
+        n = 326342
+        expected = "00000000000001001111101011000110"
+        self.assertEqual(to_binary_str_n_bits(n), expected)
+        n = 0
+        expected = "00000000000000000000000000000000"
+        self.assertEqual(to_binary_str_n_bits(n), expected)
+        n = 43
+        expected = "0000000000101011"
+        self.assertEqual(to_binary_str_n_bits(n, 16), expected)
+        n = 43
+        expected = "0b0000000000101011"
+        self.assertEqual(to_binary_str_n_bits(n, 16, True), expected)
+
 
 if __name__ == "__main__":
     main()
