@@ -2,9 +2,17 @@ from typing import Callable, Any
 from time import perf_counter
 import threading
 
-class ProgressTrackTrait:
 
-    def __init__(self, start:float, end:float, callback:Callable[[float, float], Any], verbose:bool = False):
+class ProgressTrackTrait:
+    """Provides progress tracking feature"""
+
+    def __init__(
+            self,
+            start: float,
+            end: float,
+            callback: Callable[[float, float], Any],
+            verbose: bool = False
+    ):
         self.current = start
         self.end = end
         self.callback = callback
@@ -13,15 +21,21 @@ class ProgressTrackTrait:
         self.lock = threading.Lock()
         self.verbose = verbose
 
-    def progress(self, delta:float) -> bool:
+    def progress(self, delta: float) -> bool:
+        """
+        Log progress with delta.
+        If progressing with the given delta exceeds the end or
+        already reached to the end, then False is returned.
+        Else False is returned.
+        """
         if self.done:
             return False
-        
+
         with self.lock:
             if self.start_time == -1.:
-                self.start_time = perf_counter() 
+                self.start_time = perf_counter()
             prev = self.current
-            self.current += delta 
+            self.current += delta
             if self.verbose:
                 print(f"{prev} -> {self.current}(+{delta}) [END:{self.end}]")
             if self.current >= self.end and not self.done:
