@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from tlib.cat.br_analysis import BloodTestReport
+from tlib.cat.br_analysis import BloodTestReport, to_df
 from pathlib import Path
 from datetime import datetime
 
@@ -19,6 +19,8 @@ class CatBTAnalysisTest(TestCase):
 
         rep = BloodTestReport("tako", "test1", datetime.now())
         rep.set_by_antech_br_report(bt_report)
+        df = to_df([rep])
+        print(df)
 
 
 if __name__ == "__main__":
