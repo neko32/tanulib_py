@@ -2,7 +2,8 @@ from unittest import TestCase, main
 from tlib.fileutil import *
 from tlib.datautil import gen_rand_alnum_str
 from os.path import exists
-from os import mkdir
+from os import mkdir, environ
+from pathlib import Path
 import csv
 
 
@@ -77,6 +78,64 @@ class FileutilTest(TestCase):
         valid_file = "./testdata/img/cat_img1.jpg"
         self.assertTrue(is_JFIF_img_file(valid_file))
         self.assertFalse(is_JFIF_img_file(broken_file))
+
+    def test_get_dirs_files(self):
+        tmp_dir = environ["HOME_TMP_DIR"]
+        tmp_dir = str(Path(tmp_dir).joinpath("test_ftl"))
+        test_files_at_d1 = ["file.txt", "file2.txt"]
+        test_files_at_d2 = ["file3.txt", "file4.txt"]
+        test_files_at_d3 = ["file5.txt"]
+        test_d1 = ["test_fileutil_d1", "test_fileutil_d2"]
+        test_d2 = ["test_fileutil_d3"]
+
+        path = Path(tmp_dir)
+        path.mkdir()
+        for d in test_d1:
+            path = Path(tmp_dir).joinpath(d)
+            path.mkdir()
+        for d in test_d2:
+            path = Path(tmp_dir).joinpath(test_d1[0], d)
+            path.mkdir()
+        for f in test_files_at_d1:
+            path = Path(tmp_dir).joinpath(test_d1[0], f)
+            path.touch()
+        for f in test_files_at_d2:
+            path = Path(tmp_dir).joinpath(test_d1[1], f)
+            path.touch()
+        for f in test_files_at_d3:
+            path = Path(tmp_dir).joinpath(test_d1[0], test_d2[0], f)
+            path.touch()
+
+        dirs, files = list_files_and_dirs(
+            str(Path(tmp_dir)),
+            glob_str="**/*"
+        )
+        test_files = test_files_at_d1 + test_files_at_d2 + test_files_at_d3
+        test_dirs = test_d1 + test_d2
+        for f in files:
+            self.assertTrue(any(list(map(lambda x: x in f, test_files))))
+        for d in dirs:
+            self.assertTrue(any(list(map(lambda x: x in d, test_dirs))))
+
+        # cleanup
+
+        for f in test_files_at_d1:
+            path = Path(tmp_dir).joinpath(test_d1[0], f)
+            path.unlink()
+        for f in test_files_at_d2:
+            path = Path(tmp_dir).joinpath(test_d1[1], f)
+            path.unlink()
+        for f in test_files_at_d3:
+            path = Path(tmp_dir).joinpath(test_d1[0], test_d2[0], f)
+            path.unlink()
+        for d in test_d2:
+            path = Path(tmp_dir).joinpath(test_d1[0], d)
+            path.rmdir()
+        for d in test_d1:
+            path = Path(tmp_dir).joinpath(d)
+            path.rmdir()
+        path = Path(tmp_dir)
+        path.rmdir()
 
 
 if __name__ == "__main__":
