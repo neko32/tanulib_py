@@ -104,13 +104,16 @@ class BloodTestReport:
         return True if key in ["creatinine"] else False
 
     def is_attrib_SDMA(self, key: str) -> bool:
-        return True if key in ["SDMA"] else False
+        return True if key in ["sdma"] else False
 
     def is_attrib_phosphorus(self, key: str) -> bool:
         return True if key in ["phosphorus"] else False
 
     def is_attrib_glucose(self, key: str) -> bool:
         return True if key in ["glucose"] else False
+
+    def is_attrib_triglyceride(self, key: str) -> bool:
+        return True if key in ["triglyceride"] else False
 
     def is_attrib_calcium(self, key: str) -> bool:
         return True if key in ["calcium"] else False
@@ -184,6 +187,8 @@ class BloodTestReport:
             self.creatinine = float(value_s)
         elif self.is_attrib_SDMA(key):
             self.SDMA = float(value_s)
+        elif self.is_attrib_triglyceride(key):
+            self.triglyceride = float(value_s)
         elif self.is_attrib_bin_creat_ratio(key):
             self.bun_creat_ratio = float(value_s)
         elif self.is_attrib_phosphorus(key):
