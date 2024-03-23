@@ -9,6 +9,8 @@ class CfgTest(TestCase):
         self.assertEqual(cfg.get_conf_value_as_str(
             'test_cfg_strattrib'), 'test')
         self.assertEqual(cfg.get_conf_value_as_int('test_cfg_intattrib'), 10)
+        self.assertEqual(cfg.get_conf_value_as_float(
+            'test_cfg_floatattrib'), 3.14157)
         self.assertEqual(len(cfg.get_api_conf_value('WEATHER', 'APIKEY')), 30)
 
 

@@ -8,7 +8,10 @@ import pandas as pd
 
 
 class LSBInfo:
+    """Stores LSB commands' result"""
+
     def __init__(self):
+        """As a prep of the class, execute lsb_release command and persist results"""
         ret_code, stdout, _ = exec_cmd(['lsb_release', '-a'])
         if ret_code != 0:
             raise Exception("lsb_release command failed")
@@ -42,6 +45,7 @@ class LSBInfo:
 
 
 def ss_tcp_udp_established() -> pd.DataFrame:
+    """execute ss -uta and return result as pandas.DataFrame"""
     cmd = ['ss', '-uta']
     _, out, _ = exec_cmd(cmd)
     reg = re.compile(' +')

@@ -46,6 +46,9 @@
                                 <a class="function" href="#Cfg.get_conf_value_as_int">get_conf_value_as_int</a>
                         </li>
                         <li>
+                                <a class="function" href="#Cfg.get_conf_value_as_float">get_conf_value_as_float</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Cfg.get_api_conf_value">get_api_conf_value</a>
                         </li>
                 </ul>
@@ -79,21 +82,37 @@
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="k">class</span> <span class="nc">Cfg</span><span class="p">:</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>        <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TANULIB_CONF_DIR&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;tlib&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">&quot;.env&quot;</span><span class="p">)</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;failed to initialize config&quot;</span><span class="p">)</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">]</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="k">def</span> <span class="nf">get_api_conf_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;API_</span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attrib</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">    Manages configuration.</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">    Config location is assumed as $TANULIB_CONF_DIR}{app_name}/$env/.env</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tlib&quot;</span><span class="p">):</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">        env and appname will be used as path for the configuration</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TANULIB_CONF_DIR&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>            <span class="n">app_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">.env&quot;</span><span class="p">)</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;failed to initialize config&quot;</span><span class="p">)</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as string&quot;&quot;&quot;</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">]</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as integer&quot;&quot;&quot;</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_float</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as float&quot;&quot;&quot;</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">get_api_conf_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get API configuraiton value. API configuration must start with API_&quot;&quot;&quot;</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;API_</span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attrib</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -110,45 +129,70 @@
     </div>
     <a class="headerlink" href="#Cfg"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg-9"><a href="#Cfg-9"><span class="linenos"> 9</span></a><span class="k">class</span> <span class="nc">Cfg</span><span class="p">:</span>
-</span><span id="Cfg-10"><a href="#Cfg-10"><span class="linenos">10</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="Cfg-11"><a href="#Cfg-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
-</span><span id="Cfg-12"><a href="#Cfg-12"><span class="linenos">12</span></a>        <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TANULIB_CONF_DIR&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;tlib&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">&quot;.env&quot;</span><span class="p">)</span>
-</span><span id="Cfg-13"><a href="#Cfg-13"><span class="linenos">13</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-</span><span id="Cfg-14"><a href="#Cfg-14"><span class="linenos">14</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;failed to initialize config&quot;</span><span class="p">)</span>
-</span><span id="Cfg-15"><a href="#Cfg-15"><span class="linenos">15</span></a>
-</span><span id="Cfg-16"><a href="#Cfg-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="Cfg-17"><a href="#Cfg-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">]</span>
-</span><span id="Cfg-18"><a href="#Cfg-18"><span class="linenos">18</span></a>
-</span><span id="Cfg-19"><a href="#Cfg-19"><span class="linenos">19</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="Cfg-20"><a href="#Cfg-20"><span class="linenos">20</span></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
-</span><span id="Cfg-21"><a href="#Cfg-21"><span class="linenos">21</span></a>
-</span><span id="Cfg-22"><a href="#Cfg-22"><span class="linenos">22</span></a>    <span class="k">def</span> <span class="nf">get_api_conf_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="Cfg-23"><a href="#Cfg-23"><span class="linenos">23</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;API_</span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attrib</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="Cfg-24"><a href="#Cfg-24"><span class="linenos">24</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</span><span id="Cfg-10"><a href="#Cfg-10"><span class="linenos">10</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Cfg-11"><a href="#Cfg-11"><span class="linenos">11</span></a><span class="sd">    Manages configuration.</span>
+</span><span id="Cfg-12"><a href="#Cfg-12"><span class="linenos">12</span></a><span class="sd">    Config location is assumed as $TANULIB_CONF_DIR}{app_name}/$env/.env</span>
+</span><span id="Cfg-13"><a href="#Cfg-13"><span class="linenos">13</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Cfg-14"><a href="#Cfg-14"><span class="linenos">14</span></a>
+</span><span id="Cfg-15"><a href="#Cfg-15"><span class="linenos">15</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tlib&quot;</span><span class="p">):</span>
+</span><span id="Cfg-16"><a href="#Cfg-16"><span class="linenos">16</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Cfg-17"><a href="#Cfg-17"><span class="linenos">17</span></a><span class="sd">        env and appname will be used as path for the configuration</span>
+</span><span id="Cfg-18"><a href="#Cfg-18"><span class="linenos">18</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Cfg-19"><a href="#Cfg-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
+</span><span id="Cfg-20"><a href="#Cfg-20"><span class="linenos">20</span></a>        <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TANULIB_CONF_DIR&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+</span><span id="Cfg-21"><a href="#Cfg-21"><span class="linenos">21</span></a>            <span class="n">app_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">.env&quot;</span><span class="p">)</span>
+</span><span id="Cfg-22"><a href="#Cfg-22"><span class="linenos">22</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="Cfg-23"><a href="#Cfg-23"><span class="linenos">23</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;failed to initialize config&quot;</span><span class="p">)</span>
+</span><span id="Cfg-24"><a href="#Cfg-24"><span class="linenos">24</span></a>
+</span><span id="Cfg-25"><a href="#Cfg-25"><span class="linenos">25</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="Cfg-26"><a href="#Cfg-26"><span class="linenos">26</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as string&quot;&quot;&quot;</span>
+</span><span id="Cfg-27"><a href="#Cfg-27"><span class="linenos">27</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">]</span>
+</span><span id="Cfg-28"><a href="#Cfg-28"><span class="linenos">28</span></a>
+</span><span id="Cfg-29"><a href="#Cfg-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="Cfg-30"><a href="#Cfg-30"><span class="linenos">30</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as integer&quot;&quot;&quot;</span>
+</span><span id="Cfg-31"><a href="#Cfg-31"><span class="linenos">31</span></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
+</span><span id="Cfg-32"><a href="#Cfg-32"><span class="linenos">32</span></a>
+</span><span id="Cfg-33"><a href="#Cfg-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_float</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+</span><span id="Cfg-34"><a href="#Cfg-34"><span class="linenos">34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as float&quot;&quot;&quot;</span>
+</span><span id="Cfg-35"><a href="#Cfg-35"><span class="linenos">35</span></a>        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
+</span><span id="Cfg-36"><a href="#Cfg-36"><span class="linenos">36</span></a>
+</span><span id="Cfg-37"><a href="#Cfg-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">get_api_conf_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="Cfg-38"><a href="#Cfg-38"><span class="linenos">38</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get API configuraiton value. API configuration must start with API_&quot;&quot;&quot;</span>
+</span><span id="Cfg-39"><a href="#Cfg-39"><span class="linenos">39</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;API_</span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attrib</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="Cfg-40"><a href="#Cfg-40"><span class="linenos">40</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Manages configuration.
+Config location is assumed as $TANULIB_CONF_DIR}{app_name}/$env/.env</p>
+</div>
+
 
                             <div id="Cfg.__init__" class="classattr">
                                         <input id="Cfg.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">Cfg</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">env</span><span class="p">:</span> <span class="nb">str</span></span>)</span>
+        <span class="name">Cfg</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">env</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;tlib&#39;</span></span>)</span>
 
                 <label class="view-source-button" for="Cfg.__init__-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Cfg.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.__init__-10"><a href="#Cfg.__init__-10"><span class="linenos">10</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="Cfg.__init__-11"><a href="#Cfg.__init__-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
-</span><span id="Cfg.__init__-12"><a href="#Cfg.__init__-12"><span class="linenos">12</span></a>        <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TANULIB_CONF_DIR&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;tlib&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="s2">&quot;.env&quot;</span><span class="p">)</span>
-</span><span id="Cfg.__init__-13"><a href="#Cfg.__init__-13"><span class="linenos">13</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-</span><span id="Cfg.__init__-14"><a href="#Cfg.__init__-14"><span class="linenos">14</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;failed to initialize config&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.__init__-15"><a href="#Cfg.__init__-15"><span class="linenos">15</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">app_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;tlib&quot;</span><span class="p">):</span>
+</span><span id="Cfg.__init__-16"><a href="#Cfg.__init__-16"><span class="linenos">16</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Cfg.__init__-17"><a href="#Cfg.__init__-17"><span class="linenos">17</span></a><span class="sd">        env and appname will be used as path for the configuration</span>
+</span><span id="Cfg.__init__-18"><a href="#Cfg.__init__-18"><span class="linenos">18</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Cfg.__init__-19"><a href="#Cfg.__init__-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
+</span><span id="Cfg.__init__-20"><a href="#Cfg.__init__-20"><span class="linenos">20</span></a>        <span class="n">cfg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TANULIB_CONF_DIR&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+</span><span id="Cfg.__init__-21"><a href="#Cfg.__init__-21"><span class="linenos">21</span></a>            <span class="n">app_name</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="si">}</span><span class="s2">.env&quot;</span><span class="p">)</span>
+</span><span id="Cfg.__init__-22"><a href="#Cfg.__init__-22"><span class="linenos">22</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">cfg_path</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+</span><span id="Cfg.__init__-23"><a href="#Cfg.__init__-23"><span class="linenos">23</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;failed to initialize config&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>env and appname will be used as path for the configuration</p>
+</div>
+
 
                             </div>
                             <div id="Cfg.env" class="classattr">
@@ -173,12 +217,15 @@
 
     </div>
     <a class="headerlink" href="#Cfg.get_conf_value_as_str"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_conf_value_as_str-16"><a href="#Cfg.get_conf_value_as_str-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="Cfg.get_conf_value_as_str-17"><a href="#Cfg.get_conf_value_as_str-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_conf_value_as_str-25"><a href="#Cfg.get_conf_value_as_str-25"><span class="linenos">25</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="Cfg.get_conf_value_as_str-26"><a href="#Cfg.get_conf_value_as_str-26"><span class="linenos">26</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as string&quot;&quot;&quot;</span>
+</span><span id="Cfg.get_conf_value_as_str-27"><a href="#Cfg.get_conf_value_as_str-27"><span class="linenos">27</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">]</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>get conf value as string</p>
+</div>
+
 
                             </div>
                             <div id="Cfg.get_conf_value_as_int" class="classattr">
@@ -192,12 +239,37 @@
 
     </div>
     <a class="headerlink" href="#Cfg.get_conf_value_as_int"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_conf_value_as_int-19"><a href="#Cfg.get_conf_value_as_int-19"><span class="linenos">19</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="Cfg.get_conf_value_as_int-20"><a href="#Cfg.get_conf_value_as_int-20"><span class="linenos">20</span></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_conf_value_as_int-29"><a href="#Cfg.get_conf_value_as_int-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="Cfg.get_conf_value_as_int-30"><a href="#Cfg.get_conf_value_as_int-30"><span class="linenos">30</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as integer&quot;&quot;&quot;</span>
+</span><span id="Cfg.get_conf_value_as_int-31"><a href="#Cfg.get_conf_value_as_int-31"><span class="linenos">31</span></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>get conf value as integer</p>
+</div>
+
+
+                            </div>
+                            <div id="Cfg.get_conf_value_as_float" class="classattr">
+                                        <input id="Cfg.get_conf_value_as_float-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_conf_value_as_float</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="Cfg.get_conf_value_as_float-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Cfg.get_conf_value_as_float"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_conf_value_as_float-33"><a href="#Cfg.get_conf_value_as_float-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">get_conf_value_as_float</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+</span><span id="Cfg.get_conf_value_as_float-34"><a href="#Cfg.get_conf_value_as_float-34"><span class="linenos">34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get conf value as float&quot;&quot;&quot;</span>
+</span><span id="Cfg.get_conf_value_as_float-35"><a href="#Cfg.get_conf_value_as_float-35"><span class="linenos">35</span></a>        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">attrib</span><span class="p">])</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>get conf value as float</p>
+</div>
+
 
                             </div>
                             <div id="Cfg.get_api_conf_value" class="classattr">
@@ -211,13 +283,16 @@
 
     </div>
     <a class="headerlink" href="#Cfg.get_api_conf_value"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_api_conf_value-22"><a href="#Cfg.get_api_conf_value-22"><span class="linenos">22</span></a>    <span class="k">def</span> <span class="nf">get_api_conf_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="Cfg.get_api_conf_value-23"><a href="#Cfg.get_api_conf_value-23"><span class="linenos">23</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;API_</span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attrib</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="Cfg.get_api_conf_value-24"><a href="#Cfg.get_api_conf_value-24"><span class="linenos">24</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Cfg.get_api_conf_value-37"><a href="#Cfg.get_api_conf_value-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">get_api_conf_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="Cfg.get_api_conf_value-38"><a href="#Cfg.get_api_conf_value-38"><span class="linenos">38</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get API configuraiton value. API configuration must start with API_&quot;&quot;&quot;</span>
+</span><span id="Cfg.get_api_conf_value-39"><a href="#Cfg.get_api_conf_value-39"><span class="linenos">39</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;API_</span><span class="si">{</span><span class="n">api</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">attrib</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="Cfg.get_api_conf_value-40"><a href="#Cfg.get_api_conf_value-40"><span class="linenos">40</span></a>        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>get API configuraiton value. API configuration must start with API_</p>
+</div>
+
 
                             </div>
                 </section>

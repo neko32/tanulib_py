@@ -34,6 +34,9 @@
                     <a class="class" href="#LSBInfo">LSBInfo</a>
                             <ul class="memberlist">
                         <li>
+                                <a class="function" href="#LSBInfo.__init__">LSBInfo</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#LSBInfo.distributor_id">distributor_id</a>
                         </li>
                         <li>
@@ -82,50 +85,54 @@
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="k">class</span> <span class="nc">LSBInfo</span><span class="p">:</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>        <span class="n">ret_code</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;lsb_release&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">])</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;lsb_release command failed&quot;</span><span class="p">)</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NO LSB&quot;</span><span class="p">):</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_release</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="nd">@property</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">def</span> <span class="nf">distributor_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="nd">@property</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="nd">@property</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_release</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="nd">@property</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>    <span class="k">def</span> <span class="nf">codename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="k">def</span> <span class="nf">ss_tcp_udp_established</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ss&#39;</span><span class="p">,</span> <span class="s1">&#39;-uta&#39;</span><span class="p">]</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39; +&#39;</span><span class="p">)</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,$&#39;</span><span class="p">)</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="n">fs</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stores LSB commands&#39; result&quot;&quot;&quot;</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;As a prep of the class, execute lsb_release command and persist results&quot;&quot;&quot;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="n">ret_code</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;lsb_release&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">])</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;lsb_release command failed&quot;</span><span class="p">)</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NO LSB&quot;</span><span class="p">):</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_release</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="nd">@property</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">def</span> <span class="nf">distributor_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="nd">@property</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="nd">@property</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_release</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="nd">@property</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="k">def</span> <span class="nf">codename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="k">def</span> <span class="nf">ss_tcp_udp_established</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;execute ss -uta and return result as pandas.DataFrame&quot;&quot;&quot;</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ss&#39;</span><span class="p">,</span> <span class="s1">&#39;-uta&#39;</span><span class="p">]</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39; +&#39;</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,$&#39;</span><span class="p">)</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="n">fs</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -142,42 +149,81 @@
     </div>
     <a class="headerlink" href="#LSBInfo"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo-11"><a href="#LSBInfo-11"><span class="linenos">11</span></a><span class="k">class</span> <span class="nc">LSBInfo</span><span class="p">:</span>
-</span><span id="LSBInfo-12"><a href="#LSBInfo-12"><span class="linenos">12</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LSBInfo-13"><a href="#LSBInfo-13"><span class="linenos">13</span></a>        <span class="n">ret_code</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;lsb_release&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">])</span>
-</span><span id="LSBInfo-14"><a href="#LSBInfo-14"><span class="linenos">14</span></a>        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="LSBInfo-15"><a href="#LSBInfo-15"><span class="linenos">15</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;lsb_release command failed&quot;</span><span class="p">)</span>
-</span><span id="LSBInfo-16"><a href="#LSBInfo-16"><span class="linenos">16</span></a>
-</span><span id="LSBInfo-17"><a href="#LSBInfo-17"><span class="linenos">17</span></a>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
-</span><span id="LSBInfo-18"><a href="#LSBInfo-18"><span class="linenos">18</span></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NO LSB&quot;</span><span class="p">):</span>
-</span><span id="LSBInfo-19"><a href="#LSBInfo-19"><span class="linenos">19</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="LSBInfo-20"><a href="#LSBInfo-20"><span class="linenos">20</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="LSBInfo-21"><a href="#LSBInfo-21"><span class="linenos">21</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="LSBInfo-22"><a href="#LSBInfo-22"><span class="linenos">22</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="LSBInfo-23"><a href="#LSBInfo-23"><span class="linenos">23</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-</span><span id="LSBInfo-24"><a href="#LSBInfo-24"><span class="linenos">24</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_release</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="LSBInfo-25"><a href="#LSBInfo-25"><span class="linenos">25</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-</span><span id="LSBInfo-26"><a href="#LSBInfo-26"><span class="linenos">26</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="LSBInfo-27"><a href="#LSBInfo-27"><span class="linenos">27</span></a>
-</span><span id="LSBInfo-28"><a href="#LSBInfo-28"><span class="linenos">28</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo-29"><a href="#LSBInfo-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">distributor_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo-30"><a href="#LSBInfo-30"><span class="linenos">30</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span>
-</span><span id="LSBInfo-31"><a href="#LSBInfo-31"><span class="linenos">31</span></a>
-</span><span id="LSBInfo-32"><a href="#LSBInfo-32"><span class="linenos">32</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo-33"><a href="#LSBInfo-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo-34"><a href="#LSBInfo-34"><span class="linenos">34</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
-</span><span id="LSBInfo-35"><a href="#LSBInfo-35"><span class="linenos">35</span></a>
-</span><span id="LSBInfo-36"><a href="#LSBInfo-36"><span class="linenos">36</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo-37"><a href="#LSBInfo-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo-38"><a href="#LSBInfo-38"><span class="linenos">38</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_release</span>
-</span><span id="LSBInfo-39"><a href="#LSBInfo-39"><span class="linenos">39</span></a>
-</span><span id="LSBInfo-40"><a href="#LSBInfo-40"><span class="linenos">40</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo-41"><a href="#LSBInfo-41"><span class="linenos">41</span></a>    <span class="k">def</span> <span class="nf">codename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo-42"><a href="#LSBInfo-42"><span class="linenos">42</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span>
+</span><span id="LSBInfo-12"><a href="#LSBInfo-12"><span class="linenos">12</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Stores LSB commands&#39; result&quot;&quot;&quot;</span>
+</span><span id="LSBInfo-13"><a href="#LSBInfo-13"><span class="linenos">13</span></a>
+</span><span id="LSBInfo-14"><a href="#LSBInfo-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LSBInfo-15"><a href="#LSBInfo-15"><span class="linenos">15</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;As a prep of the class, execute lsb_release command and persist results&quot;&quot;&quot;</span>
+</span><span id="LSBInfo-16"><a href="#LSBInfo-16"><span class="linenos">16</span></a>        <span class="n">ret_code</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;lsb_release&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">])</span>
+</span><span id="LSBInfo-17"><a href="#LSBInfo-17"><span class="linenos">17</span></a>        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="LSBInfo-18"><a href="#LSBInfo-18"><span class="linenos">18</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;lsb_release command failed&quot;</span><span class="p">)</span>
+</span><span id="LSBInfo-19"><a href="#LSBInfo-19"><span class="linenos">19</span></a>
+</span><span id="LSBInfo-20"><a href="#LSBInfo-20"><span class="linenos">20</span></a>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
+</span><span id="LSBInfo-21"><a href="#LSBInfo-21"><span class="linenos">21</span></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NO LSB&quot;</span><span class="p">):</span>
+</span><span id="LSBInfo-22"><a href="#LSBInfo-22"><span class="linenos">22</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="LSBInfo-23"><a href="#LSBInfo-23"><span class="linenos">23</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo-24"><a href="#LSBInfo-24"><span class="linenos">24</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="LSBInfo-25"><a href="#LSBInfo-25"><span class="linenos">25</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo-26"><a href="#LSBInfo-26"><span class="linenos">26</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="LSBInfo-27"><a href="#LSBInfo-27"><span class="linenos">27</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_release</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo-28"><a href="#LSBInfo-28"><span class="linenos">28</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="LSBInfo-29"><a href="#LSBInfo-29"><span class="linenos">29</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo-30"><a href="#LSBInfo-30"><span class="linenos">30</span></a>
+</span><span id="LSBInfo-31"><a href="#LSBInfo-31"><span class="linenos">31</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo-32"><a href="#LSBInfo-32"><span class="linenos">32</span></a>    <span class="k">def</span> <span class="nf">distributor_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo-33"><a href="#LSBInfo-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span>
+</span><span id="LSBInfo-34"><a href="#LSBInfo-34"><span class="linenos">34</span></a>
+</span><span id="LSBInfo-35"><a href="#LSBInfo-35"><span class="linenos">35</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo-36"><a href="#LSBInfo-36"><span class="linenos">36</span></a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo-37"><a href="#LSBInfo-37"><span class="linenos">37</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+</span><span id="LSBInfo-38"><a href="#LSBInfo-38"><span class="linenos">38</span></a>
+</span><span id="LSBInfo-39"><a href="#LSBInfo-39"><span class="linenos">39</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo-40"><a href="#LSBInfo-40"><span class="linenos">40</span></a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo-41"><a href="#LSBInfo-41"><span class="linenos">41</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_release</span>
+</span><span id="LSBInfo-42"><a href="#LSBInfo-42"><span class="linenos">42</span></a>
+</span><span id="LSBInfo-43"><a href="#LSBInfo-43"><span class="linenos">43</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo-44"><a href="#LSBInfo-44"><span class="linenos">44</span></a>    <span class="k">def</span> <span class="nf">codename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo-45"><a href="#LSBInfo-45"><span class="linenos">45</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Stores LSB commands' result</p>
+</div>
 
+
+                            <div id="LSBInfo.__init__" class="classattr">
+                                        <input id="LSBInfo.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="name">LSBInfo</span><span class="signature pdoc-code condensed">()</span>
+
+                <label class="view-source-button" for="LSBInfo.__init__-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#LSBInfo.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.__init__-14"><a href="#LSBInfo.__init__-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LSBInfo.__init__-15"><a href="#LSBInfo.__init__-15"><span class="linenos">15</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;As a prep of the class, execute lsb_release command and persist results&quot;&quot;&quot;</span>
+</span><span id="LSBInfo.__init__-16"><a href="#LSBInfo.__init__-16"><span class="linenos">16</span></a>        <span class="n">ret_code</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;lsb_release&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">])</span>
+</span><span id="LSBInfo.__init__-17"><a href="#LSBInfo.__init__-17"><span class="linenos">17</span></a>        <span class="k">if</span> <span class="n">ret_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="LSBInfo.__init__-18"><a href="#LSBInfo.__init__-18"><span class="linenos">18</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;lsb_release command failed&quot;</span><span class="p">)</span>
+</span><span id="LSBInfo.__init__-19"><a href="#LSBInfo.__init__-19"><span class="linenos">19</span></a>
+</span><span id="LSBInfo.__init__-20"><a href="#LSBInfo.__init__-20"><span class="linenos">20</span></a>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()):</span>
+</span><span id="LSBInfo.__init__-21"><a href="#LSBInfo.__init__-21"><span class="linenos">21</span></a>            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NO LSB&quot;</span><span class="p">):</span>
+</span><span id="LSBInfo.__init__-22"><a href="#LSBInfo.__init__-22"><span class="linenos">22</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="LSBInfo.__init__-23"><a href="#LSBInfo.__init__-23"><span class="linenos">23</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo.__init__-24"><a href="#LSBInfo.__init__-24"><span class="linenos">24</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="LSBInfo.__init__-25"><a href="#LSBInfo.__init__-25"><span class="linenos">25</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo.__init__-26"><a href="#LSBInfo.__init__-26"><span class="linenos">26</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="LSBInfo.__init__-27"><a href="#LSBInfo.__init__-27"><span class="linenos">27</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_release</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="LSBInfo.__init__-28"><a href="#LSBInfo.__init__-28"><span class="linenos">28</span></a>                <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="LSBInfo.__init__-29"><a href="#LSBInfo.__init__-29"><span class="linenos">29</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>As a prep of the class, execute lsb_release command and persist results</p>
+</div>
+
+
+                            </div>
                             <div id="LSBInfo.distributor_id" class="classattr">
                                         <input id="LSBInfo.distributor_id-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr variable">
@@ -187,9 +233,9 @@
 
     </div>
     <a class="headerlink" href="#LSBInfo.distributor_id"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.distributor_id-28"><a href="#LSBInfo.distributor_id-28"><span class="linenos">28</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo.distributor_id-29"><a href="#LSBInfo.distributor_id-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">distributor_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo.distributor_id-30"><a href="#LSBInfo.distributor_id-30"><span class="linenos">30</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.distributor_id-31"><a href="#LSBInfo.distributor_id-31"><span class="linenos">31</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo.distributor_id-32"><a href="#LSBInfo.distributor_id-32"><span class="linenos">32</span></a>    <span class="k">def</span> <span class="nf">distributor_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo.distributor_id-33"><a href="#LSBInfo.distributor_id-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distributor_id</span>
 </span></pre></div>
 
 
@@ -205,9 +251,9 @@
 
     </div>
     <a class="headerlink" href="#LSBInfo.description"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.description-32"><a href="#LSBInfo.description-32"><span class="linenos">32</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo.description-33"><a href="#LSBInfo.description-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo.description-34"><a href="#LSBInfo.description-34"><span class="linenos">34</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.description-35"><a href="#LSBInfo.description-35"><span class="linenos">35</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo.description-36"><a href="#LSBInfo.description-36"><span class="linenos">36</span></a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo.description-37"><a href="#LSBInfo.description-37"><span class="linenos">37</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
 </span></pre></div>
 
 
@@ -223,9 +269,9 @@
 
     </div>
     <a class="headerlink" href="#LSBInfo.release"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.release-36"><a href="#LSBInfo.release-36"><span class="linenos">36</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo.release-37"><a href="#LSBInfo.release-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo.release-38"><a href="#LSBInfo.release-38"><span class="linenos">38</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_release</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.release-39"><a href="#LSBInfo.release-39"><span class="linenos">39</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo.release-40"><a href="#LSBInfo.release-40"><span class="linenos">40</span></a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo.release-41"><a href="#LSBInfo.release-41"><span class="linenos">41</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_release</span>
 </span></pre></div>
 
 
@@ -241,9 +287,9 @@
 
     </div>
     <a class="headerlink" href="#LSBInfo.codename"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.codename-40"><a href="#LSBInfo.codename-40"><span class="linenos">40</span></a>    <span class="nd">@property</span>
-</span><span id="LSBInfo.codename-41"><a href="#LSBInfo.codename-41"><span class="linenos">41</span></a>    <span class="k">def</span> <span class="nf">codename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="LSBInfo.codename-42"><a href="#LSBInfo.codename-42"><span class="linenos">42</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LSBInfo.codename-43"><a href="#LSBInfo.codename-43"><span class="linenos">43</span></a>    <span class="nd">@property</span>
+</span><span id="LSBInfo.codename-44"><a href="#LSBInfo.codename-44"><span class="linenos">44</span></a>    <span class="k">def</span> <span class="nf">codename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="LSBInfo.codename-45"><a href="#LSBInfo.codename-45"><span class="linenos">45</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codename</span>
 </span></pre></div>
 
 
@@ -262,21 +308,24 @@
 
     </div>
     <a class="headerlink" href="#ss_tcp_udp_established"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ss_tcp_udp_established-45"><a href="#ss_tcp_udp_established-45"><span class="linenos">45</span></a><span class="k">def</span> <span class="nf">ss_tcp_udp_established</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-</span><span id="ss_tcp_udp_established-46"><a href="#ss_tcp_udp_established-46"><span class="linenos">46</span></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ss&#39;</span><span class="p">,</span> <span class="s1">&#39;-uta&#39;</span><span class="p">]</span>
-</span><span id="ss_tcp_udp_established-47"><a href="#ss_tcp_udp_established-47"><span class="linenos">47</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-48"><a href="#ss_tcp_udp_established-48"><span class="linenos">48</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39; +&#39;</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-49"><a href="#ss_tcp_udp_established-49"><span class="linenos">49</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-50"><a href="#ss_tcp_udp_established-50"><span class="linenos">50</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-51"><a href="#ss_tcp_udp_established-51"><span class="linenos">51</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-52"><a href="#ss_tcp_udp_established-52"><span class="linenos">52</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,$&#39;</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-53"><a href="#ss_tcp_udp_established-53"><span class="linenos">53</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-54"><a href="#ss_tcp_udp_established-54"><span class="linenos">54</span></a>    <span class="n">fs</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-</span><span id="ss_tcp_udp_established-55"><a href="#ss_tcp_udp_established-55"><span class="linenos">55</span></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ss_tcp_udp_established-48"><a href="#ss_tcp_udp_established-48"><span class="linenos">48</span></a><span class="k">def</span> <span class="nf">ss_tcp_udp_established</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="ss_tcp_udp_established-49"><a href="#ss_tcp_udp_established-49"><span class="linenos">49</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;execute ss -uta and return result as pandas.DataFrame&quot;&quot;&quot;</span>
+</span><span id="ss_tcp_udp_established-50"><a href="#ss_tcp_udp_established-50"><span class="linenos">50</span></a>    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ss&#39;</span><span class="p">,</span> <span class="s1">&#39;-uta&#39;</span><span class="p">]</span>
+</span><span id="ss_tcp_udp_established-51"><a href="#ss_tcp_udp_established-51"><span class="linenos">51</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-52"><a href="#ss_tcp_udp_established-52"><span class="linenos">52</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39; +&#39;</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-53"><a href="#ss_tcp_udp_established-53"><span class="linenos">53</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-54"><a href="#ss_tcp_udp_established-54"><span class="linenos">54</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-55"><a href="#ss_tcp_udp_established-55"><span class="linenos">55</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-56"><a href="#ss_tcp_udp_established-56"><span class="linenos">56</span></a>    <span class="n">reg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;,$&#39;</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-57"><a href="#ss_tcp_udp_established-57"><span class="linenos">57</span></a>    <span class="n">out</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-58"><a href="#ss_tcp_udp_established-58"><span class="linenos">58</span></a>    <span class="n">fs</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span><span id="ss_tcp_udp_established-59"><a href="#ss_tcp_udp_established-59"><span class="linenos">59</span></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>execute ss -uta and return result as pandas.DataFrame</p>
+</div>
+
 
                 </section>
     </main>
