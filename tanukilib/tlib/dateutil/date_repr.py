@@ -10,6 +10,9 @@ def cur_datetime_as_std_fmt_str(
     with_ssec: bool = False,
     timezone: datetime.timezone = datetime.timezone.utc
 ) -> str:
+    """
+    Returns ISO-8601 date(time) formatted string for current datetime
+    """
     fmt = f"%Y{date_delimitor}%m{date_delimitor}%d"
     if with_t:
         fmt += "T"
@@ -35,6 +38,9 @@ def get_datetime_as_std_fmt_str(
     with_ssec: bool = False,
     timezone: datetime.timezone = datetime.timezone.utc
 ) -> str:
+    """
+    Returns ISO-8601 date(time) formatted string for specified datetime
+    """
     fmt = f"%Y{date_delimitor}%m{date_delimitor}%d"
     if with_t:
         fmt += "T"
@@ -55,11 +61,13 @@ def get_datetime_as_std_fmt_str(
 
 
 def from_epoch_to_datetime(epoch: int, tz_id: str) -> datetime.datetime:
+    """convert epoch time to datetime"""
     tz = gettz(tz_id)
     return datetime.datetime.fromtimestamp(epoch, tz)
 
 
 def last_day_of_month(year: int, month: int) -> int:
+    """get last day of the month"""
     y = year + 1 if month == 12 else year
     m = 1 if month == 12 else month + 1
     date_nextmonth = datetime.date(year=y, month=m, day=1)
@@ -68,6 +76,7 @@ def last_day_of_month(year: int, month: int) -> int:
 
 
 def from_yyyy_to_heisei_era(year: int) -> int:
+    """convert western year to Japanese Heisei era year"""
     r = (year + 12) - 2000
     if r <= 0:
         raise ValueError("Heisei era started from 1989")
@@ -77,6 +86,7 @@ def from_yyyy_to_heisei_era(year: int) -> int:
 
 
 def from_yyyy_to_showa_era(year: int) -> int:
+    """convert western year to Japanese Showa era year"""
     r = year - 1925
     if r <= 0:
         raise ValueError("Showa era started from 1926")
@@ -86,6 +96,7 @@ def from_yyyy_to_showa_era(year: int) -> int:
 
 
 def from_yyyy_to_reiwa_era(year: int) -> int:
+    """convert western year to Japanese Reiwa era year"""
     r = year - 2018
     if r <= 0:
         raise ValueError("Reiwa era started from May 1st, 2019")

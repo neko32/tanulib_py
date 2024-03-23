@@ -3,6 +3,7 @@ import math
 
 
 class Timer:
+    """Timer to provide lap time calc feature"""
 
     def __init__(self):
         self._starttime = None
@@ -14,12 +15,14 @@ class Timer:
         self._msec = None
 
     def start(self) -> None:
+        """Start the timer to calcurate the wraptime"""
         if self.is_running:
             raise Exception("already running. stop current timer first")
         self._starttime = time.time()
         self.is_running = True
 
     def stop(self) -> None:
+        """Stop the timer to calcurate the wraptime"""
         if not self.is_running:
             raise Exception("timer not running")
         self._endtime = time.time()
