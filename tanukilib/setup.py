@@ -15,7 +15,8 @@ setup(
         'boto3',
         'pillow',
         'python-dotenv',
-        'pydot'
+        'pydot',
+        'flask'
     ]
 )
 

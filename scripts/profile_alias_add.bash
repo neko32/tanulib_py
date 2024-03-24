@@ -32,4 +32,7 @@ alias apf='apf.bash'
 alias tlibdgen='docgen.bash'
 alias tlibdoc="${TANULIB_BROWSER} ${TANULIB_DOC_DIR}/api/index.html > dev/null 2>&1"
 
+FLASKAPP_CFG_PATH=${TANULIB_CONF_DIR}/flaskapp
+FLASKAPP_CATDOG_UI_{ENV}_CFG_PATH=xxx
+
 export PATH=${PATH}:${TANULIB_HOME}/scripts
