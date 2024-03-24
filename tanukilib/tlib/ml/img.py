@@ -3,7 +3,8 @@ import numpy as np
 import os
 from pathlib import Path
 from os.path import exists
-from typing import Tuple
+from typing import Tuple, Dict
+from numpy.typing import NDArray
 
 
 def load_img_as_1d(
@@ -24,3 +25,13 @@ def load_img_as_1d(
     raw_img = keras.utils.load_img(dataset_path, target_size=size)
     img = keras.utils.img_to_array(raw_img)
     return np.expand_dims(img, axis=0)
+
+
+def load_dataset_from_npz(file_path:str) -> Dict[str, NDArray]:
+    if not exists(file_path):
+        raise Exception(f"{file_path} doesn't exist.")
+    loaded = np.load(file_path)
+    dict = {}
+    for file in loaded.files:
+        dict[file] = loaded[file]
+    return dict
