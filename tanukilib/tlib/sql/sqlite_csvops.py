@@ -3,15 +3,20 @@ from typing import Optional, List
 from pathlib import Path
 import csv
 
+
 class TableInfo:
+    """
+    Persists Table's metadata
+    """
+
     def __init__(
         self,
-        id:int,
-        name:str,
-        type_name:str,
-        is_notnull:int,
-        default_value:Optional[str],
-        is_pk:int
+        id: int,
+        name: str,
+        type_name: str,
+        is_notnull: int,
+        default_value: Optional[str],
+        is_pk: int
     ):
         self._id = id
         self._name = name
@@ -54,10 +59,12 @@ class TableInfo:
     def __repr__(self) -> str:
         return self.__str__()
 
+
 def get_table_info(
     db_path: str,
     table_name: str
 ) -> List[TableInfo]:
+    """Get all table's info found in the db_path using PRAGMA table_info()"""
     conn = sqlite3.connect(db_path)
     try:
         cursor = conn.cursor()
@@ -67,13 +74,11 @@ def get_table_info(
         tblinfo = []
 
         for id, name, type_name, is_notnull, defv, is_pk in rez:
-            tblinfo.append(TableInfo(id, name, type_name, is_notnull, defv, is_pk))
+            tblinfo.append(
+                TableInfo(id, name, type_name, is_notnull, defv, is_pk))
         cursor.close()
         conn.close()
         return tblinfo
-
-        
-
 
     except Exception as e:
         print(e)
@@ -85,6 +90,9 @@ def export_to_csv(
     table_name: str,
     file_loc: str
 ) -> None:
+    """
+    Export table's data as CSV format
+    """
     path = Path(file_loc)
     if not path.parent.exists:
         raise f"{str(path.parent)} doesn't exist"
@@ -99,7 +107,7 @@ def export_to_csv(
             for _, r in enumerate(fetched_rows):
                 csv_w.writerow(r)
 
-        cursor.close() 
+        cursor.close()
         conn.close()
 
     except Exception as e:
