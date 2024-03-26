@@ -12,6 +12,7 @@ setup(
         'python-magic',
         'keras',
         'tensorflow==2.13',
+        'tensorflow_hub',
         'boto3',
         'pillow',
         'python-dotenv',
