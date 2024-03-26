@@ -88,50 +88,73 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">parse_qs</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">import</span> <span class="nn">json</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="k">class</span> <span class="nc">CatInfo</span><span class="p">:</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="k">def</span> <span class="nf">toJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ensure_ascii</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="n">store</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Shima&quot;</span><span class="p">:</span> <span class="n">CatInfo</span><span class="p">(</span><span class="s2">&quot;Shima&quot;</span><span class="p">,</span> <span class="s2">&quot;Tabby&quot;</span><span class="p">),</span> <span class="s2">&quot;Torachan&quot;</span><span class="p">:</span> <span class="n">CatInfo</span><span class="p">(</span><span class="s2">&quot;Tora&quot;</span><span class="p">,</span> <span class="s2">&quot;orangetabby&quot;</span><span class="p">)}</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">class</span> <span class="nc">CatInfo</span><span class="p">:</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">    Cat Info used by simple http server sample</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="k">class</span> <span class="nc">SimpleRestServer</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/neko&quot;</span><span class="p">):</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>            <span class="c1"># [TODO] add try except </span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>            <span class="n">queries</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>            <span class="n">names</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">400</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>            <span class="k">elif</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">204</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">200</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">toJSON</span><span class="p">()</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">resp_code</span><span class="p">)</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">resp_body</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="k">def</span> <span class="nf">build_simple_rest_srv</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">HTTPServer</span><span class="p">:</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="k">return</span> <span class="n">HTTPServer</span><span class="p">((</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">8030</span><span class="p">),</span> <span class="n">SimpleRestServer</span><span class="p">)</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">def</span> <span class="nf">toJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;dumps attributes as json format&quot;&quot;&quot;</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>            <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>            <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>            <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>            <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>            <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="p">)</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="n">store</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="s2">&quot;Shima&quot;</span><span class="p">:</span> <span class="n">CatInfo</span><span class="p">(</span><span class="s2">&quot;Shima&quot;</span><span class="p">,</span> <span class="s2">&quot;Tabby&quot;</span><span class="p">),</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="s2">&quot;Torachan&quot;</span><span class="p">:</span> <span class="n">CatInfo</span><span class="p">(</span><span class="s2">&quot;Tora&quot;</span><span class="p">,</span> <span class="s2">&quot;orangetabby&quot;</span><span class="p">)</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="p">}</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="k">class</span> <span class="nc">SimpleRestServer</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">    Simple Rest Server sample which support only GET ops for cat info</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get cat information&quot;&quot;&quot;</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/neko&quot;</span><span class="p">):</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>            <span class="c1"># [TODO] add try except</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>            <span class="n">queries</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>            <span class="n">names</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">400</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>            <span class="k">elif</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">204</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">200</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">toJSON</span><span class="p">()</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">resp_code</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">resp_body</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="k">def</span> <span class="nf">build_simple_rest_srv</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">HTTPServer</span><span class="p">:</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a sample simple REST server with hard coded port 8030&quot;&quot;&quot;</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>    <span class="k">return</span> <span class="n">HTTPServer</span><span class="p">((</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">8030</span><span class="p">),</span> <span class="n">SimpleRestServer</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -147,17 +170,30 @@
 
     </div>
     <a class="headerlink" href="#CatInfo"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CatInfo-7"><a href="#CatInfo-7"><span class="linenos"> 7</span></a><span class="k">class</span> <span class="nc">CatInfo</span><span class="p">:</span>
-</span><span id="CatInfo-8"><a href="#CatInfo-8"><span class="linenos"> 8</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-</span><span id="CatInfo-9"><a href="#CatInfo-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="CatInfo-10"><a href="#CatInfo-10"><span class="linenos">10</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
-</span><span id="CatInfo-11"><a href="#CatInfo-11"><span class="linenos">11</span></a>
-</span><span id="CatInfo-12"><a href="#CatInfo-12"><span class="linenos">12</span></a>    <span class="k">def</span> <span class="nf">toJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="CatInfo-13"><a href="#CatInfo-13"><span class="linenos">13</span></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ensure_ascii</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CatInfo-8"><a href="#CatInfo-8"><span class="linenos"> 8</span></a><span class="k">class</span> <span class="nc">CatInfo</span><span class="p">:</span>
+</span><span id="CatInfo-9"><a href="#CatInfo-9"><span class="linenos"> 9</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="CatInfo-10"><a href="#CatInfo-10"><span class="linenos">10</span></a><span class="sd">    Cat Info used by simple http server sample</span>
+</span><span id="CatInfo-11"><a href="#CatInfo-11"><span class="linenos">11</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="CatInfo-12"><a href="#CatInfo-12"><span class="linenos">12</span></a>
+</span><span id="CatInfo-13"><a href="#CatInfo-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span id="CatInfo-14"><a href="#CatInfo-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="CatInfo-15"><a href="#CatInfo-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
+</span><span id="CatInfo-16"><a href="#CatInfo-16"><span class="linenos">16</span></a>
+</span><span id="CatInfo-17"><a href="#CatInfo-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="nf">toJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="CatInfo-18"><a href="#CatInfo-18"><span class="linenos">18</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;dumps attributes as json format&quot;&quot;&quot;</span>
+</span><span id="CatInfo-19"><a href="#CatInfo-19"><span class="linenos">19</span></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+</span><span id="CatInfo-20"><a href="#CatInfo-20"><span class="linenos">20</span></a>            <span class="bp">self</span><span class="p">,</span>
+</span><span id="CatInfo-21"><a href="#CatInfo-21"><span class="linenos">21</span></a>            <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span>
+</span><span id="CatInfo-22"><a href="#CatInfo-22"><span class="linenos">22</span></a>            <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="CatInfo-23"><a href="#CatInfo-23"><span class="linenos">23</span></a>            <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span><span id="CatInfo-24"><a href="#CatInfo-24"><span class="linenos">24</span></a>            <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="CatInfo-25"><a href="#CatInfo-25"><span class="linenos">25</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Cat Info used by simple http server sample</p>
+</div>
+
 
                             <div id="CatInfo.__init__" class="classattr">
                                         <input id="CatInfo.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -169,9 +205,9 @@
 
     </div>
     <a class="headerlink" href="#CatInfo.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CatInfo.__init__-8"><a href="#CatInfo.__init__-8"><span class="linenos"> 8</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-</span><span id="CatInfo.__init__-9"><a href="#CatInfo.__init__-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="CatInfo.__init__-10"><a href="#CatInfo.__init__-10"><span class="linenos">10</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CatInfo.__init__-13"><a href="#CatInfo.__init__-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+</span><span id="CatInfo.__init__-14"><a href="#CatInfo.__init__-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="CatInfo.__init__-15"><a href="#CatInfo.__init__-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="n">pattern</span>
 </span></pre></div>
 
 
@@ -211,12 +247,21 @@
 
     </div>
     <a class="headerlink" href="#CatInfo.toJSON"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CatInfo.toJSON-12"><a href="#CatInfo.toJSON-12"><span class="linenos">12</span></a>    <span class="k">def</span> <span class="nf">toJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="CatInfo.toJSON-13"><a href="#CatInfo.toJSON-13"><span class="linenos">13</span></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ensure_ascii</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CatInfo.toJSON-17"><a href="#CatInfo.toJSON-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="nf">toJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="CatInfo.toJSON-18"><a href="#CatInfo.toJSON-18"><span class="linenos">18</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;dumps attributes as json format&quot;&quot;&quot;</span>
+</span><span id="CatInfo.toJSON-19"><a href="#CatInfo.toJSON-19"><span class="linenos">19</span></a>        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+</span><span id="CatInfo.toJSON-20"><a href="#CatInfo.toJSON-20"><span class="linenos">20</span></a>            <span class="bp">self</span><span class="p">,</span>
+</span><span id="CatInfo.toJSON-21"><a href="#CatInfo.toJSON-21"><span class="linenos">21</span></a>            <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span>
+</span><span id="CatInfo.toJSON-22"><a href="#CatInfo.toJSON-22"><span class="linenos">22</span></a>            <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="CatInfo.toJSON-23"><a href="#CatInfo.toJSON-23"><span class="linenos">23</span></a>            <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span><span id="CatInfo.toJSON-24"><a href="#CatInfo.toJSON-24"><span class="linenos">24</span></a>            <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="CatInfo.toJSON-25"><a href="#CatInfo.toJSON-25"><span class="linenos">25</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>dumps attributes as json format</p>
+</div>
+
 
                             </div>
                 </section>
@@ -244,141 +289,45 @@
 
     </div>
     <a class="headerlink" href="#SimpleRestServer"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SimpleRestServer-17"><a href="#SimpleRestServer-17"><span class="linenos">17</span></a><span class="k">class</span> <span class="nc">SimpleRestServer</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
-</span><span id="SimpleRestServer-18"><a href="#SimpleRestServer-18"><span class="linenos">18</span></a>
-</span><span id="SimpleRestServer-19"><a href="#SimpleRestServer-19"><span class="linenos">19</span></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="SimpleRestServer-20"><a href="#SimpleRestServer-20"><span class="linenos">20</span></a>
-</span><span id="SimpleRestServer-21"><a href="#SimpleRestServer-21"><span class="linenos">21</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/neko&quot;</span><span class="p">):</span>
-</span><span id="SimpleRestServer-22"><a href="#SimpleRestServer-22"><span class="linenos">22</span></a>            <span class="c1"># [TODO] add try except </span>
-</span><span id="SimpleRestServer-23"><a href="#SimpleRestServer-23"><span class="linenos">23</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</span><span id="SimpleRestServer-24"><a href="#SimpleRestServer-24"><span class="linenos">24</span></a>            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</span><span id="SimpleRestServer-25"><a href="#SimpleRestServer-25"><span class="linenos">25</span></a>            <span class="n">queries</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
-</span><span id="SimpleRestServer-26"><a href="#SimpleRestServer-26"><span class="linenos">26</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
-</span><span id="SimpleRestServer-27"><a href="#SimpleRestServer-27"><span class="linenos">27</span></a>            <span class="n">names</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-</span><span id="SimpleRestServer-28"><a href="#SimpleRestServer-28"><span class="linenos">28</span></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="SimpleRestServer-29"><a href="#SimpleRestServer-29"><span class="linenos">29</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">400</span>
-</span><span id="SimpleRestServer-30"><a href="#SimpleRestServer-30"><span class="linenos">30</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span id="SimpleRestServer-31"><a href="#SimpleRestServer-31"><span class="linenos">31</span></a>            <span class="k">elif</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
-</span><span id="SimpleRestServer-32"><a href="#SimpleRestServer-32"><span class="linenos">32</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">204</span>
-</span><span id="SimpleRestServer-33"><a href="#SimpleRestServer-33"><span class="linenos">33</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span id="SimpleRestServer-34"><a href="#SimpleRestServer-34"><span class="linenos">34</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="SimpleRestServer-35"><a href="#SimpleRestServer-35"><span class="linenos">35</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">200</span>
-</span><span id="SimpleRestServer-36"><a href="#SimpleRestServer-36"><span class="linenos">36</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">toJSON</span><span class="p">()</span>
-</span><span id="SimpleRestServer-37"><a href="#SimpleRestServer-37"><span class="linenos">37</span></a>
-</span><span id="SimpleRestServer-38"><a href="#SimpleRestServer-38"><span class="linenos">38</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">resp_code</span><span class="p">)</span>
-</span><span id="SimpleRestServer-39"><a href="#SimpleRestServer-39"><span class="linenos">39</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
-</span><span id="SimpleRestServer-40"><a href="#SimpleRestServer-40"><span class="linenos">40</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-</span><span id="SimpleRestServer-41"><a href="#SimpleRestServer-41"><span class="linenos">41</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">resp_body</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
-</span><span id="SimpleRestServer-42"><a href="#SimpleRestServer-42"><span class="linenos">42</span></a>
-</span><span id="SimpleRestServer-43"><a href="#SimpleRestServer-43"><span class="linenos">43</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="SimpleRestServer-44"><a href="#SimpleRestServer-44"><span class="linenos">44</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-</span><span id="SimpleRestServer-45"><a href="#SimpleRestServer-45"><span class="linenos">45</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
-</span><span id="SimpleRestServer-46"><a href="#SimpleRestServer-46"><span class="linenos">46</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-</span><span id="SimpleRestServer-47"><a href="#SimpleRestServer-47"><span class="linenos">47</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SimpleRestServer-34"><a href="#SimpleRestServer-34"><span class="linenos">34</span></a><span class="k">class</span> <span class="nc">SimpleRestServer</span><span class="p">(</span><span class="n">BaseHTTPRequestHandler</span><span class="p">):</span>
+</span><span id="SimpleRestServer-35"><a href="#SimpleRestServer-35"><span class="linenos">35</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SimpleRestServer-36"><a href="#SimpleRestServer-36"><span class="linenos">36</span></a><span class="sd">    Simple Rest Server sample which support only GET ops for cat info</span>
+</span><span id="SimpleRestServer-37"><a href="#SimpleRestServer-37"><span class="linenos">37</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SimpleRestServer-38"><a href="#SimpleRestServer-38"><span class="linenos">38</span></a>
+</span><span id="SimpleRestServer-39"><a href="#SimpleRestServer-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="SimpleRestServer-40"><a href="#SimpleRestServer-40"><span class="linenos">40</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get cat information&quot;&quot;&quot;</span>
+</span><span id="SimpleRestServer-41"><a href="#SimpleRestServer-41"><span class="linenos">41</span></a>
+</span><span id="SimpleRestServer-42"><a href="#SimpleRestServer-42"><span class="linenos">42</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/neko&quot;</span><span class="p">):</span>
+</span><span id="SimpleRestServer-43"><a href="#SimpleRestServer-43"><span class="linenos">43</span></a>            <span class="c1"># [TODO] add try except</span>
+</span><span id="SimpleRestServer-44"><a href="#SimpleRestServer-44"><span class="linenos">44</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</span><span id="SimpleRestServer-45"><a href="#SimpleRestServer-45"><span class="linenos">45</span></a>            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</span><span id="SimpleRestServer-46"><a href="#SimpleRestServer-46"><span class="linenos">46</span></a>            <span class="n">queries</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+</span><span id="SimpleRestServer-47"><a href="#SimpleRestServer-47"><span class="linenos">47</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+</span><span id="SimpleRestServer-48"><a href="#SimpleRestServer-48"><span class="linenos">48</span></a>            <span class="n">names</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+</span><span id="SimpleRestServer-49"><a href="#SimpleRestServer-49"><span class="linenos">49</span></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="SimpleRestServer-50"><a href="#SimpleRestServer-50"><span class="linenos">50</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">400</span>
+</span><span id="SimpleRestServer-51"><a href="#SimpleRestServer-51"><span class="linenos">51</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span id="SimpleRestServer-52"><a href="#SimpleRestServer-52"><span class="linenos">52</span></a>            <span class="k">elif</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+</span><span id="SimpleRestServer-53"><a href="#SimpleRestServer-53"><span class="linenos">53</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">204</span>
+</span><span id="SimpleRestServer-54"><a href="#SimpleRestServer-54"><span class="linenos">54</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span id="SimpleRestServer-55"><a href="#SimpleRestServer-55"><span class="linenos">55</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="SimpleRestServer-56"><a href="#SimpleRestServer-56"><span class="linenos">56</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">200</span>
+</span><span id="SimpleRestServer-57"><a href="#SimpleRestServer-57"><span class="linenos">57</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">toJSON</span><span class="p">()</span>
+</span><span id="SimpleRestServer-58"><a href="#SimpleRestServer-58"><span class="linenos">58</span></a>
+</span><span id="SimpleRestServer-59"><a href="#SimpleRestServer-59"><span class="linenos">59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">resp_code</span><span class="p">)</span>
+</span><span id="SimpleRestServer-60"><a href="#SimpleRestServer-60"><span class="linenos">60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
+</span><span id="SimpleRestServer-61"><a href="#SimpleRestServer-61"><span class="linenos">61</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</span><span id="SimpleRestServer-62"><a href="#SimpleRestServer-62"><span class="linenos">62</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">resp_body</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</span><span id="SimpleRestServer-63"><a href="#SimpleRestServer-63"><span class="linenos">63</span></a>
+</span><span id="SimpleRestServer-64"><a href="#SimpleRestServer-64"><span class="linenos">64</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="SimpleRestServer-65"><a href="#SimpleRestServer-65"><span class="linenos">65</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</span><span id="SimpleRestServer-66"><a href="#SimpleRestServer-66"><span class="linenos">66</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
+</span><span id="SimpleRestServer-67"><a href="#SimpleRestServer-67"><span class="linenos">67</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</span><span id="SimpleRestServer-68"><a href="#SimpleRestServer-68"><span class="linenos">68</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>HTTP request handler base class.</p>
-
-<p>The following explanation of HTTP serves to guide you through the
-code as well as to expose any misunderstandings I may have about
-HTTP (so you don't need to read the code to figure out I'm wrong
-:-).</p>
-
-<p>HTTP (HyperText Transfer Protocol) is an extensible protocol on
-top of a reliable stream transport (e.g. TCP/IP).  The protocol
-recognizes three parts to a request:</p>
-
-<ol>
-<li>One line identifying the request type and path</li>
-<li>An optional set of RFC-822-style headers</li>
-<li>An optional data part</li>
-</ol>
-
-<p>The headers and data are separated by a blank line.</p>
-
-<p>The first line of the request has the form</p>
-
-<p><command> <path> <version></p>
-
-<p>where <command> is a (case-sensitive) keyword such as GET or POST,
-<path> is a string containing path information for the request,
-and <version> should be the string "HTTP/1.0" or "HTTP/1.1".
-<path> is encoded using the URL encoding scheme (using %xx to signify
-the ASCII character with hex code xx).</p>
-
-<p>The specification specifies that lines are separated by CRLF but
-for compatibility with the widest range of clients recommends
-servers also handle LF.  Similarly, whitespace in the request line
-is treated sensibly (allowing multiple spaces between components
-and allowing trailing whitespace).</p>
-
-<p>Similarly, for output, lines ought to be separated by CRLF pairs
-but most clients grok LF characters just fine.</p>
-
-<p>If the first line of the request has the form</p>
-
-<p><command> <path></p>
-
-<p>(i.e. <version> is left out) then this is assumed to be an HTTP
-0.9 request; this form has no optional headers and data part and
-the reply consists of just the data.</p>
-
-<p>The reply form of the HTTP 1.x protocol again has three parts:</p>
-
-<ol>
-<li>One line giving the response code</li>
-<li>An optional set of RFC-822-style headers</li>
-<li>The data</li>
-</ol>
-
-<p>Again, the headers and data are separated by a blank line.</p>
-
-<p>The response code line has the form</p>
-
-<p><version> <responsecode> <responsestring></p>
-
-<p>where <version> is the protocol version ("HTTP/1.0" or "HTTP/1.1"),
-<responsecode> is a 3-digit response code indicating success or
-failure of the request, and <responsestring> is an optional
-human-readable string explaining what the response code means.</p>
-
-<p>This server parses the request and the headers, and then calls a
-function specific to the request type (<command>).  Specifically,
-a request SPAM will be handled by a method do_SPAM().  If no
-such method exists the server sends an error response to the
-client.  If it exists, it is called with no arguments:</p>
-
-<p>do_SPAM()</p>
-
-<p>Note that the request name is case sensitive (i.e. SPAM and spam
-are different requests).</p>
-
-<p>The various request details are stored in instance variables:</p>
-
-<ul>
-<li><p>client_address is the client IP address in the form (host,
-port);</p></li>
-<li><p>command, path and version are the broken-down request line;</p></li>
-<li><p>headers is an instance of email.message.Message (or a derived
-class) containing the header information;</p></li>
-<li><p>rfile is a file object open for reading positioned at the
-start of the optional input data part;</p></li>
-<li><p>wfile is a file object open for writing.</p></li>
-</ul>
-
-<p>IT IS IMPORTANT TO ADHERE TO THE PROTOCOL FOR WRITING!</p>
-
-<p>The first thing to be written must be the response line.  Then
-follow 0 or more header lines, then a blank line, and then the
-actual data (if any).  The meaning of the header lines depends on
-the command executed by the server; in most cases, when data is
-returned, there should be at least one header line of the form</p>
-
-<p>Content-type: <type>/<subtype></p>
-
-<p>where <type> and <subtype> should be registered MIME types,
-e.g. "text/html" or "text/plain".</p>
+            <div class="docstring"><p>Simple Rest Server sample which support only GET ops for cat info</p>
 </div>
 
 
@@ -393,39 +342,42 @@ e.g. "text/html" or "text/plain".</p>
 
     </div>
     <a class="headerlink" href="#SimpleRestServer.do_GET"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SimpleRestServer.do_GET-19"><a href="#SimpleRestServer.do_GET-19"><span class="linenos">19</span></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="SimpleRestServer.do_GET-20"><a href="#SimpleRestServer.do_GET-20"><span class="linenos">20</span></a>
-</span><span id="SimpleRestServer.do_GET-21"><a href="#SimpleRestServer.do_GET-21"><span class="linenos">21</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/neko&quot;</span><span class="p">):</span>
-</span><span id="SimpleRestServer.do_GET-22"><a href="#SimpleRestServer.do_GET-22"><span class="linenos">22</span></a>            <span class="c1"># [TODO] add try except </span>
-</span><span id="SimpleRestServer.do_GET-23"><a href="#SimpleRestServer.do_GET-23"><span class="linenos">23</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-24"><a href="#SimpleRestServer.do_GET-24"><span class="linenos">24</span></a>            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-25"><a href="#SimpleRestServer.do_GET-25"><span class="linenos">25</span></a>            <span class="n">queries</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-26"><a href="#SimpleRestServer.do_GET-26"><span class="linenos">26</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-27"><a href="#SimpleRestServer.do_GET-27"><span class="linenos">27</span></a>            <span class="n">names</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-</span><span id="SimpleRestServer.do_GET-28"><a href="#SimpleRestServer.do_GET-28"><span class="linenos">28</span></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="SimpleRestServer.do_GET-29"><a href="#SimpleRestServer.do_GET-29"><span class="linenos">29</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">400</span>
-</span><span id="SimpleRestServer.do_GET-30"><a href="#SimpleRestServer.do_GET-30"><span class="linenos">30</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span id="SimpleRestServer.do_GET-31"><a href="#SimpleRestServer.do_GET-31"><span class="linenos">31</span></a>            <span class="k">elif</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
-</span><span id="SimpleRestServer.do_GET-32"><a href="#SimpleRestServer.do_GET-32"><span class="linenos">32</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">204</span>
-</span><span id="SimpleRestServer.do_GET-33"><a href="#SimpleRestServer.do_GET-33"><span class="linenos">33</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
-</span><span id="SimpleRestServer.do_GET-34"><a href="#SimpleRestServer.do_GET-34"><span class="linenos">34</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="SimpleRestServer.do_GET-35"><a href="#SimpleRestServer.do_GET-35"><span class="linenos">35</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">200</span>
-</span><span id="SimpleRestServer.do_GET-36"><a href="#SimpleRestServer.do_GET-36"><span class="linenos">36</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">toJSON</span><span class="p">()</span>
-</span><span id="SimpleRestServer.do_GET-37"><a href="#SimpleRestServer.do_GET-37"><span class="linenos">37</span></a>
-</span><span id="SimpleRestServer.do_GET-38"><a href="#SimpleRestServer.do_GET-38"><span class="linenos">38</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">resp_code</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-39"><a href="#SimpleRestServer.do_GET-39"><span class="linenos">39</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-40"><a href="#SimpleRestServer.do_GET-40"><span class="linenos">40</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-</span><span id="SimpleRestServer.do_GET-41"><a href="#SimpleRestServer.do_GET-41"><span class="linenos">41</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">resp_body</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
-</span><span id="SimpleRestServer.do_GET-42"><a href="#SimpleRestServer.do_GET-42"><span class="linenos">42</span></a>
-</span><span id="SimpleRestServer.do_GET-43"><a href="#SimpleRestServer.do_GET-43"><span class="linenos">43</span></a>        <span class="k">else</span><span class="p">:</span>
-</span><span id="SimpleRestServer.do_GET-44"><a href="#SimpleRestServer.do_GET-44"><span class="linenos">44</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-45"><a href="#SimpleRestServer.do_GET-45"><span class="linenos">45</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
-</span><span id="SimpleRestServer.do_GET-46"><a href="#SimpleRestServer.do_GET-46"><span class="linenos">46</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
-</span><span id="SimpleRestServer.do_GET-47"><a href="#SimpleRestServer.do_GET-47"><span class="linenos">47</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SimpleRestServer.do_GET-39"><a href="#SimpleRestServer.do_GET-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="SimpleRestServer.do_GET-40"><a href="#SimpleRestServer.do_GET-40"><span class="linenos">40</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get cat information&quot;&quot;&quot;</span>
+</span><span id="SimpleRestServer.do_GET-41"><a href="#SimpleRestServer.do_GET-41"><span class="linenos">41</span></a>
+</span><span id="SimpleRestServer.do_GET-42"><a href="#SimpleRestServer.do_GET-42"><span class="linenos">42</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/neko&quot;</span><span class="p">):</span>
+</span><span id="SimpleRestServer.do_GET-43"><a href="#SimpleRestServer.do_GET-43"><span class="linenos">43</span></a>            <span class="c1"># [TODO] add try except</span>
+</span><span id="SimpleRestServer.do_GET-44"><a href="#SimpleRestServer.do_GET-44"><span class="linenos">44</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-45"><a href="#SimpleRestServer.do_GET-45"><span class="linenos">45</span></a>            <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-46"><a href="#SimpleRestServer.do_GET-46"><span class="linenos">46</span></a>            <span class="n">queries</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">parsed_url</span><span class="o">.</span><span class="n">query</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-47"><a href="#SimpleRestServer.do_GET-47"><span class="linenos">47</span></a>            <span class="nb">print</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-48"><a href="#SimpleRestServer.do_GET-48"><span class="linenos">48</span></a>            <span class="n">names</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+</span><span id="SimpleRestServer.do_GET-49"><a href="#SimpleRestServer.do_GET-49"><span class="linenos">49</span></a>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="SimpleRestServer.do_GET-50"><a href="#SimpleRestServer.do_GET-50"><span class="linenos">50</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">400</span>
+</span><span id="SimpleRestServer.do_GET-51"><a href="#SimpleRestServer.do_GET-51"><span class="linenos">51</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span id="SimpleRestServer.do_GET-52"><a href="#SimpleRestServer.do_GET-52"><span class="linenos">52</span></a>            <span class="k">elif</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+</span><span id="SimpleRestServer.do_GET-53"><a href="#SimpleRestServer.do_GET-53"><span class="linenos">53</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">204</span>
+</span><span id="SimpleRestServer.do_GET-54"><a href="#SimpleRestServer.do_GET-54"><span class="linenos">54</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span>
+</span><span id="SimpleRestServer.do_GET-55"><a href="#SimpleRestServer.do_GET-55"><span class="linenos">55</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="SimpleRestServer.do_GET-56"><a href="#SimpleRestServer.do_GET-56"><span class="linenos">56</span></a>                <span class="n">resp_code</span> <span class="o">=</span> <span class="mi">200</span>
+</span><span id="SimpleRestServer.do_GET-57"><a href="#SimpleRestServer.do_GET-57"><span class="linenos">57</span></a>                <span class="n">resp_body</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">toJSON</span><span class="p">()</span>
+</span><span id="SimpleRestServer.do_GET-58"><a href="#SimpleRestServer.do_GET-58"><span class="linenos">58</span></a>
+</span><span id="SimpleRestServer.do_GET-59"><a href="#SimpleRestServer.do_GET-59"><span class="linenos">59</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">resp_code</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-60"><a href="#SimpleRestServer.do_GET-60"><span class="linenos">60</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-61"><a href="#SimpleRestServer.do_GET-61"><span class="linenos">61</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</span><span id="SimpleRestServer.do_GET-62"><a href="#SimpleRestServer.do_GET-62"><span class="linenos">62</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">resp_body</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+</span><span id="SimpleRestServer.do_GET-63"><a href="#SimpleRestServer.do_GET-63"><span class="linenos">63</span></a>
+</span><span id="SimpleRestServer.do_GET-64"><a href="#SimpleRestServer.do_GET-64"><span class="linenos">64</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="SimpleRestServer.do_GET-65"><a href="#SimpleRestServer.do_GET-65"><span class="linenos">65</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-66"><a href="#SimpleRestServer.do_GET-66"><span class="linenos">66</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">,</span> <span class="s2">&quot;application/json&quot;</span><span class="p">)</span>
+</span><span id="SimpleRestServer.do_GET-67"><a href="#SimpleRestServer.do_GET-67"><span class="linenos">67</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</span><span id="SimpleRestServer.do_GET-68"><a href="#SimpleRestServer.do_GET-68"><span class="linenos">68</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>get cat information</p>
+</div>
+
 
                             </div>
                             <div class="inherited">
@@ -491,12 +443,15 @@ e.g. "text/html" or "text/plain".</p>
 
     </div>
     <a class="headerlink" href="#build_simple_rest_srv"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="build_simple_rest_srv-49"><a href="#build_simple_rest_srv-49"><span class="linenos">49</span></a><span class="k">def</span> <span class="nf">build_simple_rest_srv</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">HTTPServer</span><span class="p">:</span>
-</span><span id="build_simple_rest_srv-50"><a href="#build_simple_rest_srv-50"><span class="linenos">50</span></a>    <span class="k">return</span> <span class="n">HTTPServer</span><span class="p">((</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">8030</span><span class="p">),</span> <span class="n">SimpleRestServer</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="build_simple_rest_srv-71"><a href="#build_simple_rest_srv-71"><span class="linenos">71</span></a><span class="k">def</span> <span class="nf">build_simple_rest_srv</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">HTTPServer</span><span class="p">:</span>
+</span><span id="build_simple_rest_srv-72"><a href="#build_simple_rest_srv-72"><span class="linenos">72</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a sample simple REST server with hard coded port 8030&quot;&quot;&quot;</span>
+</span><span id="build_simple_rest_srv-73"><a href="#build_simple_rest_srv-73"><span class="linenos">73</span></a>    <span class="k">return</span> <span class="n">HTTPServer</span><span class="p">((</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">8030</span><span class="p">),</span> <span class="n">SimpleRestServer</span><span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Build a sample simple REST server with hard coded port 8030</p>
+</div>
+
 
                 </section>
     </main>
