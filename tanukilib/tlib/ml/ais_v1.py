@@ -13,6 +13,9 @@ def perform_style_transfer_with_AISV1(
     normalize_with_0_1:bool = True,
     verbose:bool = False,
 ):
+    """
+    Performs style transfer using Arbitrary Image Stylization V1 model
+    """
     model = tfhub.load("https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2")
     base_img = load_img_as_1d(dataset_name, category, base_file_name, base_size)
     style_img = load_img_as_1d(dataset_name, category, style_file_name, style_size)
