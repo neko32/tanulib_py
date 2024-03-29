@@ -633,3 +633,21 @@ def detect_corner_by_harris(
     retbuf[dst > threshold * dst.max()] = marker_color.to_tuple_bgr()
 
     return retbuf
+
+
+def conv_to_opencv_hue(f:float) -> float:
+    """
+    Usually Hue is 0~360 but OpenCV is 0~180.
+    This function will provide a conversion from regular Hue to OpenCV Hue
+    """
+    return f / 2.
+
+def conv_to_opencv_sat_val(f:float) -> float:
+    """
+    Usually Saturation and Value is 0~100 but Open CV is 0~255.
+    This function will provide a conversion for regular sat/val to Open CV's ones
+    100:255 = f:X
+    100X = 255f
+    X = 255f/100
+    """
+    return (255 * f) / 100

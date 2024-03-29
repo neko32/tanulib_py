@@ -348,6 +348,12 @@
             <li>
                     <a class="function" href="#detect_corner_by_harris">detect_corner_by_harris</a>
             </li>
+            <li>
+                    <a class="function" href="#conv_to_opencv_hue">conv_to_opencv_hue</a>
+            </li>
+            <li>
+                    <a class="function" href="#conv_to_opencv_sat_val">conv_to_opencv_sat_val</a>
+            </li>
     </ul>
 
 
@@ -1004,6 +1010,24 @@
 </span><span id="L-633"><a href="#L-633"><span class="linenos">633</span></a>    <span class="n">retbuf</span><span class="p">[</span><span class="n">dst</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="o">*</span> <span class="n">dst</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span> <span class="o">=</span> <span class="n">marker_color</span><span class="o">.</span><span class="n">to_tuple_bgr</span><span class="p">()</span>
 </span><span id="L-634"><a href="#L-634"><span class="linenos">634</span></a>
 </span><span id="L-635"><a href="#L-635"><span class="linenos">635</span></a>    <span class="k">return</span> <span class="n">retbuf</span>
+</span><span id="L-636"><a href="#L-636"><span class="linenos">636</span></a>
+</span><span id="L-637"><a href="#L-637"><span class="linenos">637</span></a>
+</span><span id="L-638"><a href="#L-638"><span class="linenos">638</span></a><span class="k">def</span> <span class="nf">conv_to_opencv_hue</span><span class="p">(</span><span class="n">f</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-639"><a href="#L-639"><span class="linenos">639</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-640"><a href="#L-640"><span class="linenos">640</span></a><span class="sd">    Usually Hue is 0~360 but OpenCV is 0~180.</span>
+</span><span id="L-641"><a href="#L-641"><span class="linenos">641</span></a><span class="sd">    This function will provide a conversion from regular Hue to OpenCV Hue</span>
+</span><span id="L-642"><a href="#L-642"><span class="linenos">642</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-643"><a href="#L-643"><span class="linenos">643</span></a>    <span class="k">return</span> <span class="n">f</span> <span class="o">/</span> <span class="mf">2.</span>
+</span><span id="L-644"><a href="#L-644"><span class="linenos">644</span></a>
+</span><span id="L-645"><a href="#L-645"><span class="linenos">645</span></a><span class="k">def</span> <span class="nf">conv_to_opencv_sat_val</span><span class="p">(</span><span class="n">f</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-646"><a href="#L-646"><span class="linenos">646</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-647"><a href="#L-647"><span class="linenos">647</span></a><span class="sd">    Usually Saturation and Value is 0~100 but Open CV is 0~255.</span>
+</span><span id="L-648"><a href="#L-648"><span class="linenos">648</span></a><span class="sd">    This function will provide a conversion for regular sat/val to Open CV&#39;s ones</span>
+</span><span id="L-649"><a href="#L-649"><span class="linenos">649</span></a><span class="sd">    100:255 = f:X</span>
+</span><span id="L-650"><a href="#L-650"><span class="linenos">650</span></a><span class="sd">    100X = 255f</span>
+</span><span id="L-651"><a href="#L-651"><span class="linenos">651</span></a><span class="sd">    X = 255f/100</span>
+</span><span id="L-652"><a href="#L-652"><span class="linenos">652</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-653"><a href="#L-653"><span class="linenos">653</span></a>    <span class="k">return</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">f</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
 </span></pre></div>
 
 
@@ -3061,6 +3085,64 @@
 
 
     
+
+                </section>
+                <section id="conv_to_opencv_hue">
+                            <input id="conv_to_opencv_hue-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">conv_to_opencv_hue</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">f</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">float</span>:</span></span>
+
+                <label class="view-source-button" for="conv_to_opencv_hue-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#conv_to_opencv_hue"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="conv_to_opencv_hue-639"><a href="#conv_to_opencv_hue-639"><span class="linenos">639</span></a><span class="k">def</span> <span class="nf">conv_to_opencv_hue</span><span class="p">(</span><span class="n">f</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="conv_to_opencv_hue-640"><a href="#conv_to_opencv_hue-640"><span class="linenos">640</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="conv_to_opencv_hue-641"><a href="#conv_to_opencv_hue-641"><span class="linenos">641</span></a><span class="sd">    Usually Hue is 0~360 but OpenCV is 0~180.</span>
+</span><span id="conv_to_opencv_hue-642"><a href="#conv_to_opencv_hue-642"><span class="linenos">642</span></a><span class="sd">    This function will provide a conversion from regular Hue to OpenCV Hue</span>
+</span><span id="conv_to_opencv_hue-643"><a href="#conv_to_opencv_hue-643"><span class="linenos">643</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="conv_to_opencv_hue-644"><a href="#conv_to_opencv_hue-644"><span class="linenos">644</span></a>    <span class="k">return</span> <span class="n">f</span> <span class="o">/</span> <span class="mf">2.</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Usually Hue is 0~360 but OpenCV is 0~180.
+This function will provide a conversion from regular Hue to OpenCV Hue</p>
+</div>
+
+
+                </section>
+                <section id="conv_to_opencv_sat_val">
+                            <input id="conv_to_opencv_sat_val-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">conv_to_opencv_sat_val</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">f</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">float</span>:</span></span>
+
+                <label class="view-source-button" for="conv_to_opencv_sat_val-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#conv_to_opencv_sat_val"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="conv_to_opencv_sat_val-646"><a href="#conv_to_opencv_sat_val-646"><span class="linenos">646</span></a><span class="k">def</span> <span class="nf">conv_to_opencv_sat_val</span><span class="p">(</span><span class="n">f</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="conv_to_opencv_sat_val-647"><a href="#conv_to_opencv_sat_val-647"><span class="linenos">647</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="conv_to_opencv_sat_val-648"><a href="#conv_to_opencv_sat_val-648"><span class="linenos">648</span></a><span class="sd">    Usually Saturation and Value is 0~100 but Open CV is 0~255.</span>
+</span><span id="conv_to_opencv_sat_val-649"><a href="#conv_to_opencv_sat_val-649"><span class="linenos">649</span></a><span class="sd">    This function will provide a conversion for regular sat/val to Open CV&#39;s ones</span>
+</span><span id="conv_to_opencv_sat_val-650"><a href="#conv_to_opencv_sat_val-650"><span class="linenos">650</span></a><span class="sd">    100:255 = f:X</span>
+</span><span id="conv_to_opencv_sat_val-651"><a href="#conv_to_opencv_sat_val-651"><span class="linenos">651</span></a><span class="sd">    100X = 255f</span>
+</span><span id="conv_to_opencv_sat_val-652"><a href="#conv_to_opencv_sat_val-652"><span class="linenos">652</span></a><span class="sd">    X = 255f/100</span>
+</span><span id="conv_to_opencv_sat_val-653"><a href="#conv_to_opencv_sat_val-653"><span class="linenos">653</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="conv_to_opencv_sat_val-654"><a href="#conv_to_opencv_sat_val-654"><span class="linenos">654</span></a>    <span class="k">return</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">f</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Usually Saturation and Value is 0~100 but Open CV is 0~255.
+This function will provide a conversion for regular sat/val to Open CV's ones
+100:255 = f:X
+100X = 255f
+X = 255f/100</p>
+</div>
+
 
                 </section>
     </main>

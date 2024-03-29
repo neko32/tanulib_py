@@ -71,7 +71,7 @@ class GrapchicsTest(TestCase):
         dest_img_path = f"/tmp/{dir_name}"
         mkdir(dest_img_path)
         self.assertEqual(resize_all_imgs(
-            test_img_path, dest_img_path, 200, 150), 2)
+            test_img_path, dest_img_path, 200, 150), 3)
 
         rmdir_and_files(dest_img_path)
 
@@ -140,6 +140,16 @@ class GrapchicsTest(TestCase):
         col2_2 = (180, 200, 255)
         self.assertTrue(is_high_contract(col1_1, col1_2, True))
         self.assertFalse(is_high_contract(col2_1, col2_2, True))
+
+    def test_conv_to_opencv_hue(self):
+        hue = 40
+        self.assertTrue(conv_to_opencv_hue(hue), 20.)
+
+    def test_conv_to_opencv_satval(self):
+        sat = 34.
+        v = 88.
+        self.assertTrue(conv_to_opencv_sat_val(sat), 86.7)
+        self.assertTrue(conv_to_opencv_sat_val(v), 224.4)
 
 
 if __name__ == "__main__":
