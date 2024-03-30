@@ -1,6 +1,14 @@
 import keras
 from keras.models import Model
-from keras.layers import Input, Dense, RandomRotation, RandomFlip
+from keras.layers import (
+    Input,
+    Dense,
+    Embedding,
+    GlobalAveragePooling1D,
+    RandomRotation,
+    RandomFlip,
+    TextVectorization
+)
 from keras.optimizers import SGD
 import tensorflow as tf
 from typing import List, Any, Optional, Tuple
@@ -244,6 +252,23 @@ def make_model_CBA_with_MP_GAP_plus_residual(
     x = keras.layers.Dropout(dropout_at_fc)(x)
     outputs = keras.layers.Dense(units=units, activation=None)(x)
     return keras.Model(inputs, outputs)
+
+
+def make_model_VE_2FC_GAP_2FC(
+    tv: TextVectorization,
+    vocab_size: int,
+    embedding_dim: int = 8,
+    fc1_num_neurons: int = 16,
+    fc1_activation: str = 'relu',
+    fc2_num_neurons: int = 1
+) -> keras.Model:
+    return keras.models.Sequential([
+        tv,
+        Embedding(vocab_size, embedding_dim, name="emb"),
+        GlobalAveragePooling1D(),
+        Dense(fc1_num_neurons, activation=fc1_activation),
+        Dense(fc2_num_neurons)
+    ])
 
 
 def get_available_gpu_devices() -> bool:
