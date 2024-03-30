@@ -17,7 +17,8 @@ setup(
         'pillow',
         'python-dotenv',
         'pydot',
-        'flask'
+        'flask',
+        'Flask-SQLAlchemy'
     ]
 )
 

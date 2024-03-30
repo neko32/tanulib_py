@@ -2,7 +2,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<form action="/login" method="POST">
+<form action="{{ url_for('show_login') }}" method="POST">
     <div class="form-group">
         <label for="InputTitle">User Name</label>
         <input type="text" class="form-control" id="InputTitle" name="username"/>

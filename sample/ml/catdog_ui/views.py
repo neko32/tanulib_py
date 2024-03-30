@@ -1,10 +1,20 @@
 from catdog_ui import app
-from flask import render_template, request, redirect
+from flask import (
+    render_template, 
+    request, 
+    redirect,
+    session,
+    flash,
+    url_for
+)
 
 
 @app.route('/')
 def show_entries():
-    return render_template("entries/index.html")
+    if not session.get('logged_in'):
+        return redirect(url_for('show_login'))
+    else:
+        return render_template("entries/index.html")
 
 
 @app.route("/healthcheck")
@@ -17,14 +27,18 @@ def show_login():
 
     if request.method == "POST":
         if request.form["username"] != app.config["USERNAME"]:
-            print("wrong user name")
+            flash("wrong user name.")
         elif request.form["password"] != app.config["PASSWORD"]:
-            print("wrong password")
+            flash("wrong password.")
         else:
-            return redirect("/")
+            session['logged_in'] = True
+            flash("successfully logged in.")
+            return redirect(url_for('show_entries'))
     return render_template("login/index.html")
         
 
 @app.route("/logout")
 def show_logout():
-    return redirect("/")
+    session.pop('logged_in', None)
+    flash('logged out.')
+    return redirect(url_for('show_entries'))
