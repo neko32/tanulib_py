@@ -75,105 +75,116 @@
 
                         <label class="view-source-button" for="mod-morph_filter-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">import</span> <span class="nn">cv2</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">cv2.typing</span> <span class="kn">import</span> <span class="n">MatLike</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">tlib.graphics</span> <span class="kn">import</span> <span class="n">from_bgr_to_gray_scale</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">tlib.graphics.threshold</span> <span class="kn">import</span> <span class="n">apply_otsu_threshold</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">tlib.graphics.movie</span> <span class="kn">import</span> <span class="n">Effecter</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="k">def</span> <span class="nf">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">skip_gray</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="n">gr</span> <span class="o">=</span> <span class="n">img</span> <span class="k">if</span> <span class="n">skip_gray</span> <span class="k">else</span> <span class="n">from_bgr_to_gray_scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="k">return</span> <span class="n">apply_otsu_threshold</span><span class="p">(</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>        <span class="n">img</span><span class="o">=</span><span class="n">gr</span><span class="p">,</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="n">maxv</span><span class="o">=</span><span class="mf">255.</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="p">)</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="k">def</span> <span class="nf">morph_remove_noise_aka_open</span><span class="p">(</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="p">)</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="k">def</span> <span class="nf">morph_remove_dots_aka_close</span><span class="p">(</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="p">)</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="k">def</span> <span class="nf">morph_remove_noises_aka_closeopen</span><span class="p">(</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="n">intermed</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="p">)</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">intermed</span><span class="p">,</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="p">)</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>    <span class="p">)</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="k">class</span> <span class="nc">SkeltonizationEffect</span><span class="p">(</span><span class="n">Effecter</span><span class="p">):</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>
-</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>        <span class="n">th</span> <span class="o">=</span> <span class="n">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">))</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">))</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>        <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>
-</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>            <span class="n">opened</span> <span class="o">=</span> <span class="n">morph_remove_noise_aka_open</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a>            <span class="n">diff_with_without_noise</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">th</span><span class="p">,</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">opened</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos">88</span></a>            <span class="p">)</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos">89</span></a>            <span class="n">th</span> <span class="o">=</span> <span class="n">erode</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos">90</span></a>
-</span><span id="L-91"><a href="#L-91"><span class="linenos">91</span></a>            <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos">92</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">skelton_buf</span><span class="p">,</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos">93</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">diff_with_without_noise</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos">94</span></a>            <span class="p">)</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos">95</span></a>
-</span><span id="L-96"><a href="#L-96"><span class="linenos">96</span></a>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos">97</span></a>                <span class="k">break</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos">98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos">99</span></a>        <span class="k">return</span> <span class="n">skelton_buf</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="kn">import</span> <span class="nn">cv2</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="kn">from</span> <span class="nn">cv2.typing</span> <span class="kn">import</span> <span class="n">MatLike</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="kn">from</span> <span class="nn">tlib.graphics</span> <span class="kn">import</span> <span class="n">from_bgr_to_gray_scale</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">from</span> <span class="nn">tlib.graphics.threshold</span> <span class="kn">import</span> <span class="n">apply_otsu_threshold</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span> <span class="nn">tlib.graphics.movie</span> <span class="kn">import</span> <span class="n">Effecter</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="k">def</span> <span class="nf">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">skip_gray</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="sd">    Performs the following preprocessing to make morph most effective</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="sd">    - convert to gray scale</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">    - apply threshold (Otsu only for now)</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>    <span class="n">gr</span> <span class="o">=</span> <span class="n">img</span> <span class="k">if</span> <span class="n">skip_gray</span> <span class="k">else</span> <span class="n">from_bgr_to_gray_scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>    <span class="k">return</span> <span class="n">apply_otsu_threshold</span><span class="p">(</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>        <span class="n">img</span><span class="o">=</span><span class="n">gr</span><span class="p">,</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>        <span class="n">maxv</span><span class="o">=</span><span class="mf">255.</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>    <span class="p">)</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="k">def</span> <span class="nf">morph_remove_noise_aka_open</span><span class="p">(</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply morphology with open. Best to remove white noise&quot;&quot;&quot;</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="p">)</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="k">def</span> <span class="nf">morph_remove_dots_aka_close</span><span class="p">(</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply morphology with close. Best to remove black dots&quot;&quot;&quot;</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>    <span class="p">)</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="k">def</span> <span class="nf">morph_remove_noises_aka_closeopen</span><span class="p">(</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs close and open morphology successively&quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>    <span class="n">intermed</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="p">)</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">intermed</span><span class="p">,</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>    <span class="p">)</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>    <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform erosion. White portion becomes thinner&quot;&quot;&quot;</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>    <span class="p">)</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="k">class</span> <span class="nc">SkeltonizationEffect</span><span class="p">(</span><span class="n">Effecter</span><span class="p">):</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides Skeltonization effect&quot;&quot;&quot;</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Cause skeltonization effect&quot;&quot;&quot;</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>        <span class="n">th</span> <span class="o">=</span> <span class="n">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">))</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">))</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>        <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>            <span class="n">opened</span> <span class="o">=</span> <span class="n">morph_remove_noise_aka_open</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>            <span class="n">diff_with_without_noise</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">th</span><span class="p">,</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">opened</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>            <span class="p">)</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>            <span class="n">th</span> <span class="o">=</span> <span class="n">erode</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>            <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">skelton_buf</span><span class="p">,</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">diff_with_without_noise</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="p">)</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>                <span class="k">break</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">return</span> <span class="n">skelton_buf</span>
 </span></pre></div>
 
 
@@ -190,16 +201,28 @@
     </div>
     <a class="headerlink" href="#preprocess_for_morph"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="preprocess_for_morph-10"><a href="#preprocess_for_morph-10"><span class="linenos">10</span></a><span class="k">def</span> <span class="nf">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">skip_gray</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="preprocess_for_morph-11"><a href="#preprocess_for_morph-11"><span class="linenos">11</span></a>    <span class="n">gr</span> <span class="o">=</span> <span class="n">img</span> <span class="k">if</span> <span class="n">skip_gray</span> <span class="k">else</span> <span class="n">from_bgr_to_gray_scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-</span><span id="preprocess_for_morph-12"><a href="#preprocess_for_morph-12"><span class="linenos">12</span></a>    <span class="k">return</span> <span class="n">apply_otsu_threshold</span><span class="p">(</span>
-</span><span id="preprocess_for_morph-13"><a href="#preprocess_for_morph-13"><span class="linenos">13</span></a>        <span class="n">img</span><span class="o">=</span><span class="n">gr</span><span class="p">,</span>
-</span><span id="preprocess_for_morph-14"><a href="#preprocess_for_morph-14"><span class="linenos">14</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-</span><span id="preprocess_for_morph-15"><a href="#preprocess_for_morph-15"><span class="linenos">15</span></a>        <span class="n">maxv</span><span class="o">=</span><span class="mf">255.</span>
-</span><span id="preprocess_for_morph-16"><a href="#preprocess_for_morph-16"><span class="linenos">16</span></a>    <span class="p">)</span>
+</span><span id="preprocess_for_morph-11"><a href="#preprocess_for_morph-11"><span class="linenos">11</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="preprocess_for_morph-12"><a href="#preprocess_for_morph-12"><span class="linenos">12</span></a><span class="sd">    Performs the following preprocessing to make morph most effective</span>
+</span><span id="preprocess_for_morph-13"><a href="#preprocess_for_morph-13"><span class="linenos">13</span></a><span class="sd">    - convert to gray scale</span>
+</span><span id="preprocess_for_morph-14"><a href="#preprocess_for_morph-14"><span class="linenos">14</span></a><span class="sd">    - apply threshold (Otsu only for now)</span>
+</span><span id="preprocess_for_morph-15"><a href="#preprocess_for_morph-15"><span class="linenos">15</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="preprocess_for_morph-16"><a href="#preprocess_for_morph-16"><span class="linenos">16</span></a>    <span class="n">gr</span> <span class="o">=</span> <span class="n">img</span> <span class="k">if</span> <span class="n">skip_gray</span> <span class="k">else</span> <span class="n">from_bgr_to_gray_scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="preprocess_for_morph-17"><a href="#preprocess_for_morph-17"><span class="linenos">17</span></a>    <span class="k">return</span> <span class="n">apply_otsu_threshold</span><span class="p">(</span>
+</span><span id="preprocess_for_morph-18"><a href="#preprocess_for_morph-18"><span class="linenos">18</span></a>        <span class="n">img</span><span class="o">=</span><span class="n">gr</span><span class="p">,</span>
+</span><span id="preprocess_for_morph-19"><a href="#preprocess_for_morph-19"><span class="linenos">19</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="preprocess_for_morph-20"><a href="#preprocess_for_morph-20"><span class="linenos">20</span></a>        <span class="n">maxv</span><span class="o">=</span><span class="mf">255.</span>
+</span><span id="preprocess_for_morph-21"><a href="#preprocess_for_morph-21"><span class="linenos">21</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Performs the following preprocessing to make morph most effective</p>
+
+<ul>
+<li>convert to gray scale</li>
+<li>apply threshold (Otsu only for now)</li>
+</ul>
+</div>
+
 
                 </section>
                 <section id="morph_remove_noise_aka_open">
@@ -213,21 +236,24 @@
 
     </div>
     <a class="headerlink" href="#morph_remove_noise_aka_open"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="morph_remove_noise_aka_open-19"><a href="#morph_remove_noise_aka_open-19"><span class="linenos">19</span></a><span class="k">def</span> <span class="nf">morph_remove_noise_aka_open</span><span class="p">(</span>
-</span><span id="morph_remove_noise_aka_open-20"><a href="#morph_remove_noise_aka_open-20"><span class="linenos">20</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="morph_remove_noise_aka_open-21"><a href="#morph_remove_noise_aka_open-21"><span class="linenos">21</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="morph_remove_noise_aka_open-22"><a href="#morph_remove_noise_aka_open-22"><span class="linenos">22</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="morph_remove_noise_aka_open-23"><a href="#morph_remove_noise_aka_open-23"><span class="linenos">23</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="morph_remove_noise_aka_open-24"><a href="#morph_remove_noise_aka_open-24"><span class="linenos">24</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="morph_remove_noise_aka_open-25"><a href="#morph_remove_noise_aka_open-25"><span class="linenos">25</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="morph_remove_noise_aka_open-26"><a href="#morph_remove_noise_aka_open-26"><span class="linenos">26</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
-</span><span id="morph_remove_noise_aka_open-27"><a href="#morph_remove_noise_aka_open-27"><span class="linenos">27</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="morph_remove_noise_aka_open-28"><a href="#morph_remove_noise_aka_open-28"><span class="linenos">28</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="morph_remove_noise_aka_open-29"><a href="#morph_remove_noise_aka_open-29"><span class="linenos">29</span></a>    <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="morph_remove_noise_aka_open-24"><a href="#morph_remove_noise_aka_open-24"><span class="linenos">24</span></a><span class="k">def</span> <span class="nf">morph_remove_noise_aka_open</span><span class="p">(</span>
+</span><span id="morph_remove_noise_aka_open-25"><a href="#morph_remove_noise_aka_open-25"><span class="linenos">25</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="morph_remove_noise_aka_open-26"><a href="#morph_remove_noise_aka_open-26"><span class="linenos">26</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="morph_remove_noise_aka_open-27"><a href="#morph_remove_noise_aka_open-27"><span class="linenos">27</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="morph_remove_noise_aka_open-28"><a href="#morph_remove_noise_aka_open-28"><span class="linenos">28</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply morphology with open. Best to remove white noise&quot;&quot;&quot;</span>
+</span><span id="morph_remove_noise_aka_open-29"><a href="#morph_remove_noise_aka_open-29"><span class="linenos">29</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="morph_remove_noise_aka_open-30"><a href="#morph_remove_noise_aka_open-30"><span class="linenos">30</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="morph_remove_noise_aka_open-31"><a href="#morph_remove_noise_aka_open-31"><span class="linenos">31</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="morph_remove_noise_aka_open-32"><a href="#morph_remove_noise_aka_open-32"><span class="linenos">32</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
+</span><span id="morph_remove_noise_aka_open-33"><a href="#morph_remove_noise_aka_open-33"><span class="linenos">33</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="morph_remove_noise_aka_open-34"><a href="#morph_remove_noise_aka_open-34"><span class="linenos">34</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="morph_remove_noise_aka_open-35"><a href="#morph_remove_noise_aka_open-35"><span class="linenos">35</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Apply morphology with open. Best to remove white noise</p>
+</div>
+
 
                 </section>
                 <section id="morph_remove_dots_aka_close">
@@ -241,21 +267,24 @@
 
     </div>
     <a class="headerlink" href="#morph_remove_dots_aka_close"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="morph_remove_dots_aka_close-32"><a href="#morph_remove_dots_aka_close-32"><span class="linenos">32</span></a><span class="k">def</span> <span class="nf">morph_remove_dots_aka_close</span><span class="p">(</span>
-</span><span id="morph_remove_dots_aka_close-33"><a href="#morph_remove_dots_aka_close-33"><span class="linenos">33</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="morph_remove_dots_aka_close-34"><a href="#morph_remove_dots_aka_close-34"><span class="linenos">34</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="morph_remove_dots_aka_close-35"><a href="#morph_remove_dots_aka_close-35"><span class="linenos">35</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="morph_remove_dots_aka_close-36"><a href="#morph_remove_dots_aka_close-36"><span class="linenos">36</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="morph_remove_dots_aka_close-37"><a href="#morph_remove_dots_aka_close-37"><span class="linenos">37</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="morph_remove_dots_aka_close-38"><a href="#morph_remove_dots_aka_close-38"><span class="linenos">38</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="morph_remove_dots_aka_close-39"><a href="#morph_remove_dots_aka_close-39"><span class="linenos">39</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
-</span><span id="morph_remove_dots_aka_close-40"><a href="#morph_remove_dots_aka_close-40"><span class="linenos">40</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="morph_remove_dots_aka_close-41"><a href="#morph_remove_dots_aka_close-41"><span class="linenos">41</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="morph_remove_dots_aka_close-42"><a href="#morph_remove_dots_aka_close-42"><span class="linenos">42</span></a>    <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="morph_remove_dots_aka_close-38"><a href="#morph_remove_dots_aka_close-38"><span class="linenos">38</span></a><span class="k">def</span> <span class="nf">morph_remove_dots_aka_close</span><span class="p">(</span>
+</span><span id="morph_remove_dots_aka_close-39"><a href="#morph_remove_dots_aka_close-39"><span class="linenos">39</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="morph_remove_dots_aka_close-40"><a href="#morph_remove_dots_aka_close-40"><span class="linenos">40</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="morph_remove_dots_aka_close-41"><a href="#morph_remove_dots_aka_close-41"><span class="linenos">41</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="morph_remove_dots_aka_close-42"><a href="#morph_remove_dots_aka_close-42"><span class="linenos">42</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply morphology with close. Best to remove black dots&quot;&quot;&quot;</span>
+</span><span id="morph_remove_dots_aka_close-43"><a href="#morph_remove_dots_aka_close-43"><span class="linenos">43</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="morph_remove_dots_aka_close-44"><a href="#morph_remove_dots_aka_close-44"><span class="linenos">44</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="morph_remove_dots_aka_close-45"><a href="#morph_remove_dots_aka_close-45"><span class="linenos">45</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="morph_remove_dots_aka_close-46"><a href="#morph_remove_dots_aka_close-46"><span class="linenos">46</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
+</span><span id="morph_remove_dots_aka_close-47"><a href="#morph_remove_dots_aka_close-47"><span class="linenos">47</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="morph_remove_dots_aka_close-48"><a href="#morph_remove_dots_aka_close-48"><span class="linenos">48</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="morph_remove_dots_aka_close-49"><a href="#morph_remove_dots_aka_close-49"><span class="linenos">49</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Apply morphology with close. Best to remove black dots</p>
+</div>
+
 
                 </section>
                 <section id="morph_remove_noises_aka_closeopen">
@@ -269,27 +298,30 @@
 
     </div>
     <a class="headerlink" href="#morph_remove_noises_aka_closeopen"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="morph_remove_noises_aka_closeopen-45"><a href="#morph_remove_noises_aka_closeopen-45"><span class="linenos">45</span></a><span class="k">def</span> <span class="nf">morph_remove_noises_aka_closeopen</span><span class="p">(</span>
-</span><span id="morph_remove_noises_aka_closeopen-46"><a href="#morph_remove_noises_aka_closeopen-46"><span class="linenos">46</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-47"><a href="#morph_remove_noises_aka_closeopen-47"><span class="linenos">47</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="morph_remove_noises_aka_closeopen-48"><a href="#morph_remove_noises_aka_closeopen-48"><span class="linenos">48</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="morph_remove_noises_aka_closeopen-49"><a href="#morph_remove_noises_aka_closeopen-49"><span class="linenos">49</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="morph_remove_noises_aka_closeopen-50"><a href="#morph_remove_noises_aka_closeopen-50"><span class="linenos">50</span></a>    <span class="n">intermed</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="morph_remove_noises_aka_closeopen-51"><a href="#morph_remove_noises_aka_closeopen-51"><span class="linenos">51</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-52"><a href="#morph_remove_noises_aka_closeopen-52"><span class="linenos">52</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-53"><a href="#morph_remove_noises_aka_closeopen-53"><span class="linenos">53</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-54"><a href="#morph_remove_noises_aka_closeopen-54"><span class="linenos">54</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="morph_remove_noises_aka_closeopen-55"><a href="#morph_remove_noises_aka_closeopen-55"><span class="linenos">55</span></a>    <span class="p">)</span>
-</span><span id="morph_remove_noises_aka_closeopen-56"><a href="#morph_remove_noises_aka_closeopen-56"><span class="linenos">56</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
-</span><span id="morph_remove_noises_aka_closeopen-57"><a href="#morph_remove_noises_aka_closeopen-57"><span class="linenos">57</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">intermed</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-58"><a href="#morph_remove_noises_aka_closeopen-58"><span class="linenos">58</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-59"><a href="#morph_remove_noises_aka_closeopen-59"><span class="linenos">59</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="morph_remove_noises_aka_closeopen-60"><a href="#morph_remove_noises_aka_closeopen-60"><span class="linenos">60</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="morph_remove_noises_aka_closeopen-61"><a href="#morph_remove_noises_aka_closeopen-61"><span class="linenos">61</span></a>    <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="morph_remove_noises_aka_closeopen-52"><a href="#morph_remove_noises_aka_closeopen-52"><span class="linenos">52</span></a><span class="k">def</span> <span class="nf">morph_remove_noises_aka_closeopen</span><span class="p">(</span>
+</span><span id="morph_remove_noises_aka_closeopen-53"><a href="#morph_remove_noises_aka_closeopen-53"><span class="linenos">53</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-54"><a href="#morph_remove_noises_aka_closeopen-54"><span class="linenos">54</span></a>        <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="morph_remove_noises_aka_closeopen-55"><a href="#morph_remove_noises_aka_closeopen-55"><span class="linenos">55</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="morph_remove_noises_aka_closeopen-56"><a href="#morph_remove_noises_aka_closeopen-56"><span class="linenos">56</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs close and open morphology successively&quot;&quot;&quot;</span>
+</span><span id="morph_remove_noises_aka_closeopen-57"><a href="#morph_remove_noises_aka_closeopen-57"><span class="linenos">57</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="morph_remove_noises_aka_closeopen-58"><a href="#morph_remove_noises_aka_closeopen-58"><span class="linenos">58</span></a>    <span class="n">intermed</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="morph_remove_noises_aka_closeopen-59"><a href="#morph_remove_noises_aka_closeopen-59"><span class="linenos">59</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-60"><a href="#morph_remove_noises_aka_closeopen-60"><span class="linenos">60</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_CLOSE</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-61"><a href="#morph_remove_noises_aka_closeopen-61"><span class="linenos">61</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-62"><a href="#morph_remove_noises_aka_closeopen-62"><span class="linenos">62</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="morph_remove_noises_aka_closeopen-63"><a href="#morph_remove_noises_aka_closeopen-63"><span class="linenos">63</span></a>    <span class="p">)</span>
+</span><span id="morph_remove_noises_aka_closeopen-64"><a href="#morph_remove_noises_aka_closeopen-64"><span class="linenos">64</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span>
+</span><span id="morph_remove_noises_aka_closeopen-65"><a href="#morph_remove_noises_aka_closeopen-65"><span class="linenos">65</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">intermed</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-66"><a href="#morph_remove_noises_aka_closeopen-66"><span class="linenos">66</span></a>        <span class="n">op</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-67"><a href="#morph_remove_noises_aka_closeopen-67"><span class="linenos">67</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="morph_remove_noises_aka_closeopen-68"><a href="#morph_remove_noises_aka_closeopen-68"><span class="linenos">68</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="morph_remove_noises_aka_closeopen-69"><a href="#morph_remove_noises_aka_closeopen-69"><span class="linenos">69</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Performs close and open morphology successively</p>
+</div>
+
 
                 </section>
                 <section id="erode">
@@ -303,20 +335,23 @@
 
     </div>
     <a class="headerlink" href="#erode"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="erode-64"><a href="#erode-64"><span class="linenos">64</span></a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span>
-</span><span id="erode-65"><a href="#erode-65"><span class="linenos">65</span></a>    <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="erode-66"><a href="#erode-66"><span class="linenos">66</span></a>    <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="erode-67"><a href="#erode-67"><span class="linenos">67</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="erode-68"><a href="#erode-68"><span class="linenos">68</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="erode-69"><a href="#erode-69"><span class="linenos">69</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span>
-</span><span id="erode-70"><a href="#erode-70"><span class="linenos">70</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="erode-71"><a href="#erode-71"><span class="linenos">71</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
-</span><span id="erode-72"><a href="#erode-72"><span class="linenos">72</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
-</span><span id="erode-73"><a href="#erode-73"><span class="linenos">73</span></a>    <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="erode-72"><a href="#erode-72"><span class="linenos">72</span></a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span>
+</span><span id="erode-73"><a href="#erode-73"><span class="linenos">73</span></a>    <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="erode-74"><a href="#erode-74"><span class="linenos">74</span></a>    <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="erode-75"><a href="#erode-75"><span class="linenos">75</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="erode-76"><a href="#erode-76"><span class="linenos">76</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform erosion. White portion becomes thinner&quot;&quot;&quot;</span>
+</span><span id="erode-77"><a href="#erode-77"><span class="linenos">77</span></a>    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="erode-78"><a href="#erode-78"><span class="linenos">78</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">erode</span><span class="p">(</span>
+</span><span id="erode-79"><a href="#erode-79"><span class="linenos">79</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="erode-80"><a href="#erode-80"><span class="linenos">80</span></a>        <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+</span><span id="erode-81"><a href="#erode-81"><span class="linenos">81</span></a>        <span class="n">iterations</span><span class="o">=</span><span class="n">iteration</span>
+</span><span id="erode-82"><a href="#erode-82"><span class="linenos">82</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Perform erosion. White portion becomes thinner</p>
+</div>
+
 
                 </section>
                 <section id="SkeltonizationEffect">
@@ -330,36 +365,37 @@
 
     </div>
     <a class="headerlink" href="#SkeltonizationEffect"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SkeltonizationEffect-76"><a href="#SkeltonizationEffect-76"><span class="linenos"> 76</span></a><span class="k">class</span> <span class="nc">SkeltonizationEffect</span><span class="p">(</span><span class="n">Effecter</span><span class="p">):</span>
-</span><span id="SkeltonizationEffect-77"><a href="#SkeltonizationEffect-77"><span class="linenos"> 77</span></a>
-</span><span id="SkeltonizationEffect-78"><a href="#SkeltonizationEffect-78"><span class="linenos"> 78</span></a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="SkeltonizationEffect-79"><a href="#SkeltonizationEffect-79"><span class="linenos"> 79</span></a>        <span class="n">th</span> <span class="o">=</span> <span class="n">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect-80"><a href="#SkeltonizationEffect-80"><span class="linenos"> 80</span></a>        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">))</span>
-</span><span id="SkeltonizationEffect-81"><a href="#SkeltonizationEffect-81"><span class="linenos"> 81</span></a>        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">))</span>
-</span><span id="SkeltonizationEffect-82"><a href="#SkeltonizationEffect-82"><span class="linenos"> 82</span></a>        <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect-83"><a href="#SkeltonizationEffect-83"><span class="linenos"> 83</span></a>
-</span><span id="SkeltonizationEffect-84"><a href="#SkeltonizationEffect-84"><span class="linenos"> 84</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="SkeltonizationEffect-85"><a href="#SkeltonizationEffect-85"><span class="linenos"> 85</span></a>            <span class="n">opened</span> <span class="o">=</span> <span class="n">morph_remove_noise_aka_open</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect-86"><a href="#SkeltonizationEffect-86"><span class="linenos"> 86</span></a>            <span class="n">diff_with_without_noise</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
-</span><span id="SkeltonizationEffect-87"><a href="#SkeltonizationEffect-87"><span class="linenos"> 87</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">th</span><span class="p">,</span>
-</span><span id="SkeltonizationEffect-88"><a href="#SkeltonizationEffect-88"><span class="linenos"> 88</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">opened</span>
-</span><span id="SkeltonizationEffect-89"><a href="#SkeltonizationEffect-89"><span class="linenos"> 89</span></a>            <span class="p">)</span>
-</span><span id="SkeltonizationEffect-90"><a href="#SkeltonizationEffect-90"><span class="linenos"> 90</span></a>            <span class="n">th</span> <span class="o">=</span> <span class="n">erode</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect-91"><a href="#SkeltonizationEffect-91"><span class="linenos"> 91</span></a>
-</span><span id="SkeltonizationEffect-92"><a href="#SkeltonizationEffect-92"><span class="linenos"> 92</span></a>            <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span>
-</span><span id="SkeltonizationEffect-93"><a href="#SkeltonizationEffect-93"><span class="linenos"> 93</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">skelton_buf</span><span class="p">,</span>
-</span><span id="SkeltonizationEffect-94"><a href="#SkeltonizationEffect-94"><span class="linenos"> 94</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">diff_with_without_noise</span>
-</span><span id="SkeltonizationEffect-95"><a href="#SkeltonizationEffect-95"><span class="linenos"> 95</span></a>            <span class="p">)</span>
-</span><span id="SkeltonizationEffect-96"><a href="#SkeltonizationEffect-96"><span class="linenos"> 96</span></a>
-</span><span id="SkeltonizationEffect-97"><a href="#SkeltonizationEffect-97"><span class="linenos"> 97</span></a>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="SkeltonizationEffect-98"><a href="#SkeltonizationEffect-98"><span class="linenos"> 98</span></a>                <span class="k">break</span>
-</span><span id="SkeltonizationEffect-99"><a href="#SkeltonizationEffect-99"><span class="linenos"> 99</span></a>
-</span><span id="SkeltonizationEffect-100"><a href="#SkeltonizationEffect-100"><span class="linenos">100</span></a>        <span class="k">return</span> <span class="n">skelton_buf</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SkeltonizationEffect-85"><a href="#SkeltonizationEffect-85"><span class="linenos"> 85</span></a><span class="k">class</span> <span class="nc">SkeltonizationEffect</span><span class="p">(</span><span class="n">Effecter</span><span class="p">):</span>
+</span><span id="SkeltonizationEffect-86"><a href="#SkeltonizationEffect-86"><span class="linenos"> 86</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Provides Skeltonization effect&quot;&quot;&quot;</span>
+</span><span id="SkeltonizationEffect-87"><a href="#SkeltonizationEffect-87"><span class="linenos"> 87</span></a>
+</span><span id="SkeltonizationEffect-88"><a href="#SkeltonizationEffect-88"><span class="linenos"> 88</span></a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="SkeltonizationEffect-89"><a href="#SkeltonizationEffect-89"><span class="linenos"> 89</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Cause skeltonization effect&quot;&quot;&quot;</span>
+</span><span id="SkeltonizationEffect-90"><a href="#SkeltonizationEffect-90"><span class="linenos"> 90</span></a>        <span class="n">th</span> <span class="o">=</span> <span class="n">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect-91"><a href="#SkeltonizationEffect-91"><span class="linenos"> 91</span></a>        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">))</span>
+</span><span id="SkeltonizationEffect-92"><a href="#SkeltonizationEffect-92"><span class="linenos"> 92</span></a>        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">))</span>
+</span><span id="SkeltonizationEffect-93"><a href="#SkeltonizationEffect-93"><span class="linenos"> 93</span></a>        <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect-94"><a href="#SkeltonizationEffect-94"><span class="linenos"> 94</span></a>
+</span><span id="SkeltonizationEffect-95"><a href="#SkeltonizationEffect-95"><span class="linenos"> 95</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="SkeltonizationEffect-96"><a href="#SkeltonizationEffect-96"><span class="linenos"> 96</span></a>            <span class="n">opened</span> <span class="o">=</span> <span class="n">morph_remove_noise_aka_open</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect-97"><a href="#SkeltonizationEffect-97"><span class="linenos"> 97</span></a>            <span class="n">diff_with_without_noise</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
+</span><span id="SkeltonizationEffect-98"><a href="#SkeltonizationEffect-98"><span class="linenos"> 98</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">th</span><span class="p">,</span>
+</span><span id="SkeltonizationEffect-99"><a href="#SkeltonizationEffect-99"><span class="linenos"> 99</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">opened</span>
+</span><span id="SkeltonizationEffect-100"><a href="#SkeltonizationEffect-100"><span class="linenos">100</span></a>            <span class="p">)</span>
+</span><span id="SkeltonizationEffect-101"><a href="#SkeltonizationEffect-101"><span class="linenos">101</span></a>            <span class="n">th</span> <span class="o">=</span> <span class="n">erode</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect-102"><a href="#SkeltonizationEffect-102"><span class="linenos">102</span></a>
+</span><span id="SkeltonizationEffect-103"><a href="#SkeltonizationEffect-103"><span class="linenos">103</span></a>            <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span>
+</span><span id="SkeltonizationEffect-104"><a href="#SkeltonizationEffect-104"><span class="linenos">104</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">skelton_buf</span><span class="p">,</span>
+</span><span id="SkeltonizationEffect-105"><a href="#SkeltonizationEffect-105"><span class="linenos">105</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">diff_with_without_noise</span>
+</span><span id="SkeltonizationEffect-106"><a href="#SkeltonizationEffect-106"><span class="linenos">106</span></a>            <span class="p">)</span>
+</span><span id="SkeltonizationEffect-107"><a href="#SkeltonizationEffect-107"><span class="linenos">107</span></a>
+</span><span id="SkeltonizationEffect-108"><a href="#SkeltonizationEffect-108"><span class="linenos">108</span></a>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="SkeltonizationEffect-109"><a href="#SkeltonizationEffect-109"><span class="linenos">109</span></a>                <span class="k">break</span>
+</span><span id="SkeltonizationEffect-110"><a href="#SkeltonizationEffect-110"><span class="linenos">110</span></a>
+</span><span id="SkeltonizationEffect-111"><a href="#SkeltonizationEffect-111"><span class="linenos">111</span></a>        <span class="k">return</span> <span class="n">skelton_buf</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Helper class that provides a standard way to create an ABC using
-inheritance.</p>
+            <div class="docstring"><p>Provides Skeltonization effect</p>
 </div>
 
 
@@ -374,33 +410,36 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#SkeltonizationEffect.process"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SkeltonizationEffect.process-78"><a href="#SkeltonizationEffect.process-78"><span class="linenos"> 78</span></a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="SkeltonizationEffect.process-79"><a href="#SkeltonizationEffect.process-79"><span class="linenos"> 79</span></a>        <span class="n">th</span> <span class="o">=</span> <span class="n">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect.process-80"><a href="#SkeltonizationEffect.process-80"><span class="linenos"> 80</span></a>        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">))</span>
-</span><span id="SkeltonizationEffect.process-81"><a href="#SkeltonizationEffect.process-81"><span class="linenos"> 81</span></a>        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">))</span>
-</span><span id="SkeltonizationEffect.process-82"><a href="#SkeltonizationEffect.process-82"><span class="linenos"> 82</span></a>        <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect.process-83"><a href="#SkeltonizationEffect.process-83"><span class="linenos"> 83</span></a>
-</span><span id="SkeltonizationEffect.process-84"><a href="#SkeltonizationEffect.process-84"><span class="linenos"> 84</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-</span><span id="SkeltonizationEffect.process-85"><a href="#SkeltonizationEffect.process-85"><span class="linenos"> 85</span></a>            <span class="n">opened</span> <span class="o">=</span> <span class="n">morph_remove_noise_aka_open</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect.process-86"><a href="#SkeltonizationEffect.process-86"><span class="linenos"> 86</span></a>            <span class="n">diff_with_without_noise</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
-</span><span id="SkeltonizationEffect.process-87"><a href="#SkeltonizationEffect.process-87"><span class="linenos"> 87</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">th</span><span class="p">,</span>
-</span><span id="SkeltonizationEffect.process-88"><a href="#SkeltonizationEffect.process-88"><span class="linenos"> 88</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">opened</span>
-</span><span id="SkeltonizationEffect.process-89"><a href="#SkeltonizationEffect.process-89"><span class="linenos"> 89</span></a>            <span class="p">)</span>
-</span><span id="SkeltonizationEffect.process-90"><a href="#SkeltonizationEffect.process-90"><span class="linenos"> 90</span></a>            <span class="n">th</span> <span class="o">=</span> <span class="n">erode</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
-</span><span id="SkeltonizationEffect.process-91"><a href="#SkeltonizationEffect.process-91"><span class="linenos"> 91</span></a>
-</span><span id="SkeltonizationEffect.process-92"><a href="#SkeltonizationEffect.process-92"><span class="linenos"> 92</span></a>            <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span>
-</span><span id="SkeltonizationEffect.process-93"><a href="#SkeltonizationEffect.process-93"><span class="linenos"> 93</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">skelton_buf</span><span class="p">,</span>
-</span><span id="SkeltonizationEffect.process-94"><a href="#SkeltonizationEffect.process-94"><span class="linenos"> 94</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">diff_with_without_noise</span>
-</span><span id="SkeltonizationEffect.process-95"><a href="#SkeltonizationEffect.process-95"><span class="linenos"> 95</span></a>            <span class="p">)</span>
-</span><span id="SkeltonizationEffect.process-96"><a href="#SkeltonizationEffect.process-96"><span class="linenos"> 96</span></a>
-</span><span id="SkeltonizationEffect.process-97"><a href="#SkeltonizationEffect.process-97"><span class="linenos"> 97</span></a>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="SkeltonizationEffect.process-98"><a href="#SkeltonizationEffect.process-98"><span class="linenos"> 98</span></a>                <span class="k">break</span>
-</span><span id="SkeltonizationEffect.process-99"><a href="#SkeltonizationEffect.process-99"><span class="linenos"> 99</span></a>
-</span><span id="SkeltonizationEffect.process-100"><a href="#SkeltonizationEffect.process-100"><span class="linenos">100</span></a>        <span class="k">return</span> <span class="n">skelton_buf</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SkeltonizationEffect.process-88"><a href="#SkeltonizationEffect.process-88"><span class="linenos"> 88</span></a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="SkeltonizationEffect.process-89"><a href="#SkeltonizationEffect.process-89"><span class="linenos"> 89</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Cause skeltonization effect&quot;&quot;&quot;</span>
+</span><span id="SkeltonizationEffect.process-90"><a href="#SkeltonizationEffect.process-90"><span class="linenos"> 90</span></a>        <span class="n">th</span> <span class="o">=</span> <span class="n">preprocess_for_morph</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect.process-91"><a href="#SkeltonizationEffect.process-91"><span class="linenos"> 91</span></a>        <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_WIDTH</span><span class="p">))</span>
+</span><span id="SkeltonizationEffect.process-92"><a href="#SkeltonizationEffect.process-92"><span class="linenos"> 92</span></a>        <span class="n">h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FRAME_HEIGHT</span><span class="p">))</span>
+</span><span id="SkeltonizationEffect.process-93"><a href="#SkeltonizationEffect.process-93"><span class="linenos"> 93</span></a>        <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect.process-94"><a href="#SkeltonizationEffect.process-94"><span class="linenos"> 94</span></a>
+</span><span id="SkeltonizationEffect.process-95"><a href="#SkeltonizationEffect.process-95"><span class="linenos"> 95</span></a>        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="SkeltonizationEffect.process-96"><a href="#SkeltonizationEffect.process-96"><span class="linenos"> 96</span></a>            <span class="n">opened</span> <span class="o">=</span> <span class="n">morph_remove_noise_aka_open</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect.process-97"><a href="#SkeltonizationEffect.process-97"><span class="linenos"> 97</span></a>            <span class="n">diff_with_without_noise</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
+</span><span id="SkeltonizationEffect.process-98"><a href="#SkeltonizationEffect.process-98"><span class="linenos"> 98</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">th</span><span class="p">,</span>
+</span><span id="SkeltonizationEffect.process-99"><a href="#SkeltonizationEffect.process-99"><span class="linenos"> 99</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">opened</span>
+</span><span id="SkeltonizationEffect.process-100"><a href="#SkeltonizationEffect.process-100"><span class="linenos">100</span></a>            <span class="p">)</span>
+</span><span id="SkeltonizationEffect.process-101"><a href="#SkeltonizationEffect.process-101"><span class="linenos">101</span></a>            <span class="n">th</span> <span class="o">=</span> <span class="n">erode</span><span class="p">(</span><span class="n">th</span><span class="p">)</span>
+</span><span id="SkeltonizationEffect.process-102"><a href="#SkeltonizationEffect.process-102"><span class="linenos">102</span></a>
+</span><span id="SkeltonizationEffect.process-103"><a href="#SkeltonizationEffect.process-103"><span class="linenos">103</span></a>            <span class="n">skelton_buf</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span>
+</span><span id="SkeltonizationEffect.process-104"><a href="#SkeltonizationEffect.process-104"><span class="linenos">104</span></a>                <span class="n">src1</span><span class="o">=</span><span class="n">skelton_buf</span><span class="p">,</span>
+</span><span id="SkeltonizationEffect.process-105"><a href="#SkeltonizationEffect.process-105"><span class="linenos">105</span></a>                <span class="n">src2</span><span class="o">=</span><span class="n">diff_with_without_noise</span>
+</span><span id="SkeltonizationEffect.process-106"><a href="#SkeltonizationEffect.process-106"><span class="linenos">106</span></a>            <span class="p">)</span>
+</span><span id="SkeltonizationEffect.process-107"><a href="#SkeltonizationEffect.process-107"><span class="linenos">107</span></a>
+</span><span id="SkeltonizationEffect.process-108"><a href="#SkeltonizationEffect.process-108"><span class="linenos">108</span></a>            <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">countNonZero</span><span class="p">(</span><span class="n">th</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="SkeltonizationEffect.process-109"><a href="#SkeltonizationEffect.process-109"><span class="linenos">109</span></a>                <span class="k">break</span>
+</span><span id="SkeltonizationEffect.process-110"><a href="#SkeltonizationEffect.process-110"><span class="linenos">110</span></a>
+</span><span id="SkeltonizationEffect.process-111"><a href="#SkeltonizationEffect.process-111"><span class="linenos">111</span></a>        <span class="k">return</span> <span class="n">skelton_buf</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Cause skeltonization effect</p>
+</div>
+
 
                             </div>
                 </section>

@@ -12,6 +12,10 @@ def filter_by_hsv_color_range(
         upper_range: HSVColorSchema,
         back_to_bgr: bool = True
 ) -> MatLike:
+    """
+    Filter images by HSV color range.
+    If back_to_bgr flag is True, then returned MatLike is converted back to BGR format
+    """
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(hsv_img, lower_range.as_mat(), upper_range.as_mat())
     masked = cv2.bitwise_and(
@@ -25,6 +29,7 @@ def filter_by_hsv_color_range(
 def inverse_negative_positive(
         img: MatLike
 ) -> MatLike:
+    """Inverse negative/positive"""
     return 255 - img
 
 
@@ -39,6 +44,10 @@ class BackgroundSubtractor:
             shape=[frame_height, frame_width, 3],
             dtype=np.float32
         )
+    """
+    Subtracts background using accumulated weighted with given alpha.
+    The bigger alpha is, the faster older image's residue is gone
+    """
 
     def update(self, img: MatLike) -> MatLike:
         fimg = np.float32(img)
@@ -124,6 +133,7 @@ def generate_background_pattern_image(
 
 
 class BackgroundSubtractionEffects(Effecter):
+    """Effecter for background subtraction"""
 
     def __init__(
             self,
@@ -137,4 +147,5 @@ class BackgroundSubtractionEffects(Effecter):
         )
 
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+        """execute background subtraction as an effect"""
         return self.se.update(img)

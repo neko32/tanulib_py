@@ -76,41 +76,44 @@
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="k">class</span> <span class="nc">AdaptiveThresholdType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>    <span class="n">MEAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_MEAN_C</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>    <span class="n">GAUSSIAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_GAUSSIAN_C</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold type for adaptive threshold&quot;&quot;&quot;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>    <span class="n">MEAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_MEAN_C</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="n">GAUSSIAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_GAUSSIAN_C</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="k">def</span> <span class="nf">apply_otsu_threshold</span><span class="p">(</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="n">thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">255.</span><span class="p">,</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">rez</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="n">thresh</span><span class="p">,</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">maxval</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="nb">type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="p">)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">return</span> <span class="n">rez</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="k">def</span> <span class="nf">apply_adaptive_threshold</span><span class="p">(</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="n">at_method</span><span class="p">:</span> <span class="n">AdaptiveThresholdType</span> <span class="o">=</span> <span class="n">AdaptiveThresholdType</span><span class="o">.</span><span class="n">MEAN_C</span><span class="p">,</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.</span><span class="p">,</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="n">preprocess_noise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="n">img</span> <span class="o">=</span> <span class="n">tlib</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">morph_remove_noises_aka_closeopen</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="k">if</span> <span class="n">preprocess_noise</span> <span class="k">else</span> <span class="n">img</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">adaptiveThreshold</span><span class="p">(</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">maxValue</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="n">adaptiveMethod</span><span class="o">=</span><span class="n">at_method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="n">blockSize</span><span class="o">=</span><span class="n">block_size</span><span class="p">,</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="n">thresholdType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="n">C</span><span class="o">=</span><span class="n">C</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="p">)</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="k">def</span> <span class="nf">apply_otsu_threshold</span><span class="p">(</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="n">thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">255.</span><span class="p">,</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply Otsu Threshold&quot;&quot;&quot;</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">rez</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="n">thresh</span><span class="p">,</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="n">maxval</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="nb">type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="p">)</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">return</span> <span class="n">rez</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="k">def</span> <span class="nf">apply_adaptive_threshold</span><span class="p">(</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="n">at_method</span><span class="p">:</span> <span class="n">AdaptiveThresholdType</span> <span class="o">=</span> <span class="n">AdaptiveThresholdType</span><span class="o">.</span><span class="n">MEAN_C</span><span class="p">,</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.</span><span class="p">,</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>        <span class="n">preprocess_noise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply adaptive threshold&quot;&quot;&quot;</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">img</span> <span class="o">=</span> <span class="n">tlib</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">morph_remove_noises_aka_closeopen</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="k">if</span> <span class="n">preprocess_noise</span> <span class="k">else</span> <span class="n">img</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">adaptiveThreshold</span><span class="p">(</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="n">maxValue</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="n">adaptiveMethod</span><span class="o">=</span><span class="n">at_method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>        <span class="n">blockSize</span><span class="o">=</span><span class="n">block_size</span><span class="p">,</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>        <span class="n">thresholdType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="n">C</span><span class="o">=</span><span class="n">C</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
@@ -127,12 +130,13 @@
     </div>
     <a class="headerlink" href="#AdaptiveThresholdType"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="AdaptiveThresholdType-8"><a href="#AdaptiveThresholdType-8"><span class="linenos"> 8</span></a><span class="k">class</span> <span class="nc">AdaptiveThresholdType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="AdaptiveThresholdType-9"><a href="#AdaptiveThresholdType-9"><span class="linenos"> 9</span></a>    <span class="n">MEAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_MEAN_C</span>
-</span><span id="AdaptiveThresholdType-10"><a href="#AdaptiveThresholdType-10"><span class="linenos">10</span></a>    <span class="n">GAUSSIAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_GAUSSIAN_C</span>
+</span><span id="AdaptiveThresholdType-9"><a href="#AdaptiveThresholdType-9"><span class="linenos"> 9</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Threshold type for adaptive threshold&quot;&quot;&quot;</span>
+</span><span id="AdaptiveThresholdType-10"><a href="#AdaptiveThresholdType-10"><span class="linenos">10</span></a>    <span class="n">MEAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_MEAN_C</span>
+</span><span id="AdaptiveThresholdType-11"><a href="#AdaptiveThresholdType-11"><span class="linenos">11</span></a>    <span class="n">GAUSSIAN_C</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">ADAPTIVE_THRESH_GAUSSIAN_C</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>An enumeration.</p>
+            <div class="docstring"><p>Threshold type for adaptive threshold</p>
 </div>
 
 
@@ -182,22 +186,25 @@
 
     </div>
     <a class="headerlink" href="#apply_otsu_threshold"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="apply_otsu_threshold-13"><a href="#apply_otsu_threshold-13"><span class="linenos">13</span></a><span class="k">def</span> <span class="nf">apply_otsu_threshold</span><span class="p">(</span>
-</span><span id="apply_otsu_threshold-14"><a href="#apply_otsu_threshold-14"><span class="linenos">14</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="apply_otsu_threshold-15"><a href="#apply_otsu_threshold-15"><span class="linenos">15</span></a>        <span class="n">thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span>
-</span><span id="apply_otsu_threshold-16"><a href="#apply_otsu_threshold-16"><span class="linenos">16</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">255.</span><span class="p">,</span>
-</span><span id="apply_otsu_threshold-17"><a href="#apply_otsu_threshold-17"><span class="linenos">17</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="apply_otsu_threshold-18"><a href="#apply_otsu_threshold-18"><span class="linenos">18</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">rez</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
-</span><span id="apply_otsu_threshold-19"><a href="#apply_otsu_threshold-19"><span class="linenos">19</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="apply_otsu_threshold-20"><a href="#apply_otsu_threshold-20"><span class="linenos">20</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="n">thresh</span><span class="p">,</span>
-</span><span id="apply_otsu_threshold-21"><a href="#apply_otsu_threshold-21"><span class="linenos">21</span></a>        <span class="n">maxval</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
-</span><span id="apply_otsu_threshold-22"><a href="#apply_otsu_threshold-22"><span class="linenos">22</span></a>        <span class="nb">type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span>
-</span><span id="apply_otsu_threshold-23"><a href="#apply_otsu_threshold-23"><span class="linenos">23</span></a>    <span class="p">)</span>
-</span><span id="apply_otsu_threshold-24"><a href="#apply_otsu_threshold-24"><span class="linenos">24</span></a>    <span class="k">return</span> <span class="n">rez</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="apply_otsu_threshold-14"><a href="#apply_otsu_threshold-14"><span class="linenos">14</span></a><span class="k">def</span> <span class="nf">apply_otsu_threshold</span><span class="p">(</span>
+</span><span id="apply_otsu_threshold-15"><a href="#apply_otsu_threshold-15"><span class="linenos">15</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="apply_otsu_threshold-16"><a href="#apply_otsu_threshold-16"><span class="linenos">16</span></a>        <span class="n">thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span>
+</span><span id="apply_otsu_threshold-17"><a href="#apply_otsu_threshold-17"><span class="linenos">17</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">255.</span><span class="p">,</span>
+</span><span id="apply_otsu_threshold-18"><a href="#apply_otsu_threshold-18"><span class="linenos">18</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="apply_otsu_threshold-19"><a href="#apply_otsu_threshold-19"><span class="linenos">19</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply Otsu Threshold&quot;&quot;&quot;</span>
+</span><span id="apply_otsu_threshold-20"><a href="#apply_otsu_threshold-20"><span class="linenos">20</span></a>    <span class="n">_</span><span class="p">,</span> <span class="n">rez</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
+</span><span id="apply_otsu_threshold-21"><a href="#apply_otsu_threshold-21"><span class="linenos">21</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="apply_otsu_threshold-22"><a href="#apply_otsu_threshold-22"><span class="linenos">22</span></a>        <span class="n">thresh</span><span class="o">=</span><span class="n">thresh</span><span class="p">,</span>
+</span><span id="apply_otsu_threshold-23"><a href="#apply_otsu_threshold-23"><span class="linenos">23</span></a>        <span class="n">maxval</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
+</span><span id="apply_otsu_threshold-24"><a href="#apply_otsu_threshold-24"><span class="linenos">24</span></a>        <span class="nb">type</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span>
+</span><span id="apply_otsu_threshold-25"><a href="#apply_otsu_threshold-25"><span class="linenos">25</span></a>    <span class="p">)</span>
+</span><span id="apply_otsu_threshold-26"><a href="#apply_otsu_threshold-26"><span class="linenos">26</span></a>    <span class="k">return</span> <span class="n">rez</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Apply Otsu Threshold</p>
+</div>
+
 
                 </section>
                 <section id="apply_adaptive_threshold">
@@ -211,27 +218,30 @@
 
     </div>
     <a class="headerlink" href="#apply_adaptive_threshold"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="apply_adaptive_threshold-27"><a href="#apply_adaptive_threshold-27"><span class="linenos">27</span></a><span class="k">def</span> <span class="nf">apply_adaptive_threshold</span><span class="p">(</span>
-</span><span id="apply_adaptive_threshold-28"><a href="#apply_adaptive_threshold-28"><span class="linenos">28</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-29"><a href="#apply_adaptive_threshold-29"><span class="linenos">29</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-30"><a href="#apply_adaptive_threshold-30"><span class="linenos">30</span></a>        <span class="n">at_method</span><span class="p">:</span> <span class="n">AdaptiveThresholdType</span> <span class="o">=</span> <span class="n">AdaptiveThresholdType</span><span class="o">.</span><span class="n">MEAN_C</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-31"><a href="#apply_adaptive_threshold-31"><span class="linenos">31</span></a>        <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-32"><a href="#apply_adaptive_threshold-32"><span class="linenos">32</span></a>        <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-33"><a href="#apply_adaptive_threshold-33"><span class="linenos">33</span></a>        <span class="n">preprocess_noise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-</span><span id="apply_adaptive_threshold-34"><a href="#apply_adaptive_threshold-34"><span class="linenos">34</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
-</span><span id="apply_adaptive_threshold-35"><a href="#apply_adaptive_threshold-35"><span class="linenos">35</span></a>    <span class="n">img</span> <span class="o">=</span> <span class="n">tlib</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">morph_remove_noises_aka_closeopen</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="k">if</span> <span class="n">preprocess_noise</span> <span class="k">else</span> <span class="n">img</span>
-</span><span id="apply_adaptive_threshold-36"><a href="#apply_adaptive_threshold-36"><span class="linenos">36</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">adaptiveThreshold</span><span class="p">(</span>
-</span><span id="apply_adaptive_threshold-37"><a href="#apply_adaptive_threshold-37"><span class="linenos">37</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-38"><a href="#apply_adaptive_threshold-38"><span class="linenos">38</span></a>        <span class="n">maxValue</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-39"><a href="#apply_adaptive_threshold-39"><span class="linenos">39</span></a>        <span class="n">adaptiveMethod</span><span class="o">=</span><span class="n">at_method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-40"><a href="#apply_adaptive_threshold-40"><span class="linenos">40</span></a>        <span class="n">blockSize</span><span class="o">=</span><span class="n">block_size</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-41"><a href="#apply_adaptive_threshold-41"><span class="linenos">41</span></a>        <span class="n">thresholdType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span>
-</span><span id="apply_adaptive_threshold-42"><a href="#apply_adaptive_threshold-42"><span class="linenos">42</span></a>        <span class="n">C</span><span class="o">=</span><span class="n">C</span>
-</span><span id="apply_adaptive_threshold-43"><a href="#apply_adaptive_threshold-43"><span class="linenos">43</span></a>    <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="apply_adaptive_threshold-29"><a href="#apply_adaptive_threshold-29"><span class="linenos">29</span></a><span class="k">def</span> <span class="nf">apply_adaptive_threshold</span><span class="p">(</span>
+</span><span id="apply_adaptive_threshold-30"><a href="#apply_adaptive_threshold-30"><span class="linenos">30</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-31"><a href="#apply_adaptive_threshold-31"><span class="linenos">31</span></a>        <span class="n">maxv</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-32"><a href="#apply_adaptive_threshold-32"><span class="linenos">32</span></a>        <span class="n">at_method</span><span class="p">:</span> <span class="n">AdaptiveThresholdType</span> <span class="o">=</span> <span class="n">AdaptiveThresholdType</span><span class="o">.</span><span class="n">MEAN_C</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-33"><a href="#apply_adaptive_threshold-33"><span class="linenos">33</span></a>        <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-34"><a href="#apply_adaptive_threshold-34"><span class="linenos">34</span></a>        <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-35"><a href="#apply_adaptive_threshold-35"><span class="linenos">35</span></a>        <span class="n">preprocess_noise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="apply_adaptive_threshold-36"><a href="#apply_adaptive_threshold-36"><span class="linenos">36</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="apply_adaptive_threshold-37"><a href="#apply_adaptive_threshold-37"><span class="linenos">37</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply adaptive threshold&quot;&quot;&quot;</span>
+</span><span id="apply_adaptive_threshold-38"><a href="#apply_adaptive_threshold-38"><span class="linenos">38</span></a>    <span class="n">img</span> <span class="o">=</span> <span class="n">tlib</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">morph_remove_noises_aka_closeopen</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="k">if</span> <span class="n">preprocess_noise</span> <span class="k">else</span> <span class="n">img</span>
+</span><span id="apply_adaptive_threshold-39"><a href="#apply_adaptive_threshold-39"><span class="linenos">39</span></a>    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">adaptiveThreshold</span><span class="p">(</span>
+</span><span id="apply_adaptive_threshold-40"><a href="#apply_adaptive_threshold-40"><span class="linenos">40</span></a>        <span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-41"><a href="#apply_adaptive_threshold-41"><span class="linenos">41</span></a>        <span class="n">maxValue</span><span class="o">=</span><span class="n">maxv</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-42"><a href="#apply_adaptive_threshold-42"><span class="linenos">42</span></a>        <span class="n">adaptiveMethod</span><span class="o">=</span><span class="n">at_method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-43"><a href="#apply_adaptive_threshold-43"><span class="linenos">43</span></a>        <span class="n">blockSize</span><span class="o">=</span><span class="n">block_size</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-44"><a href="#apply_adaptive_threshold-44"><span class="linenos">44</span></a>        <span class="n">thresholdType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span>
+</span><span id="apply_adaptive_threshold-45"><a href="#apply_adaptive_threshold-45"><span class="linenos">45</span></a>        <span class="n">C</span><span class="o">=</span><span class="n">C</span>
+</span><span id="apply_adaptive_threshold-46"><a href="#apply_adaptive_threshold-46"><span class="linenos">46</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Apply adaptive threshold</p>
+</div>
+
 
                 </section>
     </main>

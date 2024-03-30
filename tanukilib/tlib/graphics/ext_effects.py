@@ -7,11 +7,13 @@ from tlib.graphics import draw_text, from_bgr_to_gray_scale, \
 
 
 class GrayImageEffecter(Effecter):
+    """Cause Gray Image Conv Effect"""
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
         return from_bgr_to_gray_scale(img)
 
 
 class MovieInfoOverlayEffect(Effecter):
+    """Shows Movie Info Overlay to screen"""
 
     def __init__(self, loc_x: int, loc_y: int):
         self.cache = OrderedDict()
@@ -19,6 +21,7 @@ class MovieInfoOverlayEffect(Effecter):
         self.loc_y = loc_y
 
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+        """Cause Movie Info Overlay effects"""
         if len(self.cache) == 0:
             self.cache["FRAME_WIDTH"] = device.get(cv2.CAP_PROP_FRAME_WIDTH)
             self.cache["FRAME_HEIGHT"] = device.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -55,7 +58,7 @@ class MovieInfoOverlayEffect(Effecter):
 
 
 class MeanShiftEffect(Effecter):
-
+    """Mean shift effect"""
     def __init__(
             self,
             rect: Rect,
@@ -76,6 +79,7 @@ class MeanShiftEffect(Effecter):
         self.boundingbox_thickness = boundingbox_thickness
 
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+        """Causes Mean Shift effect"""
 
         gray = from_bgr_to_gray_scale(img)
         th = apply_otsu_threshold(gray)

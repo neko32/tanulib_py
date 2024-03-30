@@ -4,6 +4,7 @@ from tlib.graphics.movie import Effecter
 
 
 class VideoAttribs:
+    "Hold video attributes"
     def __init__(self, vt: cv2.VideoCapture):
         self._frame_width = vt.get(cv2.CAP_PROP_FRAME_WIDTH)
         self._frame_height = vt.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -92,6 +93,7 @@ class VideoAttribs:
         return self._auto_exposure
 
     def summary(self) -> List[str]:
+        """Generates video info summary as List[str]"""
         buf = []
         buf.append(f"FRAME_WIDTH:{self._frame_width}")
         buf.append(f"FRAME_HEIGHT:{self._frame_height}")
@@ -114,6 +116,7 @@ class VideoAttribs:
 
 
 class VideoCapturer:
+    """Video Capture"""
 
     def __init__(self, index: int, api_pref: int):
         self.index = index
@@ -121,6 +124,7 @@ class VideoCapturer:
         self.video_attribs = None
 
     def device_test(self) -> str:
+        """Test whether devide is available"""
         vt = cv2.VideoCapture(self.index, self.api_pref)
         attribs = VideoAttribs(vt)
 
@@ -135,6 +139,7 @@ class VideoCapturer:
             self,
             wnd_name: str,
             effects: List[Effecter]) -> None:
+        """capture video"""
         vt = cv2.VideoCapture(self.index, self.api_pref)
         self.video_attribs = VideoAttribs(vt)
 

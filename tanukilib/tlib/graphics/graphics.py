@@ -4,7 +4,7 @@ import numpy as np
 from typing import Tuple, Optional, List
 from os.path import isdir, exists
 from os import listdir
-from enum import Enum, auto
+from enum import Enum
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY,
@@ -17,92 +17,57 @@ _TLIG_W_FLG_MAP = {
 
 
 class FlipDirection(Enum):
+    """Flipping direction for DA"""
     FLIP_HORIZONTAL = 0
     FLIP_VERTICAL = 1
     FLIP_HORIZONTAL_AND_VERTICAL = -1
 
 
 class ImageDepthType(Enum):
-    IMG_DEPTH_8UINT = auto()
-    IMG_DEPTH_8INT = auto()
-    IMG_DEPTH_16UINT = auto()
-    IMG_DEPTH_16INT = auto()
-    IMG_DEPTH_32INT = auto()
-    IMG_DEPTH_32FLOAT = auto()
-    IMG_DEPTH_64FLOAT = auto()
-
-
-IMG_DEPTH_MAP = {
-    ImageDepthType.IMG_DEPTH_8UINT: cv2.CV_8U,
-    ImageDepthType.IMG_DEPTH_8INT: cv2.CV_8S,
-    ImageDepthType.IMG_DEPTH_16UINT: cv2.CV_16U,
-    ImageDepthType.IMG_DEPTH_16INT: cv2.CV_16S,
-    ImageDepthType.IMG_DEPTH_32INT: cv2.CV_32S,
-    ImageDepthType.IMG_DEPTH_32FLOAT: cv2.CV_32F,
-    ImageDepthType.IMG_DEPTH_64FLOAT: cv2.CV_64F
-}
+    """Image Buffer's Depth Type"""
+    IMG_DEPTH_8UINT = cv2.CV_8U
+    IMG_DEPTH_8INT = cv2.CV_8S
+    IMG_DEPTH_16UINT = cv2.CV_16U
+    IMG_DEPTH_16INT = cv2.CV_16S
+    IMG_DEPTH_32INT = cv2.CV_32S
+    IMG_DEPTH_32FLOAT = cv2.CV_32F
+    IMG_DEPTH_64FLOAT = cv2.CV_64F
 
 
 class FontFace(Enum):
-    FONT_FACE_PLAIN = auto()
-    FONT_FACE_ITALIC = auto()
-    FONT_FACE_SIMPLEX = auto()
-    FONT_FACE_TRIPLEX = auto()
-    FONT_FACE_DUPLEX = auto()
-    FONT_FACE_COMPLEX = auto()
-    FONT_FACE_SCRIPT_SIMPLEX = auto()
-    FONT_FACE_SCRIPT_COMPLEX = auto()
-    FONT_FACE_COMPLEX_SMALL = auto()
-
-
-FONT_FACE_MAP = {
-    FontFace.FONT_FACE_PLAIN: cv2.FONT_HERSHEY_PLAIN,
-    FontFace.FONT_FACE_ITALIC: cv2.FONT_ITALIC,
-    FontFace.FONT_FACE_SIMPLEX: cv2.FONT_HERSHEY_SIMPLEX,
-    FontFace.FONT_FACE_DUPLEX: cv2.FONT_HERSHEY_DUPLEX,
-    FontFace.FONT_FACE_TRIPLEX: cv2.FONT_HERSHEY_TRIPLEX,
-    FontFace.FONT_FACE_COMPLEX: cv2.FONT_HERSHEY_COMPLEX,
-    FontFace.FONT_FACE_COMPLEX_SMALL: cv2.FONT_HERSHEY_COMPLEX_SMALL,
-    FontFace.FONT_FACE_SCRIPT_SIMPLEX: cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
-    FontFace.FONT_FACE_SCRIPT_COMPLEX: cv2.FONT_HERSHEY_SCRIPT_COMPLEX,
-}
+    """Font Face Enum"""
+    FONT_FACE_PLAIN = cv2.FONT_HERSHEY_PLAIN
+    FONT_FACE_ITALIC = cv2.FONT_ITALIC
+    FONT_FACE_SIMPLEX = cv2.FONT_HERSHEY_SIMPLEX
+    FONT_FACE_TRIPLEX = cv2.FONT_HERSHEY_TRIPLEX
+    FONT_FACE_DUPLEX = cv2.FONT_HERSHEY_DUPLEX
+    FONT_FACE_COMPLEX = cv2.FONT_HERSHEY_COMPLEX
+    FONT_FACE_SCRIPT_SIMPLEX = cv2.FONT_HERSHEY_SCRIPT_SIMPLEX
+    FONT_FACE_SCRIPT_COMPLEX = cv2.FONT_HERSHEY_SCRIPT_COMPLEX
+    FONT_FACE_COMPLEX_SMALL = cv2.FONT_HERSHEY_COMPLEX_SMALL
 
 
 class LineType(Enum):
-    LINE_TYPE_4 = auto()
-    LINE_TYPE_8 = auto()
-    LINE_TYPE_AA = auto()
-
-
-LINE_TYPE_MAP = {
-    LineType.LINE_TYPE_4: cv2.LINE_4,
-    LineType.LINE_TYPE_8: cv2.LINE_8,
-    LineType.LINE_TYPE_AA: cv2.LINE_AA,
-}
+    """Line Type"""
+    LINE_TYPE_4 = cv2.LINE_4
+    LINE_TYPE_8 = cv2.LINE_8
+    LINE_TYPE_AA = cv2.LINE_AA
 
 
 class MarkerType(Enum):
-    MARKER_TYPE_CROSS = auto()
-    MARKER_TYPE_TILTED_CROSS = auto()
-    MARKER_TYPE_STAR = auto()
-    MARKER_TYPE_DIAMOND = auto()
-    MARKER_TYPE_SQUARE = auto()
-    MARKER_TYPE_TRIANGLE_UP = auto()
-    MARKER_TYPE_TRIANGLE_DOWN = auto()
-
-
-MARKER_TYPE_MAP = {
-    MarkerType.MARKER_TYPE_CROSS: cv2.MARKER_CROSS,
-    MarkerType.MARKER_TYPE_TILTED_CROSS: cv2.MARKER_TILTED_CROSS,
-    MarkerType.MARKER_TYPE_STAR: cv2.MARKER_STAR,
-    MarkerType.MARKER_TYPE_DIAMOND: cv2.MARKER_DIAMOND,
-    MarkerType.MARKER_TYPE_SQUARE: cv2.MARKER_SQUARE,
-    MarkerType.MARKER_TYPE_TRIANGLE_UP: cv2.MARKER_TRIANGLE_UP,
-    MarkerType.MARKER_TYPE_TRIANGLE_DOWN: cv2.MARKER_TRIANGLE_DOWN,
-}
+    """Marker Type"""
+    MARKER_TYPE_CROSS = cv2.MARKER_CROSS
+    MARKER_TYPE_TILTED_CROSS = cv2.MARKER_TILTED_CROSS
+    MARKER_TYPE_STAR = cv2.MARKER_STAR
+    MARKER_TYPE_DIAMOND = cv2.MARKER_DIAMOND
+    MARKER_TYPE_SQUARE = cv2.MARKER_SQUARE
+    MARKER_TYPE_TRIANGLE_UP = cv2.MARKER_TRIANGLE_UP
+    MARKER_TYPE_TRIANGLE_DOWN = cv2.MARKER_TRIANGLE_DOWN
 
 
 class Rect:
+    """Represents rectangle"""
+
     def __init__(self, x: int, y: int, w: int, h: int):
         self._x = x
         self._y = y
@@ -130,6 +95,8 @@ class Rect:
 
 
 class BGRA:
+    """Represents BGRA Color Scheme"""
+
     def __init__(self, b: int, g: int, r: int, a: Optional[int] = None):
         self._b = b
         self._g = g
@@ -153,10 +120,12 @@ class BGRA:
         return self._a
 
     def to_tuple_bgr(self) -> Tuple[int, int, int]:
+        """Convert to Tuple of [B, G, R]"""
         return (self.blue, self.green, self.red)
 
 
 class HSVColorSchema:
+    """Represents HSV Color Scheme"""
 
     def __init__(self, h: int, s: int, v: int):
         self._h = h
@@ -176,9 +145,11 @@ class HSVColorSchema:
         return self._v
 
     def as_tuple(self) -> Tuple[int, int, int]:
+        """Convert to Tuple[H, S, V]"""
         return (self._h, self._s, self._v)
 
     def as_mat(self) -> MatLike:
+        """Convert to MatLike"""
         return np.array([self._h, self._s, self._v])
 
 
@@ -190,6 +161,10 @@ GAMMA_CORRECTION_ALMOST_WHITE = 4.0
 
 
 def imread_wrapper(fpath: str, flags: int = cv2.IMREAD_UNCHANGED) -> MatLike:
+    """
+    A wrapper func for imread. In different with raw imread(),
+    when file doesn't exist, more intuitive information is shown.
+    """
     if not exists(fpath):
         raise Exception(f"file {fpath} doesn't exist")
     return cv2.imread(fpath, flags)
@@ -201,6 +176,7 @@ def resize_img(
         new_width: int,
         new_height: int
 ) -> bool:
+    """Resize image with new_width & new_height. Interpolation is linear"""
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
     resized = cv2.resize(buf, [new_width, new_height])
     prefix = dest_path.split('.')[-1].lower()
@@ -213,6 +189,7 @@ def resize_all_imgs(
         dest_path: str,
         new_width: int,
         new_height: int) -> int:
+    """Resize all images in src_path. Interpolation is Linear as default"""
     if not (isdir(src_path) and isdir(dest_path)):
         raise Exception(f"{src_path} and {dest_path} must be directory")
     cnt = 0
@@ -230,6 +207,7 @@ def resize_all_imgs(
 
 
 def copy_img(src_path: str, dest_path) -> bool:
+    """Copy image from src_path to dest_path"""
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
     prefix = dest_path.split('.')[-1].lower()
     cfg = _TLIG_W_FLG_MAP[prefix]
@@ -237,23 +215,28 @@ def copy_img(src_path: str, dest_path) -> bool:
 
 
 def from_bgr_to_gray_scale(img: MatLike) -> MatLike:
+    """Convert BGR image to Gray-scale image"""
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 
 def persist_as_gray_image(src_path: str, dest_path: str) -> bool:
+    """Persist image to dest_path after converting to gray scale"""
     buf = cv2.imread(src_path, cv2.IMREAD_GRAYSCALE)
     return cv2.imwrite(dest_path, buf)
 
 
 def is_grayscale(img: MatLike) -> bool:
+    """Check whether image is gray scale or not"""
     return len(img.shape) == 2
 
 
 def invert_grayscale(img: MatLike) -> MatLike:
+    """Invert grayscale"""
     return cv2.bitwise_not(img)
 
 
 def affine_transform(src: MatLike, scale: int, angle: int) -> MatLike:
+    """Apply affine transformation"""
     h, w = src.shape[:2]
     center = (w // 2, h // 2)
     # M is affin trans matrix
@@ -279,10 +262,12 @@ def affine_transform(src: MatLike, scale: int, angle: int) -> MatLike:
 
 
 def persist_img(src: MatLike, dest_path: str) -> bool:
+    """Persist image to dest_path"""
     return cv2.imwrite(dest_path, src)
 
 
 def is_shift_invarient_for_grayscale_imgs(a: MatLike, b: MatLike) -> bool:
+    """Check whether the given grayscale iamge is shift invariant or not"""
 
     if not (is_grayscale(a) and is_grayscale(b)):
         raise Exception("both a and b must be gray scale")
@@ -293,14 +278,17 @@ def is_shift_invarient_for_grayscale_imgs(a: MatLike, b: MatLike) -> bool:
 
 
 def conv_from_bgr_to_hsv(src: MatLike) -> MatLike:
+    """Convert from BGR to HSV"""
     return cv2.cvtColor(src, cv2.COLOR_BGR2HSV)
 
 
 def gen_white_canvas(w: int, h: int) -> MatLike:
+    """Generate white canvas with width w and height h"""
     return np.full(shape=[h, w, 3], fill_value=255, dtype=np.uint8)
 
 
 def gen_black_canvas(w: int, h: int) -> MatLike:
+    """Generate black canvas with width w and height h"""
     return np.zeros(shape=[h, w, 3], dtype=np.uint8)
 
 
@@ -311,13 +299,14 @@ def draw_rect(
         color: BGRA = BGRA(0, 0, 0, None),
         line_type: LineType = LineType.LINE_TYPE_8,
         line_thickness: int = 1) -> None:
+    """Draw a rectangle"""
     cv2.rectangle(
         a,
         pt1=st,
         pt2=end,
         color=color.to_tuple_bgr(),
         thickness=line_thickness,
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def fill_rect(
@@ -326,13 +315,14 @@ def fill_rect(
         end: Tuple[int, int],
         color: BGRA = BGRA(0, 0, 0, None),
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Fill with a rectangle"""
     cv2.rectangle(
         a,
         pt1=st,
         pt2=end,
         color=color.to_tuple_bgr(),
         thickness=-1,
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def draw_line(
@@ -342,13 +332,14 @@ def draw_line(
         color: BGRA = BGRA(0, 0, 0, None),
         line_thickness: int = 1,
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Draw a line"""
     cv2.line(
         a,
         pt1=st,
         pt2=end,
         color=color.to_tuple_bgr(),
         thickness=line_thickness,
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def draw_polylines(
@@ -358,13 +349,14 @@ def draw_polylines(
         is_closed: bool = True,
         line_thickness: int = 1,
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Draw polygon shapes by drawing multiple lines"""
     cv2.polylines(
         img=a,
         pts=[np.array(coordinates, np.int32).reshape((-1, 1, 2))],
         isClosed=is_closed,
         color=color.to_tuple_bgr(),
         thickness=line_thickness,
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def fill_polylines(
@@ -372,11 +364,12 @@ def fill_polylines(
         coordinates: List[Tuple[int, int]],
         color: BGRA = BGRA(0, 0, 0, None),
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Fill with a polygon shapes by drawing multiple lines"""
     cv2.fillPoly(
         img=a,
         pts=[np.array(coordinates, np.int32).reshape((-1, 1, 2))],
         color=color.to_tuple_bgr(),
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def draw_text(
@@ -388,14 +381,15 @@ def draw_text(
         line_type: LineType = LineType.LINE_TYPE_8,
         font_scale: float = 1.0,
         font_face: FontFace = FontFace.FONT_FACE_PLAIN) -> None:
+    """Draw a text"""
     cv2.putText(a,
                 text=text,
                 org=loc,
-                fontFace=FONT_FACE_MAP[font_face],
+                fontFace=font_face.value,
                 fontScale=font_scale,
                 color=color.to_tuple_bgr(),
                 thickness=line_thickness,
-                lineType=LINE_TYPE_MAP[line_type])
+                lineType=line_type.value)
 
 
 def draw_circle(a: MatLike,
@@ -404,13 +398,14 @@ def draw_circle(a: MatLike,
                 color: BGRA = BGRA(0, 0, 0, None),
                 line_thickness=0,
                 line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Draw a circle"""
     cv2.circle(
         img=a,
         center=center_coordinate,
         radius=radius,
         color=color.to_tuple_bgr(),
         thickness=line_thickness,
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def fill_circle(a: MatLike,
@@ -418,13 +413,14 @@ def fill_circle(a: MatLike,
                 radius: int,
                 color: BGRA = BGRA(0, 0, 0, None),
                 line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Fill with a circle"""
     cv2.circle(
         img=a,
         center=center_coordinate,
         radius=radius,
         color=color.to_tuple_bgr(),
         thickness=-1,
-        lineType=LINE_TYPE_MAP[line_type])
+        lineType=line_type.value)
 
 
 def draw_ellipse(
@@ -435,6 +431,7 @@ def draw_ellipse(
         color: BGRA = BGRA(0, 0, 0, None),
         line_thickness: int = 1,
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Draw an ellipse"""
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -443,7 +440,7 @@ def draw_ellipse(
                 endAngle=360,
                 color=color.to_tuple_bgr(),
                 thickness=line_thickness,
-                lineType=LINE_TYPE_MAP[line_type])
+                lineType=line_type.value)
 
 
 def fill_ellipse(
@@ -453,6 +450,7 @@ def fill_ellipse(
         angle: float = 0,
         color: BGRA = BGRA(0, 0, 0, None),
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Fill with an ellipse"""
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -461,7 +459,7 @@ def fill_ellipse(
                 endAngle=360,
                 color=color.to_tuple_bgr(),
                 thickness=-1,
-                lineType=LINE_TYPE_MAP[line_type])
+                lineType=line_type.value)
 
 
 def draw_arc(
@@ -474,6 +472,7 @@ def draw_arc(
         color: BGRA = BGRA(0, 0, 0, None),
         line_thickness: int = 1,
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Draw an arc"""
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -482,7 +481,7 @@ def draw_arc(
                 endAngle=end_angle,
                 color=color.to_tuple_bgr(),
                 thickness=line_thickness,
-                lineType=LINE_TYPE_MAP[line_type])
+                lineType=line_type.value)
 
 
 def fill_arc(
@@ -494,6 +493,7 @@ def fill_arc(
         end_angle: float = 45,
         color: BGRA = BGRA(0, 0, 0, None),
         line_type: LineType = LineType.LINE_TYPE_8) -> None:
+    """Fill an arc"""
     cv2.ellipse(img=a,
                 center=center_coordinate,
                 axes=axes,
@@ -502,7 +502,7 @@ def fill_arc(
                 endAngle=end_angle,
                 color=color.to_tuple_bgr(),
                 thickness=-1,
-                lineType=LINE_TYPE_MAP[line_type])
+                lineType=line_type.value)
 
 
 def put_marker(
@@ -513,17 +513,19 @@ def put_marker(
         line_thickness: int = 1,
         line_type: LineType = LineType.LINE_TYPE_8,
         marker_size: int = 20) -> None:
+    """Draw a marker with spevified marker type"""
     cv2.drawMarker(
         img=a,
         position=loc,
         color=color.to_tuple_bgr(),
-        markerType=MARKER_TYPE_MAP[marker_type],
+        markerType=marker_type.value,
         markerSize=marker_size,
         thickness=line_thickness,
-        line_type=LINE_TYPE_MAP[line_type])
+        line_type=line_type.value)
 
 
 def get_minmax_pix_loc(img: MatLike) -> Tuple[List[int], List[int]]:
+    """Get Min & Max pix location"""
     minposs = np.where(img == np.min(img))
     maxposs = np.where(img == np.max(img))
     minposs = list(zip(minposs[0], minposs[1]))
@@ -536,6 +538,7 @@ def apply_gamma_correction(
         img: MatLike,
         gamma: float = 2.0,
 ) -> MatLike:
+    """Apply Gamma correction"""
     lookup_tbl = np.zeros(shape=[256,], dtype=np.uint8)
     for i in range(256):
         lookup_tbl[i] = 255.0 * (float(i) / 255.) ** (1. / gamma)
@@ -547,6 +550,7 @@ def is_high_contract(
     col2: Tuple[int, int, int],
     verbose: bool = False
 ) -> bool:
+    """Evaluates whether the given two colors are high contrast or not"""
     # brightness diff test formula
     # abs((299 * R1 + 587 * G1 + 114 * B1) / 1000) -
     # (299 * R2 + 587 * G2 + 114 * B2) / 1000) > 125
@@ -581,6 +585,7 @@ def add_watermark(
     watermark_ratio: float,
     gamma: float,
 ) -> MatLike:
+    """Add water mark"""
     if watermark_ratio < 0 or watermark_ratio > 1.:
         raise ValueError(
             f"watermark_ratio must be between 0 and \
@@ -599,12 +604,14 @@ def flip_image(
         img: MatLike,
         flip_direction: FlipDirection
 ) -> MatLike:
+    """Flip a image with given flip direction"""
     return cv2.flip(img, flip_direction.value)
 
 
 def equalize_hist(
         img: MatLike
 ) -> MatLike:
+    """Performs histgram equalization"""
     channels = cv2.split(img)
     eqhs = []
     if len(channels) != 3:
@@ -622,6 +629,7 @@ def detect_corner_by_harris(
         threshold: float = 0.01,
         marker_color: BGRA = BGRA(0, 255, 0)
 ) -> MatLike:
+    """Detect corners by Harris algo"""
     gray = from_bgr_to_gray_scale(img)
     dst = cv2.cornerHarris(
         src=gray,
@@ -635,14 +643,15 @@ def detect_corner_by_harris(
     return retbuf
 
 
-def conv_to_opencv_hue(f:float) -> float:
+def conv_to_opencv_hue(f: float) -> float:
     """
     Usually Hue is 0~360 but OpenCV is 0~180.
     This function will provide a conversion from regular Hue to OpenCV Hue
     """
     return f / 2.
 
-def conv_to_opencv_sat_val(f:float) -> float:
+
+def conv_to_opencv_sat_val(f: float) -> float:
     """
     Usually Saturation and Value is 0~100 but Open CV is 0~255.
     This function will provide a conversion for regular sat/val to Open CV's ones

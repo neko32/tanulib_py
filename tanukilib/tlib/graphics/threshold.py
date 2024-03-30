@@ -5,6 +5,7 @@ import tlib.graphics
 
 
 class AdaptiveThresholdType(Enum):
+    """Threshold type for adaptive threshold"""
     MEAN_C = cv2.ADAPTIVE_THRESH_MEAN_C
     GAUSSIAN_C = cv2.ADAPTIVE_THRESH_GAUSSIAN_C
 
@@ -14,6 +15,7 @@ def apply_otsu_threshold(
         thresh: float = 0.,
         maxv: float = 255.,
 ) -> MatLike:
+    """Apply Otsu Threshold"""
     _, rez = cv2.threshold(
         src=img,
         thresh=thresh,
@@ -31,6 +33,7 @@ def apply_adaptive_threshold(
         C: float = 3.,
         preprocess_noise: bool = False
 ) -> MatLike:
+    """Apply adaptive threshold"""
     img = tlib.graphics.morph_remove_noises_aka_closeopen(img) if preprocess_noise else img
     return cv2.adaptiveThreshold(
         src=img,

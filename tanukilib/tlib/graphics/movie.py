@@ -6,17 +6,22 @@ from typing import List
 
 
 class Effecter(ABC):
+    """Abstract class for Effecter"""
     @abstractmethod
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+        """Abstract method"""
         pass
 
 
 class NoOpEffect(Effecter):
+    """No-Op Effect"""
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+        """No-op"""
         return img
 
 
 class MoviePlay:
+    """Play a specified movie"""
 
     def __init__(self, index: int, api_pref: int):
         self.index = index
@@ -27,6 +32,7 @@ class MoviePlay:
             movie_file_path: str,
             wnd_name: str,
             effects: List[Effecter]) -> None:
+        """Play movie"""
         if not exists(movie_file_path):
             raise Exception(f"file {movie_file_path} not found")
         vt = cv2.VideoCapture(self.index, self.api_pref)

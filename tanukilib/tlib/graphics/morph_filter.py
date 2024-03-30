@@ -7,6 +7,11 @@ from tlib.graphics.movie import Effecter
 
 
 def preprocess_for_morph(img: MatLike, skip_gray: bool = False) -> MatLike:
+    """
+    Performs the following preprocessing to make morph most effective
+    - convert to gray scale
+    - apply threshold (Otsu only for now)
+    """
     gr = img if skip_gray else from_bgr_to_gray_scale(img)
     return apply_otsu_threshold(
         img=gr,
@@ -19,6 +24,7 @@ def morph_remove_noise_aka_open(
         img: MatLike,
         iteration: int = 1
 ) -> MatLike:
+    """Apply morphology with open. Best to remove white noise"""
     kernel = np.ones(shape=(3, 3), dtype=np.uint8)
     return cv2.morphologyEx(
         src=img,
@@ -32,6 +38,7 @@ def morph_remove_dots_aka_close(
         img: MatLike,
         iteration: int = 1
 ) -> MatLike:
+    """Apply morphology with close. Best to remove black dots"""
     kernel = np.ones(shape=(3, 3), dtype=np.uint8)
     return cv2.morphologyEx(
         src=img,
@@ -45,6 +52,7 @@ def morph_remove_noises_aka_closeopen(
         img: MatLike,
         iteration: int = 1
 ) -> MatLike:
+    """Performs close and open morphology successively"""
     kernel = np.ones(shape=(3, 3), dtype=np.uint8)
     intermed = cv2.morphologyEx(
         src=img,
@@ -64,6 +72,7 @@ def erode(
     img: MatLike,
     iteration: int = 1
 ) -> MatLike:
+    """Perform erosion. White portion becomes thinner"""
     kernel = np.ones(shape=(3, 3), dtype=np.uint8)
     return cv2.erode(
         src=img,
@@ -73,8 +82,10 @@ def erode(
 
 
 class SkeltonizationEffect(Effecter):
+    """Provides Skeltonization effect"""
 
     def process(self, img: MatLike, device: cv2.VideoCapture) -> MatLike:
+        """Cause skeltonization effect"""
         th = preprocess_for_morph(img)
         w = int(device.get(cv2.CAP_PROP_FRAME_WIDTH))
         h = int(device.get(cv2.CAP_PROP_FRAME_HEIGHT))
