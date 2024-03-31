@@ -7,6 +7,9 @@ from enum import Enum
 
 
 class GUIEvent(Enum):
+    """
+    GUI Event Enum
+    """
     EVT_CLICK = "<Button>"
     EVT_LEFTCLICK = "<Button-1>"
     EVT_MIDDLECLICK = "<Button-2>"
@@ -21,6 +24,7 @@ class GUIEvent(Enum):
 
 
 class SelectMode(Enum):
+    """Listbox's select mode"""
     BROWSE = "browse"
     SINGLE = "single"
     MULTIPLE = "multiple"
@@ -28,12 +32,17 @@ class SelectMode(Enum):
 
 
 class WidgetState(Enum):
+    """Widget's state"""
     NORMAL = tk.NORMAL
     ACTIVE = tk.ACTIVE
     DISABLED = tk.DISABLED
 
 
 def from_widget_state_to_bool(s: str) -> bool:
+    """
+    Convert widget state to boolean representation
+    NORMAL and ACTIVE => True, else => False
+    """
     if s == WidgetState.NORMAL.value or s == WidgetState.ACTIVE.value:
         return True
     else:
@@ -41,6 +50,10 @@ def from_widget_state_to_bool(s: str) -> bool:
 
 
 def from_bool_to_widget_state(b: bool) -> WidgetState:
+    """
+    Convert bool to widget state
+    True => ACTIVE, False => DISABLED
+    """
     if b:
         return WidgetState.ACTIVE
     else:
@@ -48,17 +61,21 @@ def from_bool_to_widget_state(b: bool) -> WidgetState:
 
 
 class LayoutType(Enum):
+    """Widget layout mode"""
     DEFAULT = "default"
     GRID = "grid"
     ABSOLUTE = "absolute"
 
 
 class Orient(Enum):
+    """Slider widget's orientation"""
     HORIZONTAL = "horizontal"
     VERTICAL = "vertical"
 
 
 class FileDialogFileType:
+    """File Dialog type"""
+
     def __init__(self, description: str, filter: str):
         self._description = description
         self._filter = filter
@@ -76,6 +93,8 @@ class FileDialogFileType:
 
 
 class EventCallBack:
+    """Event Callback"""
+
     def __init__(self, evt: GUIEvent, callback):
         self._evt = evt
         self._callback = callback
@@ -90,6 +109,8 @@ class EventCallBack:
 
 
 class FrameInfo:
+    """Stores information for frame"""
+
     def __init__(
             self,
             name: str,
@@ -104,6 +125,7 @@ class FrameInfo:
 
 
 class GUIManager:
+    """Core class for GUI management and GUI generation"""
 
     def __init__(
         self,
@@ -135,6 +157,7 @@ class GUIManager:
         self.is_grid_enabled = False
 
     def _to_geometry(self) -> str:
+        """Generate geometry representation of frame"""
         return f"{self.width}x{self.height}+{self.x_loc}+{self.y_loc}"
 
     def add_frame(
@@ -143,6 +166,7 @@ class GUIManager:
         padx: int = 0,
         pady: int = 0
     ) -> None:
+        """Add a Frame"""
         frd = FrameInfo(
             name,
             tk.Frame(self.root),
@@ -160,6 +184,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a label"""
         frm = self.frame[frame_name].frame
         label = tk.Label(frm, text=text)
         if layout_type == LayoutType.GRID:
@@ -176,6 +201,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a textbox"""
         frm = self.frame[frame_name].frame
         stv = tk.StringVar(frm, default_str)
         txt = tk.Entry(frm, textvariable=stv)
@@ -195,6 +221,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a button"""
         frm = self.frame[frame_name].frame
         btn = tk.Button(frm, text=value)
         if layout_type == LayoutType.GRID:
@@ -219,6 +246,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a textarea"""
         frm = self.frame[frame_name].frame
         txt = tk.Text(
             frm,
@@ -249,6 +277,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a checkbox"""
         frm = self.frame[frame_name].frame
         bv = tk.BooleanVar(value=default_val)
         chkbox = tk.Checkbutton(
@@ -273,6 +302,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a radio button"""
         n = 0
         vobj_name = f"{name}_val"
         frm = self.frame[frame_name].frame
@@ -309,6 +339,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a listbox"""
         frm = self.frame[frame_name].frame
         lv = tk.StringVar(frm, value=values)
         lb = tk.Listbox(
@@ -345,6 +376,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add dropdown box"""
         frm = self.frame[frame_name].frame
         dbox = ttk.Combobox(
             frm,
@@ -379,6 +411,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a spinbox"""
         frm = self.frame[frame_name].frame
         spin = tk.Spinbox(
             frm,
@@ -406,6 +439,7 @@ class GUIManager:
         grid_row: int = 0,
         grid_col: int = 0
     ) -> None:
+        """Add a slider"""
         frm = self.frame[frame_name].frame
         scalev = tk.DoubleVar() if need_float_precision else tk.IntVar()
         defv = default_val if default_val >= lower_limit \
@@ -433,6 +467,7 @@ class GUIManager:
             slider.bind("")
 
     def add_menu(self, name: str, tear_off: bool = False) -> None:
+        """Add a menu"""
         if self.menubar is None:
             self.menubar = tk.Menu(self.frame["default"].frame)
         self.menus[name] = tk.Menu(self.menubar, tearoff=False)
@@ -443,6 +478,7 @@ class GUIManager:
         label: str,
         cmd: Optional[Any]
     ) -> None:
+        """Add a menuitem to the target menu"""
         if self.menubar is None:
             raise Exception("menu must be created")
         if target_name not in self.menus:
@@ -456,6 +492,7 @@ class GUIManager:
         self,
         target_name: str
     ) -> None:
+        """Add a menu separator the the target menu"""
         if self.menubar is None:
             raise Exception("menu must be created")
         if target_name not in self.menus:
@@ -468,6 +505,7 @@ class GUIManager:
         evt: GUIEvent,
         callback: Any
     ) -> None:
+        """Add event callback"""
         self.widgets[widget_name].bind(
             evt.value,
             callback
@@ -477,6 +515,7 @@ class GUIManager:
         self,
         widget_name: str
     ) -> bool:
+        """Check whether widget_name is active or not"""
         state = self.widgets[widget_name]["state"]
         print(state)
         return from_widget_state_to_bool(state)
@@ -486,10 +525,12 @@ class GUIManager:
         widget_name: str,
         state: bool
     ) -> None:
+        """Set state to widget_name"""
         self.widgets[widget_name]["state"] = \
             from_bool_to_widget_state(state).value
 
     def build(self):
+        """Build a GUI"""
         self.root.title(self.title)
         self.root.geometry(self._to_geometry())
         if self.menubar is not None:
@@ -512,6 +553,7 @@ def open_file_dialog_for_fpath(
         init_dir: str,
         title: str
 ) -> str:
+    """Open a file dialog (for read, open)"""
     flist = list(map(lambda ftype: ftype.as_tuple(), filetypes))
     return fdlg.askopenfilename(
         initialdir=init_dir,
@@ -525,6 +567,7 @@ def open_file_dialog_for_write_fpath(
         init_dir: str,
         title: str
 ) -> str:
+    """Open a file dialog (for write)"""
     flist = list(map(lambda ftype: ftype.as_tuple(), filetypes))
     return fdlg.asksaveasfilename(
         initialdir=init_dir,
@@ -537,6 +580,7 @@ def open_file_dialog_for_dir(
         init_dir: str,
         title: str
 ) -> str:
+    """Open a file dialog for directory"""
     return fdlg.askdirectory(
         initialdir=init_dir,
         title=title
