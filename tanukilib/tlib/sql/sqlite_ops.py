@@ -1,6 +1,8 @@
 import sqlite3
 from enum import Enum
 from typing import List, Any, Optional
+from pathlib import Path
+from tlib.core import exec_cmd
 
 
 class ColumnType(Enum):
@@ -220,3 +222,13 @@ def drop_table(
     except Exception as e:
         print(e)
         return False
+
+
+def create_db(path: str) -> bool:
+    """Create an empty SQLite database file"""
+    dbpath = Path(path)
+    if dbpath.exists():
+        return True
+
+    rez, _, _ = exec_cmd(["sqlite3", str(dbpath), "\"VACUUM;\""])
+    return rez == 1
