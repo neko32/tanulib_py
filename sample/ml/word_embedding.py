@@ -1,10 +1,15 @@
 import os
+from os import mkdir
+from os.path import exists
 from pathlib import Path
 from tlib.ml.dataset import load_text_dataset
-from tlib.ml.base import make_model_VE_2FC_GAP_2FC
+from tlib.ml.base import (
+    make_model_VE_2FC_GAP_2FC,
+    generate_weight_vocab_files_as_tsv
+)
 import tensorflow as tf
 from tf_keras.layers import TextVectorization
-from keras.callbacks import TensorBoard
+from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.optimizers import Adam
 from keras.losses import BinaryCrossentropy
 import re
@@ -23,6 +28,12 @@ def custom_standardization(input_data):
 
 
 def main():
+
+    model_store_loc = os.path.join(
+        os.environ["TANUAPP_ML_DIR"], "word_embedding")
+    if not exists(model_store_loc):
+        mkdir(model_store_loc)
+
     tmp_dir = os.environ["HOME_TMP_DIR"]
     log_path = Path(tmp_dir).joinpath("word_embedding")
     if log_path.exists():
@@ -68,6 +79,7 @@ def main():
         embedding_dim=16
     )
     tb_callback = TensorBoard(log_dir=str(log_path))
+    model_checkpoint = ModelCheckpoint(model_store_loc)
 
     model.compile(
         optimizer=Adam(),
@@ -79,10 +91,18 @@ def main():
         train_ds,
         validation_data=val_ds,
         epochs=15,
-        callbacks=[tb_callback]
+        callbacks=[tb_callback, model_checkpoint]
     )
 
     model.summary()
+
+    print("### NEXT STEP is to generate vectors & metadata.tsv..")
+    generate_weight_vocab_files_as_tsv(
+        model=model,
+        vec_layer=vec_layer,
+        emb_layer_name="emb",
+        file_loc=model_store_loc
+    )
 
     print("all done.")
 

@@ -1,6 +1,7 @@
 from tlib.ml.base import *
 from os import mkdir
 from os.path import exists
+import tensorflow as tf
 # from os import remove
 
 
@@ -28,13 +29,13 @@ def main():
     # apply da
     tr_ds = tr_ds.map(
         lambda img, label: (da.apply(img), label),
-        num_parallel_calls=tf_data.AUTOTUNE,
+        num_parallel_calls=tf.data.AUTOTUNE,
     )
     print(f"tr ds (after DA) - {tr_ds}")
     print(f"tr ds siz (after DA) - {len(tr_ds)}")
 
-    tr_ds = tr_ds.prefetch(tf_data.AUTOTUNE)
-    val_ds = val_ds.prefetch(tf_data.AUTOTUNE)
+    tr_ds = tr_ds.prefetch(tf.data.AUTOTUNE)
+    val_ds = val_ds.prefetch(tf.data.AUTOTUNE)
 
     model = make_model_CBA_with_MP_GAP_plus_residual(
         input_shape_without_channel=PREFERRED_IMG_SIZE_CATDOG,

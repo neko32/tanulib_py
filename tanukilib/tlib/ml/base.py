@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 from enum import Enum
 from os.path import exists
+import io
 
 PREFERRED_IMG_SIZE_CATDOG = (180, 180)
 # PREFERRED_BATCH_SIZE_CATDOG = 128
@@ -257,6 +258,7 @@ def make_model_CBA_with_MP_GAP_plus_residual(
 def make_model_VE_2FC_GAP_2FC(
     tv: TextVectorization,
     vocab_size: int,
+    embedding_layer_name: str = "emb",
     embedding_dim: int = 8,
     fc1_num_neurons: int = 16,
     fc1_activation: str = 'relu',
@@ -264,11 +266,44 @@ def make_model_VE_2FC_GAP_2FC(
 ) -> keras.Model:
     return keras.models.Sequential([
         tv,
-        Embedding(vocab_size, embedding_dim, name="emb"),
+        Embedding(vocab_size, embedding_dim, name=embedding_layer_name),
         GlobalAveragePooling1D(),
         Dense(fc1_num_neurons, activation=fc1_activation),
         Dense(fc2_num_neurons)
     ])
+
+
+def generate_weight_vocab_files_as_tsv(
+        model: keras.models.Model,
+        vec_layer: keras.layers.TextVectorization,
+        emb_layer_name: str,
+        file_loc: str
+) -> None:
+    fpath = Path(file_loc)
+    if not fpath.parent.exists():
+        raise Exception(f"{str(fpath.parent)} doesn't exist")
+    weights = model.get_layer(emb_layer_name).get_weights()[0]
+    vocab = vec_layer.get_vocabulary()
+
+    vec_file = str(fpath.joinpath("vectors.tsv"))
+    meta_file = str(fpath.joinpath("metadata.tsv"))
+
+    try:
+        fd_v = io.open(vec_file, "w", encoding='utf-8')
+        fd_m = io.open(meta_file, "w", encoding='utf-8')
+
+        for idx, word in enumerate(vocab):
+            # idx == 0 means it's padding
+            if idx == 0:
+                continue
+            vec = weights[idx]
+            fd_v.write('\t'.join([str(x) for x in vec]) + "\n")
+            fd_m.write(word + "\n")
+        fd_v.close()
+        fd_m.close()
+
+    except Exception as e:
+        print(e)
 
 
 def get_available_gpu_devices() -> bool:
