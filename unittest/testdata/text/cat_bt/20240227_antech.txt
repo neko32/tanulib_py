@@ -55,3 +55,69 @@ MCV 51 37-61 fL
 Page 1 of 2 Accession ID XXXXXXXXXXX (FINAL) 3/13/2024 4:03:21 PM
 
 PhotoScan by Google Photos
+
+MCH 17.4 11-21 pg
+
+ 
+
+ 
+
+ 
+
+ 
+
+MCHC 34 30-38 g/dL
+Platelet Count 245 200-500 1043/uL
+Platelet Estimate Adequate
+
+Differential Absolute %
+
+Neutrophils 4,094 46 2,500-8,500 /uL
+Bands 0 0-3
+
+Lymphocytes 3,204 36 1,200-8,000 ful
+Monocytes 356 4 0-600 ful
+Eosinophils 1,246 (HIGH) 14 0-1,000 /uL
+Basophils 0 0 0-150 /uL
+a  —————————
+TestRequested Results CCC Adult Reference Interval Units 20000
+Free T4 By Equilibrium Dialysis
+
+Free T4 Equilibrium Dialysis 39.2 10-50 pmol/L
+Test Requested Results Adult Reference Interval Units
+TSH
+
+TSH 0.11 0,00-0.30 ng/mL
+Test Requested Results Adult Reference Interval Units
+Urinalysis-Complete
+
+Collection Method Cystocentesis
+
+Color YELLOW
+
+Appearance TURBID
+
+Specific Gravity 1.032 1.015-1.060
+
+pH 7.5 (HIGH) §.5-7.0
+
+Protein TRACE (HIGH) NEGATIVE
+
+Microalbuminuria testing is recommended (if sediment is inactive) to help determine the clinical significance of proteinuria.
+Glucose-Strip NEGATIVE NEGATIVE
+
+Ketones NEGATIVE NEGATIVE
+
+Bilirubin NEGATIVE NEGATIVE
+
+Occult Blood NEGATIVE NEGATIVE
+
+RBC NONE 0-3 HPF
+Casts NONE SEEN Hyaline 0-3 LPF
+Crystals NONE SEEN HPF
+Bacteria NONE SEEN None Seen HPF
+Epithelial Cells NONE SEEN HPF
+Test Requested Results Adult Reference Interval Units
+Urine Microalbumin Feline Reflex
+
+Microalbuminuria 0.5 <2.5 mg/dL

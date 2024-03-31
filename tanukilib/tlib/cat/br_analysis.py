@@ -198,6 +198,79 @@ class BloodTestReport:
         Too high .. hemolytic anemia
         Too low .. anesia due to lack of iron, inflamation, kidney issue
         """
+        self.MCH = None
+        """
+        Indicates average amount of haemoglobin in each red blood corpuscle.
+        MCH decrease before MCV decreases.
+        """
+        self.MCHC = None
+        """
+        Indicates density of haemoglobin in each red blood corpuscle.
+        31~35 .. hypochromic
+        <= 30 .. normochromic
+        """
+        self.platelet_count = None
+        """
+        Count of platelet. Impacts to stop bleeding.
+        """
+        self.neutrophils = None
+        """
+        Num of neutrophils.
+        Increased number may indicate some injury or tumor.
+        But it could be a high stress.
+        Decreased number may indicate leukemia.
+        """
+        self.bands = None
+        """
+        bands
+        """
+        self.lymphocytes = None
+        """
+        Lymphocytes in white blood corpuscle.
+        too low .. virus, stress, etc,.
+        too high .. leukemia, after vaccine
+        """
+        self.monocytes = None
+        """
+        Monocytes takes only approx 2% in WBC.
+        Increasing num might indicate virus, tumor, stress etc,.
+        """
+        self.eosinophils = None
+        """
+        Eosinophils takes only 4~6% in WBC.
+        Increasing number may indicate rice, cancer or lung-releated issue
+        """
+        self.basophils = None
+        """
+        Basophils.
+        """
+        self.freet4_equilibrium_dialysis = None
+        """
+        See T4
+        """
+        self.tsh = None
+        """
+        Thyroid-Stimulating Hormone.
+        """
+        self.specific_gravity = None
+        """
+        Specific Gravity indicates health indicator for kidney.
+        Low specific gravity indicates weak urine.
+        """
+        self.ph = None
+        """
+        Urine's PH
+        1~6 .. acidic
+        7~8 .. normal
+        8~14 .. alkaline
+        Alkaline condition may cause inflammation of urinary bladder
+        """
+
+        self.microalbuminuria = None
+        """
+        Micro amount of alubumin in urine
+        """
+
         self.name = name
         """
         Name for a cat
@@ -231,7 +304,12 @@ class BloodTestReport:
             self.na_k_ratio, self.chloride, self.cholesterol, self.triglyceride,
             self.amylase, self.precision_psl, self.cpk,
             self.T4, self.WBC, self.RBC,
-            self.HGB, self.HCT, self.MCV
+            self.HGB, self.HCT, self.MCV,
+            self.MCH, self.MCHC, self.platelet_count,
+            self.neutrophils, self.bands, self.lymphocytes,
+            self.monocytes, self.eosinophils, self.basophils,
+            self.freet4_equilibrium_dialysis, self.tsh,
+            self.specific_gravity, self.ph, self.microalbuminuria
         ]
 
     def is_attrib_protein(self, key: str) -> bool:
@@ -426,6 +504,90 @@ class BloodTestReport:
         """
         return True if key in ["mcv"] else False
 
+    def is_attrib_mch(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as MCH
+        """
+        return True if key in ["mch"] else False
+
+    def is_attrib_mchc(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as MCHC
+        """
+        return True if key in ["mchc"] else False
+
+    def is_attrib_platelet_count(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as platelet count
+        """
+        return True if key in ["platelet_count"] else False
+
+    def is_attrib_neutrophils(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as neutrophils
+        """
+        return True if key in ["neutrophils"] else False
+
+    def is_attrib_bands(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as bands
+        """
+        return True if key in ["bands"] else False
+
+    def is_attrib_lymphocytes(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as lymphocytes
+        """
+        return True if key in ["lymphocytes"] else False
+
+    def is_attrib_monocytes(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as monocytes
+        """
+        return True if key in ["monocytes"] else False
+
+    def is_attrib_eosinophils(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as Eosinophils
+        """
+        return True if key in ["eosinophils"] else False
+
+    def is_attrib_basophils(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as basophils
+        """
+        return True if key in ["basophils"] else False
+
+    def is_attrib_freet4_equilibrium_dialysis(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as Free T4 by Equilibrium Dialysis
+        """
+        return True if key in ["freet4_equilibrium_dialysis"] else False
+
+    def is_attrib_tsh(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as TSH
+        """
+        return True if key in ["tsh"] else False
+
+    def is_attrib_specific_gravity(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as specific gravity
+        """
+        return True if key in ["specific_gravity"] else False
+
+    def is_attrib_ph(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as PH
+        """
+        return True if key in ["ph"] else False
+
+    def is_attrib_microalbuminuria(self, key: str) -> bool:
+        """
+        validate if an attribute is classified as Microalbuminuria
+        """
+        return True if key in ["microalbuminuria"] else False
+
     def set_attrib(self, key: str, value_s: str) -> None:
         """
         set attribute by checking given key.
@@ -498,6 +660,34 @@ class BloodTestReport:
             self.HCT = float(value_s)
         elif self.is_attrib_mcv(key):
             self.MCV = float(value_s)
+        elif self.is_attrib_mch(key):
+            self.MCH = float(value_s)
+        elif self.is_attrib_mchc(key):
+            self.MCHC = float(value_s)
+        elif self.is_attrib_platelet_count(key):
+            self.platelet_count = float(value_s)
+        elif self.is_attrib_neutrophils(key):
+            self.neutrophils = float(value_s)
+        elif self.is_attrib_bands(key):
+            self.bands = float(value_s)
+        elif self.is_attrib_lymphocytes(key):
+            self.lymphocytes = float(value_s)
+        elif self.is_attrib_monocytes(key):
+            self.monocytes = float(value_s)
+        elif self.is_attrib_eosinophils(key):
+            self.eosinophils = float(value_s)
+        elif self.is_attrib_basophils(key):
+            self.basophils = float(value_s)
+        elif self.is_attrib_freet4_equilibrium_dialysis(key):
+            self.freet4_equilibrium_dialysis = float(value_s)
+        elif self.is_attrib_tsh(key):
+            self.tsh = float(value_s)
+        elif self.is_attrib_specific_gravity(key):
+            self.specific_gravity = float(value_s)
+        elif self.is_attrib_ph(key):
+            self.ph = float(value_s)
+        elif self.is_attrib_microalbuminuria(key):
+            self.microalbuminuria = float(value_s)
 
     def set_by_antech_br_report(self, report: str) -> None:
         """
@@ -522,6 +712,13 @@ class BloodTestReport:
                 line = line.replace("bun/creat ratio", "bun/creat_ratio")
             elif line.startswith("na/k ratio"):
                 line = line.replace("na/k ratio", "na/k_ratio")
+            elif line.startswith("platelet count"):
+                line = line.replace("platelet count", "platelet_count")
+            elif line.startswith("free t4 equilibrium dialysis"):
+                line = line.replace(
+                    "free t4 equilibrium dialysis", "freet4_equilibrium_dialysis")
+            elif line.startswith("specific gravity"):
+                line = line.replace("specific gravity", "specific_gravity")
 
             match = re.match(r"^([a-z0-9/_]+) ([0-9.,]+).*$", line)
             if match:
@@ -545,7 +742,10 @@ def to_df(reports: List[BloodTestReport]) -> pd.DataFrame:
         "Calcium", "Magnesium", "Sodium", "Potassium", "NA/K_Ratio",
         "Chloride", "Cholesterol", "Triglyceride", "Amylase",
         "PrecisionPSL", "CPK", "T4", "WBC", "RBC",
-        "HGB", "HCT", "MCV"
+        "HGB", "HCT", "MCV", "MCH", "MCHC", "Platelet_Count",
+        "Neutrophils", "Bands", "Lymphocytes", "Monocytes",
+        "Eosinophils", "Basophils", "Free_T4_By_Equilibrium_Dialysis",
+        "TSH", "Specific Gravity", "PH", "Microalbuminuria"
     ]
     data = []
     for report in reports:
