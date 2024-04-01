@@ -38,6 +38,16 @@ class WranglerTest(TestCase):
         q = discretize_by_quantile(a)
         self.assertTrue(is_ndarray_equal(q, expected))
 
+    def test_logarithmic_conv(self):
+        a = np.array(
+            [
+                5732343, 323272, 34832, 33023, 11234,
+                2332, 980, 450, 103, 20, 10, 7, 0
+            ]
+        )
+        b = logaritmic_conv(a)
+        self.assertTrue(all([True if x < 10 else False for x in b]))
+
 
 if __name__ == "__main__":
     main()

@@ -45,3 +45,13 @@ def discretize_by_quantile(
     s = pd.Series(a)
     qs = pd.qcut(s, 4, labels = False)
     return qs.to_numpy()
+
+def logaritmic_conv(
+        a: NDArray,
+        add_one: bool = True # to avoid -inf for 0
+) -> NDArray:
+    if add_one:
+        print(a + 1)
+        return np.log10(a + 1)
+    else:
+        return np.log10(a)
