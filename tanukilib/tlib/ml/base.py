@@ -159,6 +159,69 @@ def make_model_with_scalar_input_single_hidden_fc(
     return keras.Model(input, output)
 
 
+def make_model_CAMDCAMD_2FC_F_2FC(
+        input_shape: Tuple[int, int, int],
+        begin_filters: int = 32,
+        padding: str = 'same',
+        kernel_size: Tuple[int, int] = [3, 3],
+        conv_activation: str = 'relu',
+        fc1_activation: str = 'relu',
+        fc2_activation: str = 'softmax',
+        fc1_num_neurons: int = 512,
+        fc2_num_category: int = 10
+) -> keras.Model:
+    """
+    Build a model with the following spec;
+    - input + first Conv2D
+    - 1st Conv2D + MaxPooling2D + Dropout
+    - 2nd Conv2D + MaxPooling2D + Dropout with doubled filter
+    - Flatten bridge to FC
+    - 1st FC
+    - 2nd FC
+    - Output
+    """
+
+    inputs = Input(shape=input_shape)
+    num_filters = begin_filters
+    # entry Conv2D
+    x = keras.layers.Conv2D(
+        filters=num_filters,
+        kernel_size=kernel_size,
+        padding=padding
+    )(inputs)
+    x = keras.layers.Activation(conv_activation)(x)
+
+    # hidden layer - C1 -> C2 with doubling filters
+    # C1
+    x = keras.layers.Conv2D(
+        filters=num_filters,
+        kernel_size=kernel_size,
+        padding=padding
+    )(inputs)
+    x = keras.layers.Activation(conv_activation)(x)
+    x = keras.layers.MaxPooling2D()(x)
+    x = keras.layers.Dropout(0.5)(x)
+    # C2
+    num_filters *= 2
+    x = keras.layers.Conv2D(
+        filters=num_filters,
+        kernel_size=kernel_size,
+        padding=padding
+    )(inputs)
+    x = keras.layers.Activation(conv_activation)(x)
+    x = keras.layers.MaxPooling2D()(x)
+    x = keras.layers.Dropout(0.5)(x)
+
+    # FC Conn via Flatten
+    x = keras.layers.Flatten()(x)
+    # FC1
+    x = keras.layers.Dense(units=fc1_num_neurons, activation=fc1_activation)(x)
+    outputs = keras.layers.Dense(
+        units=fc2_num_category, activation=fc2_activation)(x)
+
+    return keras.Model(inputs, outputs)
+
+
 def make_model_CBA_with_MP_GAP_plus_residual(
         input_shape_without_channel: Tuple[int, int],
         num_channels: int,
