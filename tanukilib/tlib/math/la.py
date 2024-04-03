@@ -55,13 +55,13 @@ def lt_m_with_scaler_2d(
         )
         plt.legend()
 
-        if show_graph:
-            plt.show()
-
         if verbose:
             print(f"saving the graph to {fname}..")
         plt.savefig(fname)
         if verbose:
             print("graph saved successfully.")
+
+        if show_graph:
+            plt.show()
 
     return n
