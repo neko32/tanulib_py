@@ -660,3 +660,14 @@ def conv_to_opencv_sat_val(f: float) -> float:
     X = 255f/100
     """
     return (255 * f) / 100
+
+
+def roi(
+        img: MatLike,
+        x: int,
+        width: int,
+        y: int,
+        height: int
+) -> MatLike:
+    """Extract sub image from img"""
+    return img[y:y + height, x:x + width]

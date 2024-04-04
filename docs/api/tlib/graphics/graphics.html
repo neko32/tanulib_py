@@ -342,6 +342,9 @@
             <li>
                     <a class="function" href="#conv_to_opencv_sat_val">conv_to_opencv_sat_val</a>
             </li>
+            <li>
+                    <a class="function" href="#roi">roi</a>
+            </li>
     </ul>
 
 
@@ -1025,6 +1028,17 @@
 </span><span id="L-660"><a href="#L-660"><span class="linenos">660</span></a><span class="sd">    X = 255f/100</span>
 </span><span id="L-661"><a href="#L-661"><span class="linenos">661</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-662"><a href="#L-662"><span class="linenos">662</span></a>    <span class="k">return</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">f</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+</span><span id="L-663"><a href="#L-663"><span class="linenos">663</span></a>
+</span><span id="L-664"><a href="#L-664"><span class="linenos">664</span></a>
+</span><span id="L-665"><a href="#L-665"><span class="linenos">665</span></a><span class="k">def</span> <span class="nf">roi</span><span class="p">(</span>
+</span><span id="L-666"><a href="#L-666"><span class="linenos">666</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-667"><a href="#L-667"><span class="linenos">667</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-668"><a href="#L-668"><span class="linenos">668</span></a>        <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-669"><a href="#L-669"><span class="linenos">669</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-670"><a href="#L-670"><span class="linenos">670</span></a>        <span class="n">height</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="L-671"><a href="#L-671"><span class="linenos">671</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-672"><a href="#L-672"><span class="linenos">672</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract sub image from img&quot;&quot;&quot;</span>
+</span><span id="L-673"><a href="#L-673"><span class="linenos">673</span></a>    <span class="k">return</span> <span class="n">img</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span> <span class="o">+</span> <span class="n">height</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -3221,6 +3235,34 @@ This function will provide a conversion for regular sat/val to Open CV's ones
 100:255 = f:X
 100X = 255f
 X = 255f/100</p>
+</div>
+
+
+                </section>
+                <section id="roi">
+                            <input id="roi-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">roi</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">img</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>,</span><span class="param">	<span class="n">x</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">width</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">y</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">height</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">) -> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="roi-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#roi"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="roi-666"><a href="#roi-666"><span class="linenos">666</span></a><span class="k">def</span> <span class="nf">roi</span><span class="p">(</span>
+</span><span id="roi-667"><a href="#roi-667"><span class="linenos">667</span></a>        <span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="roi-668"><a href="#roi-668"><span class="linenos">668</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="roi-669"><a href="#roi-669"><span class="linenos">669</span></a>        <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="roi-670"><a href="#roi-670"><span class="linenos">670</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="roi-671"><a href="#roi-671"><span class="linenos">671</span></a>        <span class="n">height</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="roi-672"><a href="#roi-672"><span class="linenos">672</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="roi-673"><a href="#roi-673"><span class="linenos">673</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract sub image from img&quot;&quot;&quot;</span>
+</span><span id="roi-674"><a href="#roi-674"><span class="linenos">674</span></a>    <span class="k">return</span> <span class="n">img</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span> <span class="o">+</span> <span class="n">height</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="p">]</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Extract sub image from img</p>
 </div>
 
 

@@ -13,7 +13,8 @@ def main():
         classifier_name=CascadeClassifierFilter.CAT_EXT,
         min_neighbors=7,
         min_posible_obj_size=[30, 30],
-        max_possible_obj_size=[300, 300]
+        max_possible_obj_size=[300, 300],
+        narrow_down_by_eye_check = False
     )
 
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
