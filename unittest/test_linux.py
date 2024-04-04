@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from tlib.core import LSBInfo, ss_tcp_udp_established
+from tlib.core.linux import *
 import platform
 from pandas import DataFrame
 
@@ -20,6 +20,10 @@ class LinuxTest(TestCase):
     def test_ss_tcp_udp_established(self):
         ss_out = ss_tcp_udp_established()
         print(ss_out)
+
+    def test_is_cmd_available(self):
+        self.assertTrue(is_cmd_available('cat'))
+        self.assertFalse(is_cmd_available('takoikatako'))
 
 
 if __name__ == "__main__":

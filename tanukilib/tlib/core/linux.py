@@ -56,3 +56,9 @@ def ss_tcp_udp_established() -> pd.DataFrame:
     out = reg.sub('', out)
     fs = StringIO(out)
     return pd.read_csv(fs)
+
+
+def is_cmd_available(cmd: str) -> bool:
+    """check whether the given cmd is available or not"""
+    _, out, _ = exec_cmd(['which', cmd])
+    return len(out) > 0
