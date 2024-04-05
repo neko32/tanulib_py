@@ -1,5 +1,5 @@
 import numpy as np
-# import numpy.linalg as LA
+import numpy.linalg as LA
 from numpy.typing import NDArray
 import os
 from pathlib import Path
@@ -65,3 +65,55 @@ def lt_m_with_scaler_2d(
             plt.show()
 
     return n
+
+
+def crossproduct_m_with_scaler_2d(
+        m: NDArray,
+        verbose: bool = False,
+        gen_graph: bool = False,
+        show_graph: bool = False
+) -> (float, float):
+    """
+    Calculate crossproduct for 2*2 matrix.
+    Results are (det, cross product). Both must be equal (almost equal)
+    Currently graph feature is not implemented
+    """
+    tmp_dir = Path(os.environ["HOME_TMP_DIR"]).joinpath("la")
+    if not tmp_dir.exists():
+        os.mkdir(str(tmp_dir))
+    fname = str(tmp_dir.joinpath("cp.jpg"))
+
+    if m.shape != (2, 2):
+        raise ValueError("M must be 2*2")
+
+    det = LA.det(m)
+    cp = np.cross([m[0][0], m[1][0]], [m[0][1], m[1][1]])
+    if verbose:
+        print("=== M ===")
+        print(m)
+        print("=== DET ===")
+        print(det)
+        print("=== result ===")
+        print(cp)
+
+    if gen_graph:
+        plt.grid(True)
+        # plt.set_xlabel("x")
+        # plt.set_ylabel("y")
+        plt.title("Linear Transformation with 2x2 M with Loc scaler 2D")
+        plt.axline((0, 0), (m[0][0], m[1][0]), label="i-hat", color='b')
+        plt.axline((0, 0), (m[0][1], m[1][1]), label="j-hat", color='r')
+        plt.plot(m[0][0], m[1][0], color='b', marker='*')
+        plt.plot(m[0][1], m[1][1], color='r', marker='*')
+        plt.legend()
+
+        if verbose:
+            print(f"saving the graph to {fname}..")
+        plt.savefig(fname)
+        if verbose:
+            print("graph saved successfully.")
+
+        if show_graph:
+            plt.show()
+
+    return (det, cp)
