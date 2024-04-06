@@ -2,9 +2,10 @@ from unittest import TestCase, main
 from tlib.fileutil import *
 from tlib.datautil import gen_rand_alnum_str
 from os.path import exists
-from os import mkdir, environ
+from os import mkdir, environ, remove
 from pathlib import Path
 import csv
+import tempfile
 
 
 class FileutilTest(TestCase):
@@ -136,6 +137,61 @@ class FileutilTest(TestCase):
             path.rmdir()
         path = Path(tmp_dir)
         path.rmdir()
+
+    def test_paginated_file(self):
+
+        test_files = []
+        with tempfile.TemporaryDirectory() as td:
+            for i in range(47):
+                test_files.append(touch(td, f"f{i}.txt"))
+
+            plist = PaginatedFileList(td, 10, "test", 0)
+            print(plist)
+            first10 = plist.get()
+            self.assertEqual(len(first10), 10)
+            self.assertTrue(plist.next())
+            second10 = plist.get()
+            self.assertEqual(len(second10), 10)
+            self.assertTrue(plist.next())
+            third10 = plist.get()
+            self.assertEqual(len(third10), 10)
+            self.assertTrue(plist.next())
+            fourth10 = plist.get()
+            self.assertEqual(len(fourth10), 10)
+            self.assertTrue(plist.next())
+            remain7 = plist.get()
+            self.assertEqual(len(remain7), 7)
+            self.assertFalse(plist.next())
+
+            # backward
+            self.assertTrue(plist.prev())
+            pfirst10 = plist.get()
+            print(pfirst10)
+            self.assertEqual(len(pfirst10), 10)
+
+            self.assertTrue(plist.prev())
+            psec10 = plist.get()
+            self.assertEqual(len(psec10), 10)
+
+            self.assertTrue(plist.prev())
+            pthird10 = plist.get()
+            self.assertEqual(len(pthird10), 10)
+
+            self.assertTrue(plist.prev())
+            plast = plist.get()
+            self.assertEqual(len(plast), 10)
+
+            self.assertFalse(plist.prev())
+
+            self.assertFalse(plist.prev())
+
+            # tearing down
+            while len(test_files) > 0:
+                f = test_files.pop()
+                remove(str(Path(td).joinpath(f)))
+
+        if len(test_files) > 0:
+            raise AssertionError("test_files len must be 0")
 
 
 if __name__ == "__main__":

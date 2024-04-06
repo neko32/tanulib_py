@@ -4,6 +4,8 @@ from pathlib import Path
 import cv2
 import csv
 import magic
+from collections import OrderedDict
+from tlib.datautil.random import gen_rand_alnum_str
 
 
 def split_filename_postfix(file_name: str) -> Tuple[str, Optional[str]]:
@@ -114,3 +116,98 @@ def list_files_and_dirs(
         else:
             files.append(str(f))
     return (dirs, files)
+
+
+def touch(path: str, file_name: Optional[str] = None) -> str:
+    """Create an empty file"""
+    p = Path(path)
+    if not p.exists():
+        raise Exception(f"{path} doesn't exist")
+    fname = file_name if file_name is not None else gen_rand_alnum_str(16)
+    fpath = str(p.joinpath(fname))
+    with open(fpath, "w"):
+        pass
+
+    return fpath
+
+
+class PaginatedFileList:
+    """
+    Cache files locations under specified directory and
+    provide pagination feature. Directoies are ignored.
+    """
+
+    def __init__(
+            self,
+            dir_path: str,
+            page_size: int,
+            title: str,
+            init_page_idx: int = 0,
+            sort_files_by_name: bool = True,
+            max_file_size: int = 65535):
+        self.dir_path = dir_path
+        self.page_size = page_size
+        self.title = title
+        self.idx = init_page_idx
+        self.max_file_size = max_file_size
+        self.sort_files_by_name = sort_files_by_name
+
+        dir_path_obj = Path(self.dir_path)
+        if not dir_path_obj.exists():
+            raise Exception(f"{self.dir_path} doesn't exist")
+        if dir_path_obj.is_file():
+            raise Exception(f"{self.dir_path} must be directory")
+
+        self.cache = OrderedDict()
+
+        buf = []
+        for idx, file in enumerate(dir_path_obj.iterdir()):
+            if idx == self.max_file_size:
+                break
+            if file.is_file():
+                buf.append((file.name, str(file)))
+        if self.sort_files_by_name:
+            buf = sorted(buf)
+
+        for fname, f in buf:
+            self.cache[fname] = f
+
+        if self.idx >= len(self.cache):
+            raise Exception(f"index specified {self.idx} is beyond \
+                            size of the files loaded ({len(self.cache)})")
+
+    def get(self) -> List[str]:
+        """
+        get pagenated list of files from index to index + window size.
+        If index + window size goes beyond cached file numbers,
+        then range becomes index to num of cached files.
+        """
+        files = self.cache.values()
+        st = self.idx
+        ed = min(self.idx + self.page_size, len(self.cache))
+        return list(files)[st:ed]
+
+    def next(self) -> bool:
+        """
+        advance index to next page size.
+        If index + page size goes beyond num of cached files, then False is returned.
+        """
+        next_idx = self.idx + self.page_size
+        if next_idx >= len(self.cache):
+            return False
+        self.idx = next_idx
+        return True
+
+    def prev(self) -> bool:
+        """
+        go back index to next page size.
+        if index is already index 0, then False is returned.
+        """
+        if self.idx <= 0:
+            return False
+
+        self.idx = max(self.idx - self.page_size, 0)
+        return True
+
+    def __repr__(self) -> str:
+        return self.cache.__repr__()
