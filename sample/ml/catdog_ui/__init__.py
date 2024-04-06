@@ -8,4 +8,4 @@ app = Flask(__name__)
 
 app.config.from_envvar(str(cfg_env_name))
 
-import catdog_ui.views
+from catdog_ui.views import views, entries

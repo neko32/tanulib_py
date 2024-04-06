@@ -9,14 +9,6 @@ from flask import (
 )
 
 
-@app.route('/')
-def show_entries():
-    if not session.get('logged_in'):
-        return redirect(url_for('show_login'))
-    else:
-        return render_template("entries/index.html")
-
-
 @app.route("/healthcheck")
 def show_healthcheck():
     return render_template("healthcheck/index.html")
