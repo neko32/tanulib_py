@@ -4,6 +4,7 @@ from numpy.typing import NDArray
 import os
 from pathlib import Path
 import matplotlib.pyplot as plt
+from typing import Tuple
 
 
 def lt_m_with_scaler_2d(
@@ -72,7 +73,7 @@ def crossproduct_m_with_scaler_2d(
         verbose: bool = False,
         gen_graph: bool = False,
         show_graph: bool = False
-) -> (float, float):
+) -> Tuple[float, float]:
     """
     Calculate crossproduct for 2*2 matrix.
     Results are (det, cross product). Both must be equal (almost equal)
@@ -117,3 +118,28 @@ def crossproduct_m_with_scaler_2d(
             plt.show()
 
     return (det, cp)
+
+
+def cramer_2d(m: NDArray, dest_loc: NDArray, verbose: bool = False) -> NDArray:
+    """
+    Assume given 2x2 matrix M and 2x1 matrix (X,Y)
+    which transformed to dest_loc matrix (2x1), derive X,Y using Cramer's rule
+    """
+    a_det = LA.det(m)
+    area_for_x = np.array([
+        [dest_loc[0][0], m[0][1]],
+        [dest_loc[1][0], m[1][1]]
+    ])
+    x_area = LA.det(area_for_x)
+    area_for_y = np.array([
+        [m[0][0], dest_loc[0][0]],
+        [m[1][0], dest_loc[1][0]]
+    ])
+    y_area = LA.det(area_for_y)
+    rez = np.array([x_area / a_det, y_area / a_det]).reshape([1, 2])
+    if verbose:
+        print(f"det(A) = {a_det}")
+        print(f"AreaX = {x_area}")
+        print(f"AreaY = {y_area}")
+        print(f"[X,Y] = {rez}")
+    return rez

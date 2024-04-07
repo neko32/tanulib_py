@@ -9,22 +9,15 @@ def main():
         [2, -1],
         [0, 1]
     ])
-    loc = np.array([[3], [2]])
-    print(f"DET - {LA.det(m)}")
+    dest_loc = np.array([[4], [2]])
     print(f"RANK - {LA.matrix_rank(m)}")
     print("INV - ")
     try:
         print(LA.inv(m))
-    except:
+    except Exception:
         print("N/A")
-    lt_m_with_scaler_2d(
-        m,
-        loc,
-        verbose=True,
-        gen_graph=True,
-        show_graph=True
-    )
-
+    rez = cramer_2d(m, dest_loc, True)
+    print(rez)
 
 
 if __name__ == "__main__":
