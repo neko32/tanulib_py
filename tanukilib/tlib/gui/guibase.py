@@ -1,9 +1,10 @@
 import tkinter as tk
-from tkinter import filedialog as fdlg
+from tkinter import filedialog as fdlg, PhotoImage
 import tkinter.ttk as ttk
 import tkinter.scrolledtext as tksc
 from typing import List, Tuple, Optional, Any
 from enum import Enum
+from PIL import ImageTk, Image
 
 
 class GUIEvent(Enum):
@@ -499,6 +500,31 @@ class GUIManager:
             raise Exception(f"menu {target_name} not found")
         self.menus[target_name].add_separator()
 
+    def add_canvas_for_image(
+        self,
+        name: str,
+        width: int,
+        height: int,
+        bg_col: str = 'black',
+        frame_name: str = "default",
+        layout_type: LayoutType = LayoutType.DEFAULT,
+        grid_row: int = 0,
+        grid_col: int = 0
+    ) -> None:
+        """Add a canvas component"""
+        frm = self.frame[frame_name].frame
+        canvas = tk.Canvas(
+            frm,
+            width=width,
+            height=height,
+            bg=bg_col
+        )
+        if layout_type == LayoutType.GRID:
+            canvas.grid(row=grid_row, column=grid_col)
+            self.is_grid_enabled = True
+
+        self.widgets[name] = canvas
+
     def add_event_callback(
         self,
         widget_name: str,
@@ -585,3 +611,37 @@ def open_file_dialog_for_dir(
         initialdir=init_dir,
         title=title
     )
+
+
+def get_image_from_file_dialog(
+    init_dir: str,
+    title: str,
+    filetypes: List[FileDialogFileType],
+    to_resize: Optional[Tuple[int, int]] = None,
+) -> Tuple[str, PhotoImage]:
+    """
+    Get an image as PhotoImage and file name loaded
+    """
+    flist = list(map(lambda ftype: ftype.as_tuple(), filetypes))
+    fname = fdlg.askopenfilename(
+        filetypes=flist,
+        initialdir=init_dir,
+        title=title
+    )
+    pilimg = Image.open(fname)
+    img = ImageTk.PhotoImage(image=pilimg)
+    if to_resize is not None:
+        img = img.resize(to_resize)
+    print(f"image {fname} loaded.")
+    return (fname, img)
+
+
+def default_file_dialog_file_type_for_image() -> List[FileDialogFileType]:
+    """Get default Dialog File Type List for Image"""
+    fp = [
+        FileDialogFileType("jpg", "*.jpg"),
+        FileDialogFileType("jpeg", "*.jpeg"),
+        FileDialogFileType("png", "*.png"),
+        FileDialogFileType("bmp", "*.bmp"),
+    ]
+    return fp
