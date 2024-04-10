@@ -4,7 +4,7 @@ import numpy as np
 from typing import Tuple, Optional, List
 from os.path import isdir, exists
 from os import listdir
-from enum import Enum
+from enum import Enum, auto
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY,
@@ -63,6 +63,12 @@ class MarkerType(Enum):
     MARKER_TYPE_SQUARE = cv2.MARKER_SQUARE
     MARKER_TYPE_TRIANGLE_UP = cv2.MARKER_TRIANGLE_UP
     MARKER_TYPE_TRIANGLE_DOWN = cv2.MARKER_TRIANGLE_DOWN
+
+
+class RuledLineType(Enum):
+    RULED_LINE_LATTICE = auto()
+    RULED_LINE_ONLY_HORIZONTAL = auto()
+    RULED_LINE_ONLY_VERTICAL = auto()
 
 
 class Rect:
@@ -357,6 +363,48 @@ def draw_polylines(
         color=color.to_tuple_bgr(),
         thickness=line_thickness,
         lineType=line_type.value)
+
+
+def draw_ruled_lines(
+        a: MatLike,
+        span: int,
+        ruled_line_color: BGRA = BGRA(255, 0, 0),
+        line_chickness: int = 1,
+        line_type: LineType = LineType.LINE_TYPE_8,
+        ruled_line_type: RuledLineType = RuledLineType.RULED_LINE_LATTICE
+) -> MatLike:
+    """Draw ruled lines"""
+    cur_x = span
+    cur_y = span
+    h, w = a.shape[:2]
+    while cur_x < w or cur_y < h:
+        if cur_x < w and \
+                ruled_line_type in \
+                [RuledLineType.RULED_LINE_LATTICE, RuledLineType.RULED_LINE_ONLY_VERTICAL]:
+            draw_line(
+                a=a,
+                st=[cur_x, 0],
+                end=[cur_x, h],
+                color=ruled_line_color,
+                line_thickness=line_chickness,
+                line_type=line_type
+            )
+        if cur_y < h and \
+                ruled_line_type in \
+                [RuledLineType.RULED_LINE_LATTICE, RuledLineType.RULED_LINE_ONLY_HORIZONTAL]:
+            draw_line(
+                a=a,
+                st=[0, cur_y],
+                end=[w, cur_y],
+                color=ruled_line_color,
+                line_thickness=line_chickness,
+                line_type=line_type
+            )
+
+        cur_x = min(cur_x + span, w)
+        cur_y = min(cur_y + span, h)
+
+    return a
 
 
 def fill_polylines(
