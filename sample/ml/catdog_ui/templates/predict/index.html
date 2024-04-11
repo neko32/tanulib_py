@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+<form action="{{ url_for('predict_model') }}" method="POST" class="predict-model">
+    <div class="form-group">
+        <label for="ModelName">Model Name to use</label>
+        <input type="text" class="form-control" id="ModelName" name="ModelName"/>
+    </div>
+    <div class="form-group">
+        <label for="ImageName">Image to input</label>
+        <input type="text" class="form-control" id="ImageName" name="ImageName"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Predict!</button>
+</form>
+{% endblock %}
