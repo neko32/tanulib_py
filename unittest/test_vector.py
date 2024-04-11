@@ -12,5 +12,12 @@ class VectorTest(TestCase):
         self.assertListEqual(deduped, expected)
 
 
+    def test_coalesce(self):
+        v = [None, None, 23, None, 35, 40]
+        self.assertEqual(coalesce(v), 23)
+        w = [None, None, None]
+        self.assertIsNone(coalesce(w))
+
+
 if __name__ == "__main__":
     main()
