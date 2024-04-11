@@ -6,10 +6,11 @@ from tlib.math.la import *
 def main():
 
     m = np.array([
-        [2, -1],
-        [0, 1]
+        [3, 1],
+        [0, 2]
     ])
-    loc = np.array([[3], [2]])
+    loc = np.array([[1], [1]])
+    print(f"EIGENVALS - {LA.eigvals(m)}")
     print(f"DET - {LA.det(m)}")
     print(f"RANK - {LA.matrix_rank(m)}")
     print("INV - ")
