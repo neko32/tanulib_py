@@ -18,7 +18,8 @@ setup(
         'python-dotenv',
         'pydot',
         'flask',
-        'matplotlib'
+        'matplotlib',
+        'protobuf3'
     ]
 )
 
