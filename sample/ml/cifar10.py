@@ -10,7 +10,7 @@ from os.path import exists
 
 def main():
 
-    model_store_loc = os.path.join(os.environ["TANUAPP_ML_DIR"], "catdog")
+    model_store_loc = os.path.join(os.environ["TANUAPP_ML_DIR"], "cifar10")
     if not exists(model_store_loc):
         mkdir(model_store_loc)
 
