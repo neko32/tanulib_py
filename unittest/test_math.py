@@ -51,6 +51,11 @@ class MathTest(TestCase):
         self.assertTrue(is_coprime(8, 9))
         self.assertFalse(is_coprime(6, 9))
 
+    def test_polynominal_derivative_with_m4(self):
+        adash, bdash, cdash = polynominal_derivative_by_mat4(1, 5, 4, 5)
+        self.assertListEqual([adash, bdash, cdash], [3, 10, 4])
+
+
 
 if __name__ == "__main__":
     main()
