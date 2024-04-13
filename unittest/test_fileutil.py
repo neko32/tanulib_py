@@ -30,9 +30,10 @@ class FileutilTest(TestCase):
 
     def test_rmdir_file(self):
         test_dir_name = gen_rand_alnum_str(16)
-        test_dir = f"/tmp/{test_dir_name}"
+        test_dir = str(Path("/tmp").joinpath(test_dir_name))
         test_dir_files = [
-            f"{test_dir}/{gen_rand_alnum_str(16)}" for _ in range(10)]
+            str(Path(test_dir).joinpath(gen_rand_alnum_str(16))) for _ in range(10)
+        ]
 
         mkdir(test_dir)
 
@@ -47,9 +48,9 @@ class FileutilTest(TestCase):
 
     def test_gen_imagefiles_summary(self):
         test_csv_name = gen_rand_alnum_str(16)
-        test_file = f"/tmp/{test_csv_name}.csv"
+        test_file = str(Path("/tmp").joinpath(f"{test_csv_name}.csv"))
 
-        img_files_dir = "./testdata/img"
+        img_files_dir = str(Path(__file__).parent.joinpath("testdata", "img"))
         gen_image_files_summary(img_files_dir, test_file)
 
         self.assertTrue(exists(test_file))
@@ -75,8 +76,8 @@ class FileutilTest(TestCase):
         remove(test_file)
 
     def test_is_JFIF_img_file(self):
-        broken_file = "./testdata/img/broken_img.jpg"
-        valid_file = "./testdata/img/cat_img1.jpg"
+        broken_file = str(Path(__file__).parent.joinpath("testdata", "img", "broken_img.jpg"))
+        valid_file = str(Path(__file__).parent.joinpath("testdata", "img", "cat_img1.jpg"))
         self.assertTrue(is_JFIF_img_file(valid_file))
         self.assertFalse(is_JFIF_img_file(broken_file))
 
