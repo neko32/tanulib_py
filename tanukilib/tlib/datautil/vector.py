@@ -1,4 +1,6 @@
 from typing import List, TypeVar, Optional
+from numpy.lib.stride_tricks import as_strided
+import numpy as np
 
 T = TypeVar('T')
 
@@ -25,3 +27,16 @@ def coalesce(ls: List[Optional[T]]) -> Optional[T]:
     for item in filtered:
         return item
     return None
+
+
+def ngram(v: List[T], window:int) -> List[T]:
+    """
+    Derive v's n-gram with given window size.
+    Item size (which is required to derive the n-gram) is assumed by first elem of v
+    """
+    itemsize = np.dtype(type(v[0])).itemsize
+    return as_strided(
+        v,
+        shape = [len(v) - window + 1, window],
+        strides = [itemsize, itemsize]
+    )
