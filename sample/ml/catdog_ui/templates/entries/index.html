@@ -1,4 +1,15 @@
 {% extends "layout.html" %}
 {% block body %}
-no predicacition has done yet.
+<ul class="list-group list-group-flush">
+
+{% for rec in predict_hist %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ rec[1] + " => " + rec[3] + "@" + rec[5] }}</h5>
+        </div>
+    </div>
+{% else %}
+    no predicacition has done yet.
+{% endfor %}
+</ul>
 {% endblock %}
