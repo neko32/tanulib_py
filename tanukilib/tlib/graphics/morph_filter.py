@@ -48,6 +48,20 @@ def morph_remove_dots_aka_close(
     )
 
 
+def morph_morphological_gradient(
+        img: MatLike,
+        iteration: int = 1
+) -> MatLike:
+    """Apply morphology with morphlogical gradient. Best to emphasize edge/rim"""
+    kernel = np.ones(shape=(3, 3), dtype=np.uint8)
+    return cv2.morphologyEx(
+        src=img,
+        op=cv2.MORPH_GRADIENT,
+        kernel=kernel,
+        iterations=iteration
+    )
+
+
 def morph_remove_noises_aka_closeopen(
         img: MatLike,
         iteration: int = 1

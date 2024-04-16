@@ -12,6 +12,8 @@ def perf_morth(img: MatLike, morph_type: str) -> MatLike:
         return morph_remove_noise_aka_open(preprocessed)
     elif morph_type == "close":
         return morph_remove_dots_aka_close(preprocessed)
+    elif morph_type == "morphologicalgradient":
+        return morph_morphological_gradient(preprocessed)
     else:
         raise Exception("not supported")
 
@@ -20,14 +22,17 @@ def main():
     tmp_home_dir = os.environ["HOME_TMP_DIR"]
     f_open_name = str(Path(tmp_home_dir).joinpath("morph_open_sample.jpg"))
     f_close_name = str(Path(tmp_home_dir).joinpath("morph_close_sample.jpg"))
+    f_mg_name = str(Path(tmp_home_dir).joinpath(
+        "morph_morphologicalgradient_sample.jpg"))
 
-    files = [f_open_name, f_close_name]
-    morph_type = ["open", "close"]
+    files = [f_open_name, f_close_name, f_mg_name]
+    morph_type = ["open", "close", "morphologicalgradient"]
 
     for f, mt in zip(files, morph_type):
         if exists(f):
             remove(f)
-        img = imread_wrapper(str(Path(__file__).parent.parent.joinpath("img", "sample_img.jpg")), cv2.IMREAD_UNCHANGED)
+        img = imread_wrapper(str(Path(__file__).parent.parent.joinpath(
+            "img", "sample_img.jpg")), cv2.IMREAD_UNCHANGED)
         morphed = perf_morth(img, mt)
         cv2.imwrite(f, morphed)
 
