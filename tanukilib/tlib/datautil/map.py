@@ -1,4 +1,5 @@
-from typing import Generic, TypeVar, Optional
+from typing import Generic, TypeVar, Optional, Dict, List, Tuple
+import os
 
 K = TypeVar('K')
 Q = TypeVar('Q')
@@ -43,3 +44,35 @@ class DualKeyMap(Generic[K, Q, V]):
             if q == dict_q:
                 return v
         return None
+
+
+def gen_hist(ls: List[V], by_n: int = 1) -> Tuple[Dict[V, int], str]:
+    """
+    Generate histgram of value occurence in l.
+    Histgram's dot is accumulated by by_n
+    """
+    h = {}
+    sumk = 0
+    for v in ls:
+        if v in h:
+            h[v] += 1
+        else:
+            h[v] = 1
+        sumk += 1
+    buf = ""
+    sumv = 0
+    for k, v in h.items():
+        buf += f"{k}:{__hist_mark_gen(v, by_n)}{os.linesep}"
+        sumv += v
+    buf += f"total number of keys:{sumk}{os.linesep}"
+    buf += f"total number of values:{sumv}{os.linesep}"
+
+    return (h, buf)
+
+
+def __hist_mark_gen(val: int, by_n: int) -> str:
+    """Generate marks for val by by_n accumulator"""
+    if by_n == 1:
+        return "".join(["*"] * (val // by_n))
+    else:
+        return "".join(["*"] * ((val // by_n) + 1))
