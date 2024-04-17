@@ -6,3 +6,4 @@ from tlib.graphics.threshold import *
 from tlib.graphics.video import *
 from tlib.graphics.ext_effects import *
 from tlib.graphics.cascade_classifier import *
+from tlib.graphics.img_info import *
