@@ -1,4 +1,5 @@
 from urllib.parse import urlparse
+from urllib.request import urlretrieve
 from typing import List, Optional, Dict
 
 
@@ -56,3 +57,13 @@ class URL:
             except ValueError:
                 print("parse failure! returning empty dict..")
                 return {}
+
+    def copy(
+        self,
+        local_path: str
+    ) -> None:
+        """Copy the remote content to local_path"""
+        try:
+            urlretrieve(self.raw_url, local_path)
+        except Exception as e:
+            raise e

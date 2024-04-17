@@ -1,5 +1,8 @@
 from tlib.web.urlops import URL
 from unittest import TestCase, main
+from pathlib import Path
+from os import remove
+import os
 
 
 class URLOpsTest(TestCase):
@@ -46,6 +49,35 @@ class URLOpsTest(TestCase):
         self.assertEqual(url.scheme_domain_port(), "https://tanuki.org")
         self.assertEqual(url.path(), ['takoya', 'nekoya'])
         self.assertEqual(url.query(), {'q': '32', 'msg': "neko"})
+
+    def test_text_remote_copy(self):
+
+        url_text = "https://www.aozora.gr.jp/cards/001351/files/49202_33049.html"
+        temp_dir = Path(os.environ["HOME_TMP_DIR"]).joinpath("textpage.html")
+        if temp_dir.exists():
+            remove(str(temp_dir))
+        url = URL(url_text)
+        try:
+            url.copy(temp_dir)
+            self.assertTrue(temp_dir.exists())
+        except Exception as e:
+            print(e)
+            self.assertTrue(False)
+
+
+    def test_bin_remote_copy(self):
+
+        url_img = "https://www.aozora.gr.jp/images/top_logo.png"
+        temp_dir = Path(os.environ["HOME_TMP_DIR"]).joinpath("remote_logo.png")
+        if temp_dir.exists():
+            remove(str(temp_dir))
+        url = URL(url_img)
+        try:
+            url.copy(temp_dir)
+            self.assertTrue(temp_dir.exists())
+        except Exception as e:
+            print(e)
+            self.assertTrue(False)
 
 
 if __name__ == "__main__":
