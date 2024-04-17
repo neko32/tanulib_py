@@ -1,4 +1,5 @@
 from tlib.math import *
+from tlib.datautil.number import round_up
 import numpy as np
 from unittest import TestCase, main
 
@@ -55,6 +56,33 @@ class MathTest(TestCase):
         adash, bdash, cdash = polynominal_derivative_by_mat4(1, 5, 4, 5)
         self.assertListEqual([adash, bdash, cdash], [3, 10, 4])
 
+    def test_coordinates(self):
+        coord2d = Coordinate(3., 7.)
+        coord3d = Coordinate(1., 2., 0.)
+        self.assertEqual(coord2d.x, 3.)
+        self.assertEqual(coord2d.y, 7.)
+        self.assertIsNone(coord2d.z)
+        self.assertEqual(coord3d.x, 1.)
+        self.assertEqual(coord3d.y, 2.)
+        self.assertEqual(coord3d.z, 0.)
+        self.assertTupleEqual(coord2d.as_tuple2d(), (3., 7.))
+        self.assertTupleEqual(coord3d.as_tuple3d(), (1., 2., 0.))
+
+    def test_cosaine_similarity(self):
+        vec_a = Coordinate(3, 1)
+        vec_b = Coordinate(1, 3)
+        cs_similar = round_up(cosaine_similarity2d(vec_a, vec_b), 2)
+        self.assertEqual(cs_similar, 0.6)
+
+        vec_c = Coordinate(3, 0)
+        vec_d = Coordinate(0, 2)
+        cs_unrelated = round_up(cosaine_similarity2d(vec_c, vec_d), 2)
+        self.assertEqual(cs_unrelated, 0.)
+
+        vec_e = Coordinate(2, 1)
+        vec_f = Coordinate(-2, -1)
+        cs_unsimilar = round_up(cosaine_similarity2d(vec_e, vec_f), 2)
+        self.assertEqual(cs_unsimilar, -1.)
 
 
 if __name__ == "__main__":
