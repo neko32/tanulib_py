@@ -1,6 +1,7 @@
 from urllib.parse import urlparse, urlencode
-from urllib.request import urlretrieve
-from typing import List, Optional, Dict
+from urllib.request import urlretrieve, Request, urlopen
+from typing import List, Optional, Dict, Any
+import json
 
 
 class URL:
@@ -17,6 +18,7 @@ class URL:
                 self.raw_url = url_str
 
             self.parsed = urlparse(self.raw_url)
+            self.headers = {}
         except Exception as e:
             print(e)
             raise e
@@ -74,3 +76,17 @@ class URL:
             urlretrieve(self.raw_url, local_path)
         except Exception as e:
             raise e
+
+    def add_header(self, k: str, v: str) -> None:
+        """Add headers used in http request"""
+        self.headers[k] = v
+
+    def get_with_json_resp(
+        self,
+        encoding: str = "UTF-8"
+    ) -> Dict[str, Any]:
+        """send GET method and expect to receive JSON response"""
+        req = Request(self.raw_url, headers=self.headers, method='GET')
+        with urlopen(req) as resp:
+            retj = json.loads(resp.read().decode(encoding))
+        return retj

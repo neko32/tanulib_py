@@ -91,6 +91,13 @@ class URLOpsTest(TestCase):
             elif k == "word":
                 self.assertEqual(unquote(v), "たこと猫")
 
+    def test_json_get(self):
+        url = URL("https://httpbin.org/get")
+        url.add_header("accept", "application/json")
+        url.add_header("tako", "neko")
+        js = url.get_with_json_resp()
+        self.assertEqual(js["headers"]["Tako"], "neko")
+
 
 if __name__ == "__main__":
     main()
