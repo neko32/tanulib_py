@@ -1,4 +1,5 @@
 from tlib.web.urlops import URL
+from urllib.parse import unquote
 from unittest import TestCase, main
 from pathlib import Path
 from os import remove
@@ -64,7 +65,6 @@ class URLOpsTest(TestCase):
             print(e)
             self.assertTrue(False)
 
-
     def test_bin_remote_copy(self):
 
         url_img = "https://www.aozora.gr.jp/images/top_logo.png"
@@ -78,6 +78,18 @@ class URLOpsTest(TestCase):
         except Exception as e:
             print(e)
             self.assertTrue(False)
+
+    def test_url_with_nonascii_param(self):
+        params = {"name": "たこランド", "word": "たこと猫", "age": 3}
+        url = URL("http://tako.net:3030", params)
+        parsed_params = url.query()
+        for k, v in parsed_params.items():
+            if k == "name":
+                self.assertEqual(unquote(v), "たこランド")
+            elif k == "age":
+                self.assertEqual(v, "3")
+            elif k == "word":
+                self.assertEqual(unquote(v), "たこと猫")
 
 
 if __name__ == "__main__":

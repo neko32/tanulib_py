@@ -1,4 +1,4 @@
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 from urllib.request import urlretrieve
 from typing import List, Optional, Dict
 
@@ -6,10 +6,17 @@ from typing import List, Optional, Dict
 class URL:
     """A Wrapper of URL to provide convenient funtions"""
 
-    def __init__(self, url_str: str) -> None:
-        self.raw_url = url_str
+    def __init__(self, url_str: str, qparams: Optional[Dict[str, str]] = None) -> None:
         try:
-            self.parsed = urlparse(url_str)
+            if qparams is not None:
+                encoded_qparams = urlencode(qparams)
+                if url_str.endswith('/'):
+                    url_str = url_str[:-1]
+                self.raw_url = f"{url_str}?{encoded_qparams}"
+            else:
+                self.raw_url = url_str
+
+            self.parsed = urlparse(self.raw_url)
         except Exception as e:
             print(e)
             raise e
