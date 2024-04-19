@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import norm
 from typing import Tuple, Optional
-from math import gcd
+from math import gcd, sin, cos
 
 
 class Coordinate:
@@ -88,3 +88,8 @@ def cosaine_similarity2d(a: Coordinate, b: Coordinate) -> float:
     n2 = norm(bm, ord=2)
     n = n1 * n2
     return m / n
+
+
+def derive_yloc_by_theta_and_x(theta: float, x: float) -> float:
+    """Derive coordinate y by theta and x"""
+    return -(cos(theta) / sin(theta)) * x + (theta / sin(theta))

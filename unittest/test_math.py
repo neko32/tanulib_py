@@ -1,5 +1,5 @@
 from tlib.math import *
-from tlib.datautil.number import round_up
+from tlib.datautil.number import round_up, round_to_nearest_half_up
 import numpy as np
 from unittest import TestCase, main
 
@@ -83,6 +83,12 @@ class MathTest(TestCase):
         vec_f = Coordinate(-2, -1)
         cs_unsimilar = round_up(cosaine_similarity2d(vec_e, vec_f), 2)
         self.assertEqual(cs_unsimilar, -1.)
+
+    def test_get_y_by_theta_and_x(self):
+        theta = 45.
+        x = 10.
+        y = round_to_nearest_half_up(derive_yloc_by_theta_and_x(theta, x), 3)
+        self.assertEqual(y, 46.71)
 
 
 if __name__ == "__main__":
