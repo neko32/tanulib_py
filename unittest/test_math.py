@@ -88,7 +88,7 @@ class MathTest(TestCase):
         theta = 45.
         x = 10.
         y = round_to_nearest_half_up(derive_yloc_by_theta_and_x(theta, x), 3)
-        self.assertEqual(y, 46.71)
+        self.assertEqual(y, 53.64)
 
 
 if __name__ == "__main__":
