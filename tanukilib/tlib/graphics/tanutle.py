@@ -112,6 +112,19 @@ class Tanutle:
         """Set pen color."""
         self._pen_color = color
 
+    def draw_poly(
+            self,
+            st_loc: Coordinate,
+            length: int,
+            n: int
+    ) -> None:
+        """Draw N-polygon with given length"""
+        self.set_x(st_loc.x)
+        self.set_y(st_loc.y)
+        for _ in range(n):
+            self.forward(length)
+            self.left(360 // n)
+
     def save(self, fpath: str) -> None:
         """Save the current canvas to specified fpath"""
         persist_img(self.cvs, fpath)
