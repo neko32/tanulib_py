@@ -6,7 +6,7 @@ from tlib.graphics.graphics import (
 )
 from tlib.math import Coordinate
 from math import cos, sin, radians
-
+from typing import List
 
 class Tanutle:
     """Imitates Turtle"""
@@ -41,6 +41,7 @@ class Tanutle:
         self.angle -= angle
         if self.angle < 0:
             self.angle = 360 + self.angle
+        #print(f"@left, {self.angle}")
 
     def right(self, angle: int) -> None:
         """turn right by specified angle"""
@@ -48,7 +49,8 @@ class Tanutle:
             raise Exception("angle must be 0 <= angle <= 360")
         self.angle += angle
         if self.angle >= 360:
-            self.angle = 360 - self.angle
+            self.angle = self.angle - 360
+        #print(f"@right, {self.angle}")
 
     def forward(self, length: float) -> None:
         """move forward by the given length"""
@@ -128,3 +130,26 @@ class Tanutle:
     def save(self, fpath: str) -> None:
         """Save the current canvas to specified fpath"""
         persist_img(self.cvs, fpath)
+
+    def fractal_equilateral_triangle(self, size:int, depth:int, divn:int = 3) -> None:
+        """Draw base unit (an partial equilateral triangle) of fractal image"""
+        if depth == 0:
+            self.forward(size)
+        else:
+            self.fractal_equilateral_triangle(size / divn, depth - 1)
+            self.left(60)
+            self.fractal_equilateral_triangle(size / divn, depth - 1)
+            self.right(120)
+            self.fractal_equilateral_triangle(size / divn, depth - 1)
+            self.left(60)
+            self.fractal_equilateral_triangle(size / divn, depth - 1)
+
+    def fractal(self, st:Coordinate, size:int, depth:int, angles:List[int], divn:int = 3) -> None:
+        """Draw fractal image"""
+
+        self.set_x(st.x)
+        self.set_y(st.y)
+        for angle in angles:
+            self.fractal_equilateral_triangle(size, depth, divn)
+            self.right(angle)
+        self.fractal_equilateral_triangle(size, depth, divn)
