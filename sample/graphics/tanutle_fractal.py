@@ -1,5 +1,4 @@
 from tlib.graphics.tanutle import Tanutle
-from tlib.graphics.graphics import BGRA
 from tlib.math.math import Coordinate
 import os
 from pathlib import Path

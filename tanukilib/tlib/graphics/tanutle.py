@@ -1,12 +1,15 @@
 from tlib.graphics.graphics import (
     gen_white_canvas,
     draw_line,
+    draw_circle,
+    fill_circle,
     persist_img,
     BGRA
 )
 from tlib.math import Coordinate
 from math import cos, sin, radians
 from typing import List
+
 
 class Tanutle:
     """Imitates Turtle"""
@@ -41,7 +44,7 @@ class Tanutle:
         self.angle -= angle
         if self.angle < 0:
             self.angle = 360 + self.angle
-        #print(f"@left, {self.angle}")
+        # print(f"@left, {self.angle}")
 
     def right(self, angle: int) -> None:
         """turn right by specified angle"""
@@ -50,7 +53,7 @@ class Tanutle:
         self.angle += angle
         if self.angle >= 360:
             self.angle = self.angle - 360
-        #print(f"@right, {self.angle}")
+        # print(f"@right, {self.angle}")
 
     def forward(self, length: float) -> None:
         """move forward by the given length"""
@@ -127,11 +130,33 @@ class Tanutle:
             self.forward(length)
             self.left(360 // n)
 
+    def circle(
+            self,
+            radius: int,
+            to_fill: bool = False
+    ) -> None:
+        """Draw or fill circle with given radius"""
+        if to_fill:
+            fill_circle(
+                a=self.cvs,
+                center_coordinate=self.cur_coord.as_tuple2d(),
+                radius=radius,
+                color=self._pen_color
+            )
+        else:
+            draw_circle(
+                a=self.cvs,
+                center_coordinate=self.cur_coord.as_tuple2d(),
+                radius=radius,
+                color=self._pen_color,
+                line_thickness=self._pen_size
+            )
+
     def save(self, fpath: str) -> None:
         """Save the current canvas to specified fpath"""
         persist_img(self.cvs, fpath)
 
-    def fractal_equilateral_triangle(self, size:int, depth:int, divn:int = 3) -> None:
+    def fractal_equilateral_triangle(self, size: int, depth: int, divn: int = 3) -> None:
         """Draw base unit (an partial equilateral triangle) of fractal image"""
         if depth == 0:
             self.forward(size)
@@ -144,7 +169,13 @@ class Tanutle:
             self.left(60)
             self.fractal_equilateral_triangle(size / divn, depth - 1)
 
-    def fractal(self, st:Coordinate, size:int, depth:int, angles:List[int], divn:int = 3) -> None:
+    def fractal(
+            self,
+            st: Coordinate,
+            size: int,
+            depth: int,
+            angles: List[int],
+            divn: int = 3) -> None:
         """Draw fractal image"""
 
         self.set_x(st.x)
