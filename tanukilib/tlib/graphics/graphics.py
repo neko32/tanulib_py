@@ -70,6 +70,16 @@ class RuledLineType(Enum):
     RULED_LINE_ONLY_HORIZONTAL = auto()
     RULED_LINE_ONLY_VERTICAL = auto()
 
+class InterpolationType(Enum):
+    NEAREST = cv2.INTER_NEAREST,
+    NEAREST_EXACT = cv2.INTER_NEAREST_EXACT,
+    LINEAR = cv2.INTER_LINEAR
+    LINEAR_EXACT = cv2.INTER_LINEAR_EXACT,
+    CUBIC = cv2.INTER_CUBIC
+    AREA = cv2.INTER_AREA
+    LANCZOS4 = cv2.INTER_LANCZOS4
+    MAX = cv2.INTER_MAX
+
 
 class Rect:
     """Represents rectangle"""
@@ -180,11 +190,12 @@ def resize_img(
         src_path: str,
         dest_path: str,
         new_width: int,
-        new_height: int
+        new_height: int,
+        interpolation: InterpolationType = InterpolationType.LINEAR
 ) -> bool:
     """Resize image with new_width & new_height. Interpolation is linear"""
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
-    resized = cv2.resize(buf, [new_width, new_height])
+    resized = cv2.resize(buf, [new_width, new_height], interpolation=interpolation.value)
     prefix = dest_path.split('.')[-1].lower()
     cfg = _TLIG_W_FLG_MAP[prefix]
     return cv2.imwrite(dest_path, resized, cfg)
