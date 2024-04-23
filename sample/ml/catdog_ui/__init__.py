@@ -21,4 +21,4 @@ db_path = str(Path(os.environ['HOME_DB_PATH']).joinpath(db_name))
 db_conn = Connection(db_path, check_same_thread=False)
 
 
-from catdog_ui.views import views, entries, predict
+from catdog_ui.views import views, entries, predict, images_view
