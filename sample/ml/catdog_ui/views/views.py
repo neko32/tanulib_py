@@ -7,11 +7,21 @@ from flask import (
     flash,
     url_for
 )
+from functools import wraps
 
 
 @app.route("/healthcheck")
 def show_healthcheck():
     return render_template("healthcheck/index.html")
+
+
+def login_required(view):
+    @wraps(view)
+    def login_check(*args, **kwargs):
+        if not session.get('logged_in'):
+            return redirect(url_for('show_login'))
+        return view(*args, **kwargs)
+    return login_check
 
 
 @app.route("/login", methods=["GET", "POST"])

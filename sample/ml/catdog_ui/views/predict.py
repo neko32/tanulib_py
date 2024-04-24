@@ -1,4 +1,5 @@
-from catdog_ui import app, model, db_conn 
+from catdog_ui import app, model, db_conn
+from catdog_ui.views.views import login_required
 from tlib.ml.base import *
 from tlib.ml.img import *
 from tlib.math import sigmoid
@@ -8,34 +9,32 @@ from typing import Tuple
 from flask import (
     render_template, 
     redirect,
-    session,
     url_for,
     request,
 )
 
 @app.route('/predict')
+@login_required
 def show_predict():
-    if not session.get('logged_in'):
-        return redirect(url_for('show_login'))
-    else:
-        return render_template("predict/index.html")
+    return render_template("predict/index.html")
 
 @app.route('/precict_model', methods = ['POST'])
+@login_required
 def predict_model():
-    if not session.get('logged_in'):
-        return redirect(url_for('show_login'))
-    else:
-        model_name = request.form["ModelName"]
-        category_name = request.form["Category"]
-        image_name = request.form["ImageName"]
-        print(f"model_name:{model_name},image_name:{image_name}")
-        try:
-            cat_per, dog_per = predict(model_name, category_name, image_name)
-        except Exception as e:
-            print(e)
-            # TODO return error page
-        print(f"cat_per:{cat_per}%, dog_per:{dog_per}")
-        return redirect(url_for('show_entries'))
+    model_name = request.form["ModelName"]
+    category_name = request.form["Category"]
+    image_name = request.form["ImageName"]
+    if not image_name.endswith(".jpg"):
+        image_name += ".jpg"
+
+    print(f"model_name:{model_name},image_name:{image_name}")
+    try:
+        cat_per, dog_per = predict(model_name, category_name, image_name)
+    except Exception as e:
+        print(e)
+        # TODO return error page
+    print(f"cat_per:{cat_per}%, dog_per:{dog_per}")
+    return redirect(url_for('show_entries'))
 
 
 def predict(model_name:str, category_name:str, image_name:str) -> Tuple[str, str]:
