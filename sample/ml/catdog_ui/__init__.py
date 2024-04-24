@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from pathlib import Path
 from keras.models import Model, load_model
 import os
@@ -15,8 +15,8 @@ model.summary()
 app = Flask(__name__)
 
 app.config.from_envvar(str(cfg_env_name))
-db_name = app.config.get("DB_NAME")
 
+db_name = app.config.get("DB_NAME")
 db_path = str(Path(os.environ['HOME_DB_PATH']).joinpath(db_name))
 db_conn = Connection(db_path, check_same_thread=False)
 
