@@ -10,11 +10,6 @@ from flask import (
 from functools import wraps
 
 
-@app.route("/healthcheck")
-def show_healthcheck():
-    return render_template("healthcheck/index.html")
-
-
 def login_required(view):
     @wraps(view)
     def login_check(*args, **kwargs):
