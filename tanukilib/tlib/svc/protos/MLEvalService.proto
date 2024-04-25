@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package tlib.svc.mleval_svc;
+
+message Data {
+    string data_value = 1;
+    string data_type = 2;
+}
+
+message InputData {
+    string data_path = 1;
+    repeated Data data = 2;
+}
+
+message MLEval {
+    string model_name = 1;
+    InputData input = 2; 
+}
+
+message Outcome {
+    int32 code = 1;
+    string msg = 2;
+    string data = 3;
+}
+
+service MLEvalService {
+    rpc Evaluate(MLEval) returns (Outcome) {};
+}

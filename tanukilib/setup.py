@@ -19,7 +19,8 @@ setup(
         'pydot',
         'flask',
         'matplotlib',
-        'protobuf3'
+        'protobuf3',
+        'grpcio-tools'
     ]
 )
 
