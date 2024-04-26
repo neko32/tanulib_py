@@ -751,3 +751,44 @@ def img_decimation(img: MatLike, skip: int = 2) -> MatLike:
             w_idx += 1
         h_idx += 1
     return buf
+
+
+def blockcopy(
+        src_image: MatLike,
+        dest_orig_img: MatLike,
+        roi_from_src: Rect,
+        dest_x: int,
+        dest_y: int) -> MatLike:
+    """Copy blocks with roi_from_src rect to dest_orig_img's (dest_x, dest_y)"""
+
+    dest_img = dest_orig_img.copy()
+
+    roi_img = roi(
+        src_image,
+        roi_from_src.loc_x,
+        roi_from_src.width,
+        roi_from_src.loc_y,
+        roi_from_src.height
+    )
+
+    dh, dw, _ = dest_img.shape
+    rh, rw, d = roi_img.shape
+    h_idx = dest_y
+    rh_idx = 0
+    for h in range(dest_y, dest_y + rh):
+        w_idx = dest_x
+        rw_idx = 0
+        for w in range(dest_x, dest_x + rw):
+
+            for d_idx in range(d):
+                dest_img[h][w][d_idx] = roi_img[rh_idx][rw_idx][d_idx]
+
+            w_idx += 1
+            rw_idx += 1
+            if w_idx == dw:
+                break
+        h_idx += 1
+        rh_idx += 1
+        if h_idx == dh:
+            break
+    return dest_img

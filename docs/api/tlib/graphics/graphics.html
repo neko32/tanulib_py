@@ -402,6 +402,9 @@
             <li>
                     <a class="function" href="#img_decimation">img_decimation</a>
             </li>
+            <li>
+                    <a class="function" href="#blockcopy">blockcopy</a>
+            </li>
     </ul>
 
 
@@ -1176,6 +1179,47 @@
 </span><span id="L-751"><a href="#L-751"><span class="linenos">751</span></a>            <span class="n">w_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 </span><span id="L-752"><a href="#L-752"><span class="linenos">752</span></a>        <span class="n">h_idx</span> <span class="o">+=</span> <span class="mi">1</span>
 </span><span id="L-753"><a href="#L-753"><span class="linenos">753</span></a>    <span class="k">return</span> <span class="n">buf</span>
+</span><span id="L-754"><a href="#L-754"><span class="linenos">754</span></a>
+</span><span id="L-755"><a href="#L-755"><span class="linenos">755</span></a>
+</span><span id="L-756"><a href="#L-756"><span class="linenos">756</span></a><span class="k">def</span> <span class="nf">blockcopy</span><span class="p">(</span>
+</span><span id="L-757"><a href="#L-757"><span class="linenos">757</span></a>        <span class="n">src_image</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-758"><a href="#L-758"><span class="linenos">758</span></a>        <span class="n">dest_orig_img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="L-759"><a href="#L-759"><span class="linenos">759</span></a>        <span class="n">roi_from_src</span><span class="p">:</span> <span class="n">Rect</span><span class="p">,</span>
+</span><span id="L-760"><a href="#L-760"><span class="linenos">760</span></a>        <span class="n">dest_x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-761"><a href="#L-761"><span class="linenos">761</span></a>        <span class="n">dest_y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="L-762"><a href="#L-762"><span class="linenos">762</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy blocks with roi_from_src rect to dest_orig_img&#39;s (dest_x, dest_y)&quot;&quot;&quot;</span>
+</span><span id="L-763"><a href="#L-763"><span class="linenos">763</span></a>
+</span><span id="L-764"><a href="#L-764"><span class="linenos">764</span></a>    <span class="n">dest_img</span> <span class="o">=</span> <span class="n">dest_orig_img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span><span id="L-765"><a href="#L-765"><span class="linenos">765</span></a>
+</span><span id="L-766"><a href="#L-766"><span class="linenos">766</span></a>    <span class="n">roi_img</span> <span class="o">=</span> <span class="n">roi</span><span class="p">(</span>
+</span><span id="L-767"><a href="#L-767"><span class="linenos">767</span></a>        <span class="n">src_image</span><span class="p">,</span>
+</span><span id="L-768"><a href="#L-768"><span class="linenos">768</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">loc_x</span><span class="p">,</span>
+</span><span id="L-769"><a href="#L-769"><span class="linenos">769</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+</span><span id="L-770"><a href="#L-770"><span class="linenos">770</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">loc_y</span><span class="p">,</span>
+</span><span id="L-771"><a href="#L-771"><span class="linenos">771</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">height</span>
+</span><span id="L-772"><a href="#L-772"><span class="linenos">772</span></a>    <span class="p">)</span>
+</span><span id="L-773"><a href="#L-773"><span class="linenos">773</span></a>
+</span><span id="L-774"><a href="#L-774"><span class="linenos">774</span></a>    <span class="n">dh</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dest_img</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="L-775"><a href="#L-775"><span class="linenos">775</span></a>    <span class="n">rh</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">roi_img</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="L-776"><a href="#L-776"><span class="linenos">776</span></a>    <span class="n">h_idx</span> <span class="o">=</span> <span class="n">dest_y</span>
+</span><span id="L-777"><a href="#L-777"><span class="linenos">777</span></a>    <span class="n">rh_idx</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-778"><a href="#L-778"><span class="linenos">778</span></a>    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dest_y</span><span class="p">,</span> <span class="n">dest_y</span> <span class="o">+</span> <span class="n">rh</span><span class="p">):</span>
+</span><span id="L-779"><a href="#L-779"><span class="linenos">779</span></a>        <span class="n">w_idx</span> <span class="o">=</span> <span class="n">dest_x</span>
+</span><span id="L-780"><a href="#L-780"><span class="linenos">780</span></a>        <span class="n">rw_idx</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-781"><a href="#L-781"><span class="linenos">781</span></a>        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dest_x</span><span class="p">,</span> <span class="n">dest_x</span> <span class="o">+</span> <span class="n">rw</span><span class="p">):</span>
+</span><span id="L-782"><a href="#L-782"><span class="linenos">782</span></a>
+</span><span id="L-783"><a href="#L-783"><span class="linenos">783</span></a>            <span class="k">for</span> <span class="n">d_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+</span><span id="L-784"><a href="#L-784"><span class="linenos">784</span></a>                <span class="n">dest_img</span><span class="p">[</span><span class="n">h</span><span class="p">][</span><span class="n">w</span><span class="p">][</span><span class="n">d_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi_img</span><span class="p">[</span><span class="n">rh_idx</span><span class="p">][</span><span class="n">rw_idx</span><span class="p">][</span><span class="n">d_idx</span><span class="p">]</span>
+</span><span id="L-785"><a href="#L-785"><span class="linenos">785</span></a>
+</span><span id="L-786"><a href="#L-786"><span class="linenos">786</span></a>            <span class="n">w_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-787"><a href="#L-787"><span class="linenos">787</span></a>            <span class="n">rw_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-788"><a href="#L-788"><span class="linenos">788</span></a>            <span class="k">if</span> <span class="n">w_idx</span> <span class="o">==</span> <span class="n">dw</span><span class="p">:</span>
+</span><span id="L-789"><a href="#L-789"><span class="linenos">789</span></a>                <span class="k">break</span>
+</span><span id="L-790"><a href="#L-790"><span class="linenos">790</span></a>        <span class="n">h_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-791"><a href="#L-791"><span class="linenos">791</span></a>        <span class="n">rh_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-792"><a href="#L-792"><span class="linenos">792</span></a>        <span class="k">if</span> <span class="n">h_idx</span> <span class="o">==</span> <span class="n">dh</span><span class="p">:</span>
+</span><span id="L-793"><a href="#L-793"><span class="linenos">793</span></a>            <span class="k">break</span>
+</span><span id="L-794"><a href="#L-794"><span class="linenos">794</span></a>    <span class="k">return</span> <span class="n">dest_img</span>
 </span></pre></div>
 
 
@@ -3734,6 +3778,64 @@ X = 255f/100</p>
 
 
             <div class="docstring"><p>Do Image Decimation with given skip level (default is 2)</p>
+</div>
+
+
+                </section>
+                <section id="blockcopy">
+                            <input id="blockcopy-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">blockcopy</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">src_image</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>,</span><span class="param">	<span class="n">dest_orig_img</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>,</span><span class="param">	<span class="n">roi_from_src</span><span class="p">:</span> <span class="n"><a href="#Rect">Rect</a></span>,</span><span class="param">	<span class="n">dest_x</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">dest_y</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">) -> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="blockcopy-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#blockcopy"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="blockcopy-757"><a href="#blockcopy-757"><span class="linenos">757</span></a><span class="k">def</span> <span class="nf">blockcopy</span><span class="p">(</span>
+</span><span id="blockcopy-758"><a href="#blockcopy-758"><span class="linenos">758</span></a>        <span class="n">src_image</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="blockcopy-759"><a href="#blockcopy-759"><span class="linenos">759</span></a>        <span class="n">dest_orig_img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span>
+</span><span id="blockcopy-760"><a href="#blockcopy-760"><span class="linenos">760</span></a>        <span class="n">roi_from_src</span><span class="p">:</span> <span class="n">Rect</span><span class="p">,</span>
+</span><span id="blockcopy-761"><a href="#blockcopy-761"><span class="linenos">761</span></a>        <span class="n">dest_x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="blockcopy-762"><a href="#blockcopy-762"><span class="linenos">762</span></a>        <span class="n">dest_y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatLike</span><span class="p">:</span>
+</span><span id="blockcopy-763"><a href="#blockcopy-763"><span class="linenos">763</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy blocks with roi_from_src rect to dest_orig_img&#39;s (dest_x, dest_y)&quot;&quot;&quot;</span>
+</span><span id="blockcopy-764"><a href="#blockcopy-764"><span class="linenos">764</span></a>
+</span><span id="blockcopy-765"><a href="#blockcopy-765"><span class="linenos">765</span></a>    <span class="n">dest_img</span> <span class="o">=</span> <span class="n">dest_orig_img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span><span id="blockcopy-766"><a href="#blockcopy-766"><span class="linenos">766</span></a>
+</span><span id="blockcopy-767"><a href="#blockcopy-767"><span class="linenos">767</span></a>    <span class="n">roi_img</span> <span class="o">=</span> <span class="n">roi</span><span class="p">(</span>
+</span><span id="blockcopy-768"><a href="#blockcopy-768"><span class="linenos">768</span></a>        <span class="n">src_image</span><span class="p">,</span>
+</span><span id="blockcopy-769"><a href="#blockcopy-769"><span class="linenos">769</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">loc_x</span><span class="p">,</span>
+</span><span id="blockcopy-770"><a href="#blockcopy-770"><span class="linenos">770</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+</span><span id="blockcopy-771"><a href="#blockcopy-771"><span class="linenos">771</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">loc_y</span><span class="p">,</span>
+</span><span id="blockcopy-772"><a href="#blockcopy-772"><span class="linenos">772</span></a>        <span class="n">roi_from_src</span><span class="o">.</span><span class="n">height</span>
+</span><span id="blockcopy-773"><a href="#blockcopy-773"><span class="linenos">773</span></a>    <span class="p">)</span>
+</span><span id="blockcopy-774"><a href="#blockcopy-774"><span class="linenos">774</span></a>
+</span><span id="blockcopy-775"><a href="#blockcopy-775"><span class="linenos">775</span></a>    <span class="n">dh</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dest_img</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="blockcopy-776"><a href="#blockcopy-776"><span class="linenos">776</span></a>    <span class="n">rh</span><span class="p">,</span> <span class="n">rw</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">roi_img</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="blockcopy-777"><a href="#blockcopy-777"><span class="linenos">777</span></a>    <span class="n">h_idx</span> <span class="o">=</span> <span class="n">dest_y</span>
+</span><span id="blockcopy-778"><a href="#blockcopy-778"><span class="linenos">778</span></a>    <span class="n">rh_idx</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="blockcopy-779"><a href="#blockcopy-779"><span class="linenos">779</span></a>    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dest_y</span><span class="p">,</span> <span class="n">dest_y</span> <span class="o">+</span> <span class="n">rh</span><span class="p">):</span>
+</span><span id="blockcopy-780"><a href="#blockcopy-780"><span class="linenos">780</span></a>        <span class="n">w_idx</span> <span class="o">=</span> <span class="n">dest_x</span>
+</span><span id="blockcopy-781"><a href="#blockcopy-781"><span class="linenos">781</span></a>        <span class="n">rw_idx</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="blockcopy-782"><a href="#blockcopy-782"><span class="linenos">782</span></a>        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dest_x</span><span class="p">,</span> <span class="n">dest_x</span> <span class="o">+</span> <span class="n">rw</span><span class="p">):</span>
+</span><span id="blockcopy-783"><a href="#blockcopy-783"><span class="linenos">783</span></a>
+</span><span id="blockcopy-784"><a href="#blockcopy-784"><span class="linenos">784</span></a>            <span class="k">for</span> <span class="n">d_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+</span><span id="blockcopy-785"><a href="#blockcopy-785"><span class="linenos">785</span></a>                <span class="n">dest_img</span><span class="p">[</span><span class="n">h</span><span class="p">][</span><span class="n">w</span><span class="p">][</span><span class="n">d_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi_img</span><span class="p">[</span><span class="n">rh_idx</span><span class="p">][</span><span class="n">rw_idx</span><span class="p">][</span><span class="n">d_idx</span><span class="p">]</span>
+</span><span id="blockcopy-786"><a href="#blockcopy-786"><span class="linenos">786</span></a>
+</span><span id="blockcopy-787"><a href="#blockcopy-787"><span class="linenos">787</span></a>            <span class="n">w_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="blockcopy-788"><a href="#blockcopy-788"><span class="linenos">788</span></a>            <span class="n">rw_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="blockcopy-789"><a href="#blockcopy-789"><span class="linenos">789</span></a>            <span class="k">if</span> <span class="n">w_idx</span> <span class="o">==</span> <span class="n">dw</span><span class="p">:</span>
+</span><span id="blockcopy-790"><a href="#blockcopy-790"><span class="linenos">790</span></a>                <span class="k">break</span>
+</span><span id="blockcopy-791"><a href="#blockcopy-791"><span class="linenos">791</span></a>        <span class="n">h_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="blockcopy-792"><a href="#blockcopy-792"><span class="linenos">792</span></a>        <span class="n">rh_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="blockcopy-793"><a href="#blockcopy-793"><span class="linenos">793</span></a>        <span class="k">if</span> <span class="n">h_idx</span> <span class="o">==</span> <span class="n">dh</span><span class="p">:</span>
+</span><span id="blockcopy-794"><a href="#blockcopy-794"><span class="linenos">794</span></a>            <span class="k">break</span>
+</span><span id="blockcopy-795"><a href="#blockcopy-795"><span class="linenos">795</span></a>    <span class="k">return</span> <span class="n">dest_img</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Copy blocks with roi_from_src rect to dest_orig_img's (dest_x, dest_y)</p>
 </div>
 
 
