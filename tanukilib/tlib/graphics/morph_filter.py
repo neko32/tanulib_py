@@ -82,6 +82,43 @@ def morph_remove_noises_aka_closeopen(
     )
 
 
+def morph_blackhat(
+        img: MatLike,
+        iteration: int = 1
+) -> MatLike:
+    """
+    Apply morphology with blackhat.
+    Blackhat is a diff between original image and its closed one.
+    White objects within darker background may be highlighted.
+    """
+    kernel = np.ones(shape=(3, 3), dtype=np.uint8)
+    return cv2.morphologyEx(
+        src=img,
+        op=cv2.MORPH_BLACKHAT,
+        kernel=kernel,
+        iterations=iteration
+    )
+
+
+def morph_tophat(
+        img: MatLike,
+        iteration: int = 1
+) -> MatLike:
+    """
+    Apply morphology with tophat.
+    Tophat is a diff between original image and its opened one.
+    Small details may be represented in darker background.
+    Maybe useful to observe details of small objects.
+    """
+    kernel = np.ones(shape=(3, 3), dtype=np.uint8)
+    return cv2.morphologyEx(
+        src=img,
+        op=cv2.MORPH_TOPHAT,
+        kernel=kernel,
+        iterations=iteration
+    )
+
+
 def erode(
     img: MatLike,
     iteration: int = 1
