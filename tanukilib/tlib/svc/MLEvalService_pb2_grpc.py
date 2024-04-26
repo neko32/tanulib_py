@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import MLEvalService_pb2 as MLEvalService__pb2
+import tlib.svc.MLEvalService_pb2 as MLEvalService__pb2
 
 
 class MLEvalServiceStub(object):

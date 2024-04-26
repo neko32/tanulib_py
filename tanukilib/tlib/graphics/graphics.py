@@ -70,6 +70,7 @@ class RuledLineType(Enum):
     RULED_LINE_ONLY_HORIZONTAL = auto()
     RULED_LINE_ONLY_VERTICAL = auto()
 
+
 class InterpolationType(Enum):
     NEAREST = cv2.INTER_NEAREST,
     NEAREST_EXACT = cv2.INTER_NEAREST_EXACT,
@@ -168,6 +169,7 @@ class HSVColorSchema:
         """Convert to MatLike"""
         return np.array([self._h, self._s, self._v])
 
+
 class GammaCorrectionPreset(Enum):
     GAMMA_CORRECTION_TOO_DARKER = 0.1
     GAMMA_CORRECTION_REASONABLY_DARKER = 0.5
@@ -195,7 +197,8 @@ def resize_img(
 ) -> bool:
     """Resize image with new_width & new_height. Interpolation is linear"""
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
-    resized = cv2.resize(buf, [new_width, new_height], interpolation=interpolation.value)
+    resized = cv2.resize(buf, [new_width, new_height],
+                         interpolation=interpolation.value)
     prefix = dest_path.split('.')[-1].lower()
     cfg = _TLIG_W_FLG_MAP[prefix]
     return cv2.imwrite(dest_path, resized, cfg)
@@ -730,3 +733,21 @@ def roi(
 ) -> MatLike:
     """Extract sub image from img"""
     return img[y:y + height, x:x + width]
+
+
+def img_decimation(img: MatLike, skip: int = 2) -> MatLike:
+    """Do Image Decimation with given skip level (default is 2)"""
+    h, w, d = img.shape
+    if skip > h or skip > w:
+        raise ValueError("skip value is too high")
+    buf = np.empty(shape=[h // skip, w // skip, d])
+    h_idx = 0
+
+    for y in range(0, h, skip):
+        w_idx = 0
+        for x in range(0, w, skip):
+            for d_idx in range(d):
+                buf[h_idx][w_idx][d_idx] = img[y][x][d_idx]
+            w_idx += 1
+        h_idx += 1
+    return buf
