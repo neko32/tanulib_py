@@ -93,3 +93,8 @@ def cosaine_similarity2d(a: Coordinate, b: Coordinate) -> float:
 def derive_yloc_by_theta_and_x(theta: float, x: float) -> float:
     """Derive coordinate y by theta and x"""
     return -(cos(radians(theta)) / sin(radians(theta))) * x + (theta / sin(radians(theta)))
+
+
+def can_make_triangle(x: float, y: float, z: float) -> bool:
+    """Check whether given 3 line length can make a triangle"""
+    return x < y + z and y < z + x and z < x + y

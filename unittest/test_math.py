@@ -90,6 +90,12 @@ class MathTest(TestCase):
         y = round_to_nearest_half_up(derive_yloc_by_theta_and_x(theta, x), 3)
         self.assertEqual(y, 53.64)
 
+    def test_can_make_triangle(self):
+        non_tr = [13, 15, 30]
+        tr = [10, 20, 15]
+        self.assertFalse(can_make_triangle(non_tr[0], non_tr[1], non_tr[2]))
+        self.assertTrue(can_make_triangle(tr[0], tr[1], tr[2]))
+
 
 if __name__ == "__main__":
     main()
