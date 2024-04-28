@@ -1,3 +1,8 @@
+/*
+AGPL v3
+Copyright (c) 2024 tanuneko.org, KK Tanuki
+*/
+
 syntax = "proto3";
 
 package tlib.svc.mleval_svc;
