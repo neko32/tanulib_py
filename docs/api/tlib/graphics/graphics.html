@@ -405,6 +405,12 @@
             <li>
                     <a class="function" href="#blockcopy">blockcopy</a>
             </li>
+            <li>
+                    <a class="function" href="#get_pixel">get_pixel</a>
+            </li>
+            <li>
+                    <a class="function" href="#from_2dimage_to_1dimage">from_2dimage_to_1dimage</a>
+            </li>
     </ul>
 
 
@@ -1220,6 +1226,47 @@
 </span><span id="L-792"><a href="#L-792"><span class="linenos">792</span></a>        <span class="k">if</span> <span class="n">h_idx</span> <span class="o">==</span> <span class="n">dh</span><span class="p">:</span>
 </span><span id="L-793"><a href="#L-793"><span class="linenos">793</span></a>            <span class="k">break</span>
 </span><span id="L-794"><a href="#L-794"><span class="linenos">794</span></a>    <span class="k">return</span> <span class="n">dest_img</span>
+</span><span id="L-795"><a href="#L-795"><span class="linenos">795</span></a>
+</span><span id="L-796"><a href="#L-796"><span class="linenos">796</span></a>
+</span><span id="L-797"><a href="#L-797"><span class="linenos">797</span></a><span class="k">def</span> <span class="nf">get_pixel</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> \
+</span><span id="L-798"><a href="#L-798"><span class="linenos">798</span></a>        <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+</span><span id="L-799"><a href="#L-799"><span class="linenos">799</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns pixel tuple&quot;&quot;&quot;</span>
+</span><span id="L-800"><a href="#L-800"><span class="linenos">800</span></a>    <span class="n">dim</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">ndim</span>
+</span><span id="L-801"><a href="#L-801"><span class="linenos">801</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;get_pixelDIM-</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-802"><a href="#L-802"><span class="linenos">802</span></a>    <span class="c1"># gray scale</span>
+</span><span id="L-803"><a href="#L-803"><span class="linenos">803</span></a>    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="L-804"><a href="#L-804"><span class="linenos">804</span></a>        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+</span><span id="L-805"><a href="#L-805"><span class="linenos">805</span></a>        <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="L-806"><a href="#L-806"><span class="linenos">806</span></a>    <span class="c1"># BGR or RGB</span>
+</span><span id="L-807"><a href="#L-807"><span class="linenos">807</span></a>    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="L-808"><a href="#L-808"><span class="linenos">808</span></a>        <span class="n">b_or_g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-809"><a href="#L-809"><span class="linenos">809</span></a>        <span class="n">g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="L-810"><a href="#L-810"><span class="linenos">810</span></a>        <span class="n">g_or_b</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="L-811"><a href="#L-811"><span class="linenos">811</span></a>        <span class="k">return</span> <span class="p">(</span><span class="n">b_or_g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">g_or_b</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="L-812"><a href="#L-812"><span class="linenos">812</span></a>    <span class="c1"># BGRA or RGBA</span>
+</span><span id="L-813"><a href="#L-813"><span class="linenos">813</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-814"><a href="#L-814"><span class="linenos">814</span></a>        <span class="n">b_or_g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-815"><a href="#L-815"><span class="linenos">815</span></a>        <span class="n">g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="L-816"><a href="#L-816"><span class="linenos">816</span></a>        <span class="n">g_or_b</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="L-817"><a href="#L-817"><span class="linenos">817</span></a>        <span class="n">a</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+</span><span id="L-818"><a href="#L-818"><span class="linenos">818</span></a>        <span class="k">return</span> <span class="p">(</span><span class="n">b_or_g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">g_or_b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</span><span id="L-819"><a href="#L-819"><span class="linenos">819</span></a>
+</span><span id="L-820"><a href="#L-820"><span class="linenos">820</span></a>
+</span><span id="L-821"><a href="#L-821"><span class="linenos">821</span></a><span class="k">def</span> <span class="nf">from_2dimage_to_1dimage</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">MatLike</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span id="L-822"><a href="#L-822"><span class="linenos">822</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-823"><a href="#L-823"><span class="linenos">823</span></a><span class="sd">    Convert 2D image to 1D image.</span>
+</span><span id="L-824"><a href="#L-824"><span class="linenos">824</span></a><span class="sd">    Returns a 1D image and strike</span>
+</span><span id="L-825"><a href="#L-825"><span class="linenos">825</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-826"><a href="#L-826"><span class="linenos">826</span></a>    <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="L-827"><a href="#L-827"><span class="linenos">827</span></a>    <span class="n">stride</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span>
+</span><span id="L-828"><a href="#L-828"><span class="linenos">828</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+</span><span id="L-829"><a href="#L-829"><span class="linenos">829</span></a>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+</span><span id="L-830"><a href="#L-830"><span class="linenos">830</span></a>        <span class="n">r_offset</span> <span class="o">=</span> <span class="n">stride</span> <span class="o">*</span> <span class="n">r</span>
+</span><span id="L-831"><a href="#L-831"><span class="linenos">831</span></a>        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+</span><span id="L-832"><a href="#L-832"><span class="linenos">832</span></a>            <span class="n">c_offset</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">d</span>
+</span><span id="L-833"><a href="#L-833"><span class="linenos">833</span></a>            <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+</span><span id="L-834"><a href="#L-834"><span class="linenos">834</span></a>                <span class="n">buf</span><span class="p">[</span><span class="n">r_offset</span> <span class="o">+</span> <span class="n">c_offset</span> <span class="o">+</span> <span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">][</span><span class="n">dim</span><span class="p">]</span>
+</span><span id="L-835"><a href="#L-835"><span class="linenos">835</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -3836,6 +3883,82 @@ X = 255f/100</p>
 
 
             <div class="docstring"><p>Copy blocks with roi_from_src rect to dest_orig_img's (dest_x, dest_y)</p>
+</div>
+
+
+                </section>
+                <section id="get_pixel">
+                            <input id="get_pixel-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_pixel</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">m</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>,</span><span class="param">	<span class="n">x</span><span class="p">:</span> <span class="nb">int</span>,</span><span class="param">	<span class="n">y</span><span class="p">:</span> <span class="nb">int</span></span><span class="return-annotation">) -> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>:</span></span>
+
+                <label class="view-source-button" for="get_pixel-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#get_pixel"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get_pixel-798"><a href="#get_pixel-798"><span class="linenos">798</span></a><span class="k">def</span> <span class="nf">get_pixel</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> \
+</span><span id="get_pixel-799"><a href="#get_pixel-799"><span class="linenos">799</span></a>        <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+</span><span id="get_pixel-800"><a href="#get_pixel-800"><span class="linenos">800</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns pixel tuple&quot;&quot;&quot;</span>
+</span><span id="get_pixel-801"><a href="#get_pixel-801"><span class="linenos">801</span></a>    <span class="n">dim</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">ndim</span>
+</span><span id="get_pixel-802"><a href="#get_pixel-802"><span class="linenos">802</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;get_pixelDIM-</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="get_pixel-803"><a href="#get_pixel-803"><span class="linenos">803</span></a>    <span class="c1"># gray scale</span>
+</span><span id="get_pixel-804"><a href="#get_pixel-804"><span class="linenos">804</span></a>    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="get_pixel-805"><a href="#get_pixel-805"><span class="linenos">805</span></a>        <span class="n">p</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span>
+</span><span id="get_pixel-806"><a href="#get_pixel-806"><span class="linenos">806</span></a>        <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="get_pixel-807"><a href="#get_pixel-807"><span class="linenos">807</span></a>    <span class="c1"># BGR or RGB</span>
+</span><span id="get_pixel-808"><a href="#get_pixel-808"><span class="linenos">808</span></a>    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="get_pixel-809"><a href="#get_pixel-809"><span class="linenos">809</span></a>        <span class="n">b_or_g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="get_pixel-810"><a href="#get_pixel-810"><span class="linenos">810</span></a>        <span class="n">g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="get_pixel-811"><a href="#get_pixel-811"><span class="linenos">811</span></a>        <span class="n">g_or_b</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="get_pixel-812"><a href="#get_pixel-812"><span class="linenos">812</span></a>        <span class="k">return</span> <span class="p">(</span><span class="n">b_or_g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">g_or_b</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="get_pixel-813"><a href="#get_pixel-813"><span class="linenos">813</span></a>    <span class="c1"># BGRA or RGBA</span>
+</span><span id="get_pixel-814"><a href="#get_pixel-814"><span class="linenos">814</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="get_pixel-815"><a href="#get_pixel-815"><span class="linenos">815</span></a>        <span class="n">b_or_g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="get_pixel-816"><a href="#get_pixel-816"><span class="linenos">816</span></a>        <span class="n">g</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="get_pixel-817"><a href="#get_pixel-817"><span class="linenos">817</span></a>        <span class="n">g_or_b</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="get_pixel-818"><a href="#get_pixel-818"><span class="linenos">818</span></a>        <span class="n">a</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+</span><span id="get_pixel-819"><a href="#get_pixel-819"><span class="linenos">819</span></a>        <span class="k">return</span> <span class="p">(</span><span class="n">b_or_g</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">g_or_b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Returns pixel tuple</p>
+</div>
+
+
+                </section>
+                <section id="from_2dimage_to_1dimage">
+                            <input id="from_2dimage_to_1dimage-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">from_2dimage_to_1dimage</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">m</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="from_2dimage_to_1dimage-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#from_2dimage_to_1dimage"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="from_2dimage_to_1dimage-822"><a href="#from_2dimage_to_1dimage-822"><span class="linenos">822</span></a><span class="k">def</span> <span class="nf">from_2dimage_to_1dimage</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">MatLike</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span id="from_2dimage_to_1dimage-823"><a href="#from_2dimage_to_1dimage-823"><span class="linenos">823</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="from_2dimage_to_1dimage-824"><a href="#from_2dimage_to_1dimage-824"><span class="linenos">824</span></a><span class="sd">    Convert 2D image to 1D image.</span>
+</span><span id="from_2dimage_to_1dimage-825"><a href="#from_2dimage_to_1dimage-825"><span class="linenos">825</span></a><span class="sd">    Returns a 1D image and strike</span>
+</span><span id="from_2dimage_to_1dimage-826"><a href="#from_2dimage_to_1dimage-826"><span class="linenos">826</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="from_2dimage_to_1dimage-827"><a href="#from_2dimage_to_1dimage-827"><span class="linenos">827</span></a>    <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="from_2dimage_to_1dimage-828"><a href="#from_2dimage_to_1dimage-828"><span class="linenos">828</span></a>    <span class="n">stride</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span>
+</span><span id="from_2dimage_to_1dimage-829"><a href="#from_2dimage_to_1dimage-829"><span class="linenos">829</span></a>    <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span>
+</span><span id="from_2dimage_to_1dimage-830"><a href="#from_2dimage_to_1dimage-830"><span class="linenos">830</span></a>    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+</span><span id="from_2dimage_to_1dimage-831"><a href="#from_2dimage_to_1dimage-831"><span class="linenos">831</span></a>        <span class="n">r_offset</span> <span class="o">=</span> <span class="n">stride</span> <span class="o">*</span> <span class="n">r</span>
+</span><span id="from_2dimage_to_1dimage-832"><a href="#from_2dimage_to_1dimage-832"><span class="linenos">832</span></a>        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+</span><span id="from_2dimage_to_1dimage-833"><a href="#from_2dimage_to_1dimage-833"><span class="linenos">833</span></a>            <span class="n">c_offset</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">d</span>
+</span><span id="from_2dimage_to_1dimage-834"><a href="#from_2dimage_to_1dimage-834"><span class="linenos">834</span></a>            <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+</span><span id="from_2dimage_to_1dimage-835"><a href="#from_2dimage_to_1dimage-835"><span class="linenos">835</span></a>                <span class="n">buf</span><span class="p">[</span><span class="n">r_offset</span> <span class="o">+</span> <span class="n">c_offset</span> <span class="o">+</span> <span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">][</span><span class="n">dim</span><span class="p">]</span>
+</span><span id="from_2dimage_to_1dimage-836"><a href="#from_2dimage_to_1dimage-836"><span class="linenos">836</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Convert 2D image to 1D image.
+Returns a 1D image and strike</p>
 </div>
 
 

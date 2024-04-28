@@ -5,6 +5,7 @@ from tlib.graphics import *
 from unittest import TestCase, main
 from os import remove, mkdir
 from os.path import exists
+from pathlib import Path
 import magic
 
 
@@ -150,6 +151,22 @@ class GrapchicsTest(TestCase):
         v = 88.
         self.assertTrue(conv_to_opencv_sat_val(sat), 86.7)
         self.assertTrue(conv_to_opencv_sat_val(v), 224.4)
+
+    def test_image2d_to_1d(self):
+        input_img_path = str(Path(__file__).parent.joinpath(
+            "testdata", "img", "cat_img1.jpg"))
+        img = imread_wrapper(input_img_path)
+        sdi, stride = from_2dimage_to_1dimage(img)
+        print(img.shape)
+        print(stride)
+        b, g, r,_ = get_pixel(img, 200, 130)
+        print(r, g, b)
+        b2 = sdi[stride * 130 + 200 * 3]
+        g2 = sdi[stride * 130 + 200 * 3 + 1]
+        r2 = sdi[stride * 130 + 200 * 3 + 2]
+        self.assertEqual(b, b2)
+        self.assertEqual(g, g2)
+        self.assertEqual(r, r2)
 
 
 if __name__ == "__main__":

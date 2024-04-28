@@ -792,3 +792,44 @@ def blockcopy(
         if h_idx == dh:
             break
     return dest_img
+
+
+def get_pixel(m: MatLike, x: int, y: int) \
+        -> Tuple[int, Optional[int], Optional[int], Optional[int]]:
+    """Returns pixel tuple"""
+    dim = m.ndim
+    print(f"get_pixelDIM-{dim}")
+    # gray scale
+    if dim == 2:
+        p = m[y][x]
+        return (p, None, None, None)
+    # BGR or RGB
+    if dim == 3:
+        b_or_g = m[y][x][0]
+        g = m[y][x][1]
+        g_or_b = m[y][x][2]
+        return (b_or_g, g, g_or_b, None)
+    # BGRA or RGBA
+    else:
+        b_or_g = m[y][x][0]
+        g = m[y][x][1]
+        g_or_b = m[y][x][2]
+        a = m[y][x][3]
+        return (b_or_g, g, g_or_b, a)
+
+
+def from_2dimage_to_1dimage(m: MatLike) -> Tuple[MatLike, int]:
+    """
+    Convert 2D image to 1D image.
+    Returns a 1D image and strike
+    """
+    h, w, d = m.shape
+    stride = w * d
+    buf = np.empty(shape=h * w * d)
+    for r in range(h):
+        r_offset = stride * r
+        for c in range(w):
+            c_offset = c * d
+            for dim in range(d):
+                buf[r_offset + c_offset + dim] = m[r][c][dim]
+    return (buf, stride)
