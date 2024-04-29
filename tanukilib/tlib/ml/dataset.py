@@ -7,6 +7,10 @@ from typing import List, Optional, Tuple
 import pickle
 import numpy as np
 from numpy.typing import NDArray
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from tlib.graphics.img_info import get_exif_data
+from tlib.datautil.map import pprint_with_sort
 
 
 def load_text_dataset(
@@ -96,3 +100,30 @@ def cifar_pickle_load(
     val_y = np.reshape(val_y, newshape=[10000])
 
     return ((tr_x, tr_y), (val_x, val_y))
+
+
+def pick_image_file(
+        dataset: str,
+        category: Optional[str],
+        file_name: str,
+        show_file: bool = False,
+        dump_exif_info: bool = False
+) -> str:
+    """Pick ML training data image file. If show_file is true, the image is displayed"""
+    ml_data_file = Path(os.environ["TLIB_ML_DATA_DIR"]).joinpath(dataset)
+    if category is not None:
+        ml_data_file = ml_data_file.joinpath(category)
+    ml_data_file = ml_data_file.joinpath(file_name)
+    if not ml_data_file.exists():
+        raise Exception(f"{str(ml_data_file)} not exist")
+    ml_data_file_s = str(ml_data_file)
+    img = mpimg.imread(ml_data_file_s)
+    if dump_exif_info:
+        exif = get_exif_data(ml_data_file_s)
+        print("--- EXIF INFO BEGIN ---")
+        pprint_with_sort(exif)
+        print("--- EXIF INFO END ---")
+    _ = plt.imshow(img)
+    if show_file:
+        plt.show()
+    return ml_data_file_s

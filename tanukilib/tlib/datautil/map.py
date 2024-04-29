@@ -76,3 +76,16 @@ def __hist_mark_gen(val: int, by_n: int) -> str:
         return "".join(["*"] * (val // by_n))
     else:
         return "".join(["*"] * ((val // by_n) + 1))
+
+
+def pprint(d: Dict[K, V]) -> None:
+    """Pretty print the given dict"""
+    for k, v in d.items():
+        print(f"{k} : {v}")
+
+
+def pprint_with_sort(d: Dict[K, V], asc: bool = True) -> None:
+    """Pretty print the given dict after sorting key"""
+    ks = sorted(d.keys(), reverse=not asc)
+    for k in ks:
+        print(f"{k} : {d[k]}")
