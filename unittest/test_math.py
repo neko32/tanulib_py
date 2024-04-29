@@ -96,6 +96,24 @@ class MathTest(TestCase):
         self.assertFalse(can_make_triangle(non_tr[0], non_tr[1], non_tr[2]))
         self.assertTrue(can_make_triangle(tr[0], tr[1], tr[2]))
 
+    def test_logit(self):
+        like_choco = 8    
+        like_bean = 2
+        sample_num = like_choco + like_bean
+        like_choco_p = like_choco / sample_num
+        like_bean_p = like_bean / sample_num
+        like_odds = odds_ratio(like_choco_p, like_bean_p)
+        like_choco_o = odds(like_choco_p)
+        like_bean_o = odds(like_bean_p)
+        like_choco_logit = logit(like_choco_p)
+        like_bean_logit = logit(like_bean_p)
+        self.assertEqual(int(like_odds), 16)
+        self.assertEqual(int(like_choco_o), 4)
+        self.assertEqual(like_bean_o, 0.25)
+        self.assertEqual(round_to_nearest_half_up(like_choco_logit, 3), 1.39)
+        self.assertEqual(round_to_nearest_half_up(like_bean_logit, 3), -1.39)
+        
+
 
 if __name__ == "__main__":
     main()

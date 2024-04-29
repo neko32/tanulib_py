@@ -98,3 +98,18 @@ def derive_yloc_by_theta_and_x(theta: float, x: float) -> float:
 def can_make_triangle(x: float, y: float, z: float) -> bool:
     """Check whether given 3 line length can make a triangle"""
     return x < y + z and y < z + x and z < x + y
+
+
+def odds(p: float) -> float:
+    """Calculate odds"""
+    return p / (1 - p)
+
+
+def odds_ratio(p: float, q: float) -> float:
+    """Calculate odds ratio for probability p and q"""
+    return odds(p) / odds(q)
+
+
+def logit(p: float) -> float:
+    """Calculate logit"""
+    return np.log(odds(p))

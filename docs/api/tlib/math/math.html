@@ -78,6 +78,15 @@
             <li>
                     <a class="function" href="#can_make_triangle">can_make_triangle</a>
             </li>
+            <li>
+                    <a class="function" href="#odds">odds</a>
+            </li>
+            <li>
+                    <a class="function" href="#odds_ratio">odds_ratio</a>
+            </li>
+            <li>
+                    <a class="function" href="#logit">logit</a>
+            </li>
     </ul>
 
 
@@ -199,6 +208,21 @@
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="k">def</span> <span class="nf">can_make_triangle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether given 3 line length can make a triangle&quot;&quot;&quot;</span>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">z</span> <span class="o">+</span> <span class="n">x</span> <span class="ow">and</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="k">def</span> <span class="nf">odds</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate odds&quot;&quot;&quot;</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="k">return</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="k">def</span> <span class="nf">odds_ratio</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate odds ratio for probability p and q&quot;&quot;&quot;</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="k">return</span> <span class="n">odds</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">odds</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="k">def</span> <span class="nf">logit</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate logit&quot;&quot;&quot;</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">odds</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -569,6 +593,72 @@ As the value closes to 0, 2 vecs are unrelated.</p>
 
 
             <div class="docstring"><p>Check whether given 3 line length can make a triangle</p>
+</div>
+
+
+                </section>
+                <section id="odds">
+                            <input id="odds-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">odds</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">p</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">float</span>:</span></span>
+
+                <label class="view-source-button" for="odds-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#odds"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="odds-104"><a href="#odds-104"><span class="linenos">104</span></a><span class="k">def</span> <span class="nf">odds</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="odds-105"><a href="#odds-105"><span class="linenos">105</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate odds&quot;&quot;&quot;</span>
+</span><span id="odds-106"><a href="#odds-106"><span class="linenos">106</span></a>    <span class="k">return</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Calculate odds</p>
+</div>
+
+
+                </section>
+                <section id="odds_ratio">
+                            <input id="odds_ratio-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">odds_ratio</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">p</span><span class="p">:</span> <span class="nb">float</span>, </span><span class="param"><span class="n">q</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">float</span>:</span></span>
+
+                <label class="view-source-button" for="odds_ratio-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#odds_ratio"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="odds_ratio-109"><a href="#odds_ratio-109"><span class="linenos">109</span></a><span class="k">def</span> <span class="nf">odds_ratio</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="odds_ratio-110"><a href="#odds_ratio-110"><span class="linenos">110</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate odds ratio for probability p and q&quot;&quot;&quot;</span>
+</span><span id="odds_ratio-111"><a href="#odds_ratio-111"><span class="linenos">111</span></a>    <span class="k">return</span> <span class="n">odds</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">odds</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Calculate odds ratio for probability p and q</p>
+</div>
+
+
+                </section>
+                <section id="logit">
+                            <input id="logit-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">logit</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">p</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">float</span>:</span></span>
+
+                <label class="view-source-button" for="logit-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#logit"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="logit-114"><a href="#logit-114"><span class="linenos">114</span></a><span class="k">def</span> <span class="nf">logit</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="logit-115"><a href="#logit-115"><span class="linenos">115</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate logit&quot;&quot;&quot;</span>
+</span><span id="logit-116"><a href="#logit-116"><span class="linenos">116</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">odds</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Calculate logit</p>
 </div>
 
 
