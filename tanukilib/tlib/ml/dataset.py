@@ -1,4 +1,5 @@
 from tf_keras.utils import text_dataset_from_directory
+from keras.preprocessing.image import load_img
 from pathlib import Path
 import os
 from os.path import exists
@@ -11,6 +12,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from tlib.graphics.img_info import get_exif_data
 from tlib.datautil.map import pprint_with_sort
+import PIL.Image as pilimg
+from PIL.Image import Image
 
 
 def load_text_dataset(
@@ -144,3 +147,56 @@ def pick_image_file(
     if show_file:
         plt.show()
     return ml_data_file_s
+
+
+def show_PIL_image(img: Image) -> None:
+    """Show PIL image"""
+    img.show()
+
+
+def show_NDArray_image(ndimg: NDArray) -> None:
+    """Show NDArray image"""
+    n = np.array(ndimg, dtype='uint8')
+    img = pilimg.fromarray(n)
+    show_PIL_image(img)
+
+
+def show_multiple_images_as_rank(
+        indices_to_show,
+        scores,
+        images: NDArray,
+        image_size_to_show: Tuple[int, int],
+        begin_rank_num: int = 0,
+        figure_size: Tuple[int, int] = (20, 20)
+) -> None:
+    """
+    Show multiple images specified in indices_to_show from images
+    """
+    rank = begin_rank_num
+    plt.figure(figsize=figure_size)
+
+    for idx, score in zip(indices_to_show, scores):
+        plt.subplot(3, 3, rank + 1)
+        fpath = images[idx]
+        subject = f"rank: {rank}, idx: {idx}, score: {score},\npath: {fpath}"
+        plt.title(subject)
+        img = load_img(fpath, target_size=image_size_to_show)
+        plt.imshow(img)
+        rank += 1
+
+    plt.show()
+
+
+def derive_path_for_dataset(
+        dataset: str,
+        category: Optional[str],
+        existance_check: bool = True
+) -> str:
+    """Derive path given data set and optionally category"""
+    ml_data_path = Path(os.environ["TLIB_ML_DATA_DIR"]).joinpath(dataset)
+    if category is not None:
+        ml_data_path = ml_data_path.joinpath(category)
+    if existance_check:
+        if not ml_data_path.exists():
+            raise Exception(f"{str(ml_data_path)} doesn't exist")
+    return str(ml_data_path)
