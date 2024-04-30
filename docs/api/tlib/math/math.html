@@ -87,6 +87,9 @@
             <li>
                     <a class="function" href="#logit">logit</a>
             </li>
+            <li>
+                    <a class="function" href="#avg_change_formula">avg_change_formula</a>
+            </li>
     </ul>
 
 
@@ -223,6 +226,16 @@
 </span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="k">def</span> <span class="nf">logit</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate logit&quot;&quot;&quot;</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">odds</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="k">def</span> <span class="nf">avg_change_formula</span><span class="p">(</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="n">f1_rez</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="n">f2_rez</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="n">f1_ipt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="n">f2_ipt</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calcurate average of change formula&quot;&quot;&quot;</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">f2_rez</span> <span class="o">-</span> <span class="n">f1_rez</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">f2_ipt</span> <span class="o">-</span> <span class="n">f1_ipt</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -659,6 +672,33 @@ As the value closes to 0, 2 vecs are unrelated.</p>
 
 
             <div class="docstring"><p>Calculate logit</p>
+</div>
+
+
+                </section>
+                <section id="avg_change_formula">
+                            <input id="avg_change_formula-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">avg_change_formula</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">f1_rez</span><span class="p">:</span> <span class="nb">float</span>, </span><span class="param"><span class="n">f2_rez</span><span class="p">:</span> <span class="nb">float</span>, </span><span class="param"><span class="n">f1_ipt</span><span class="p">:</span> <span class="nb">float</span>, </span><span class="param"><span class="n">f2_ipt</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="nb">float</span>:</span></span>
+
+                <label class="view-source-button" for="avg_change_formula-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#avg_change_formula"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="avg_change_formula-119"><a href="#avg_change_formula-119"><span class="linenos">119</span></a><span class="k">def</span> <span class="nf">avg_change_formula</span><span class="p">(</span>
+</span><span id="avg_change_formula-120"><a href="#avg_change_formula-120"><span class="linenos">120</span></a>        <span class="n">f1_rez</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="avg_change_formula-121"><a href="#avg_change_formula-121"><span class="linenos">121</span></a>        <span class="n">f2_rez</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="avg_change_formula-122"><a href="#avg_change_formula-122"><span class="linenos">122</span></a>        <span class="n">f1_ipt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="avg_change_formula-123"><a href="#avg_change_formula-123"><span class="linenos">123</span></a>        <span class="n">f2_ipt</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="avg_change_formula-124"><a href="#avg_change_formula-124"><span class="linenos">124</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="avg_change_formula-125"><a href="#avg_change_formula-125"><span class="linenos">125</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calcurate average of change formula&quot;&quot;&quot;</span>
+</span><span id="avg_change_formula-126"><a href="#avg_change_formula-126"><span class="linenos">126</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">f2_rez</span> <span class="o">-</span> <span class="n">f1_rez</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">f2_ipt</span> <span class="o">-</span> <span class="n">f1_ipt</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Calcurate average of change formula</p>
 </div>
 
 

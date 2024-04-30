@@ -113,3 +113,13 @@ def odds_ratio(p: float, q: float) -> float:
 def logit(p: float) -> float:
     """Calculate logit"""
     return np.log(odds(p))
+
+
+def avg_change_formula(
+        f1_rez: float,
+        f2_rez: float,
+        f1_ipt: float,
+        f2_ipt: float
+) -> float:
+    """Calcurate average of change formula"""
+    return (f2_rez - f1_rez) / (f2_ipt - f1_ipt)

@@ -113,6 +113,24 @@ class MathTest(TestCase):
         self.assertEqual(round_to_nearest_half_up(like_choco_logit, 3), 1.39)
         self.assertEqual(round_to_nearest_half_up(like_bean_logit, 3), -1.39)
         
+    def test_avg_change_formula(self):
+        case1_f1_rez = -7
+        case1_f2_rez = 3
+        case1_f1_ipt = 0
+        case1_f2_ipt = 9
+        case1_r = avg_change_formula(case1_f1_rez, case1_f2_rez, case1_f1_ipt, case1_f2_ipt)
+        self.assertEqual(round_to_nearest_half_up(case1_r, 2), 1.1)
+
+        case2_f1_rez = -8
+        case2_f2_rez = 162
+        case2_f1_ipt = 1
+        case2_f2_ipt = 6
+        case2_r = avg_change_formula(case2_f1_rez, case2_f2_rez, case2_f1_ipt, case2_f2_ipt)
+
+        self.assertEqual(round_to_nearest_half_up(case2_r, 2), 34.0)
+
+
+
 
 
 if __name__ == "__main__":
