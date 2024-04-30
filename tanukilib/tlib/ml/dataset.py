@@ -102,6 +102,23 @@ def cifar_pickle_load(
     return ((tr_x, tr_y), (val_x, val_y))
 
 
+def extract_imagebytes_from_1darray(
+        images: NDArray,
+        height_hint: int,
+        width_hint: int,
+        dim_hint: int,
+        index: int
+) -> NDArray:
+    """
+    Extract image bytes from image 1D array from given index.
+    Stride is derived from given height, width and dimension hint.
+    """
+    stride = height_hint * width_hint * dim_hint
+    st = stride * index
+    end = st + stride
+    return images[st:end]
+
+
 def pick_image_file(
         dataset: str,
         category: Optional[str],
