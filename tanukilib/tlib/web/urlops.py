@@ -90,3 +90,19 @@ class URL:
         with urlopen(req) as resp:
             retj = json.loads(resp.read().decode(encoding))
         return retj
+
+    def post_with_json_resp(
+        self,
+        body: str,
+        encoding: str = "UTF-8",
+    ) -> Dict[str, Any]:
+        """send POST method and expect to receive JSON response"""
+        req = Request(
+            self.raw_url,
+            headers=self.headers,
+            method='POST',
+            data=bytes(body, encoding)
+        )
+        with urlopen(req) as resp:
+            retj = json.loads(resp.read().decode(encoding))
+        return retj

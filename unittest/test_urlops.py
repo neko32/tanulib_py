@@ -3,6 +3,7 @@ from urllib.parse import unquote
 from unittest import TestCase, main
 from pathlib import Path
 from os import remove
+import json
 import os
 
 
@@ -96,6 +97,23 @@ class URLOpsTest(TestCase):
         url.add_header("accept", "application/json")
         url.add_header("tako", "neko")
         js = url.get_with_json_resp()
+        self.assertEqual(js["headers"]["Tako"], "neko")
+
+    def test_json_post(self):
+        url = URL("https://httpbin.org/post")
+        url.add_header("accept", "application/json")
+        url.add_header("tako", "neko")
+        ipt = """{
+            "name": "takoki",
+            "age": 3,
+            "addr": {
+                "city": "Tokyo",
+                "zip": "123-0030"
+            }
+        }"""
+        bodyj = json.loads(ipt)
+        bodyjs = json.dumps(bodyj)
+        js = url.post_with_json_resp(bodyjs)
         self.assertEqual(js["headers"]["Tako"], "neko")
 
 
