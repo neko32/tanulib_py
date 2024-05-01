@@ -167,18 +167,25 @@ def show_multiple_images_as_rank(
         images: NDArray,
         image_size_to_show: Tuple[int, int],
         begin_rank_num: int = 0,
-        figure_size: Tuple[int, int] = (20, 20)
+        figure_size: Tuple[int, int] = (20, 20),
+        feature_image_idx:Optional[int] = None
 ) -> None:
     """
     Show multiple images specified in indices_to_show from images
     """
+
     rank = begin_rank_num
+    plt.subplot(4, 3, rank + 1)
     plt.figure(figsize=figure_size)
 
+    if feature_image_idx is not None:
+        featured_img = load_img(images[feature_image_idx], target_size=image_size_to_show)
+        plt.title(f"feature img {images[feature_image_idx].name}")
+        plt.imshow(featured_img)
     for idx, score in zip(indices_to_show, scores):
-        plt.subplot(3, 3, rank + 1)
+        plt.subplot(4, 3, rank + 1)
         fpath = images[idx]
-        subject = f"rank: {rank}, idx: {idx}, score: {score},\npath: {fpath}"
+        subject = f"rank: {rank}, idx: {idx}, score: {score},\npath: {fpath.name}"
         plt.title(subject)
         img = load_img(fpath, target_size=image_size_to_show)
         plt.imshow(img)

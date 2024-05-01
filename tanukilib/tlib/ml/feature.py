@@ -3,6 +3,21 @@ from keras.models import Model
 from typing import Tuple
 from tlib.math.math import Coordinate, cosaine_similarity2d
 import numpy as np
+from math import isnan
+
+
+def build_resnet152_for_feature_extaction() -> Model:
+    """Build RESNET152 in suitable config for feature extraction"""
+
+    m: Model = kerasapp.ResNet152(
+        include_top=False,
+        weights="imagenet",
+        input_tensor=None,
+        input_shape=None,
+        pooling="avg",
+        classes=1000
+    )
+    return m
 
 
 def build_resnet152V2_for_feature_extaction() -> Model:
@@ -36,7 +51,8 @@ class FeatureSearchEngine:
         for v in self.features:
             v_coord = Coordinate(v[0], v[1])
             cos_sim = cosaine_similarity2d(q_coord, v_coord)
-            simrank.append(cos_sim)
+            if not isnan(cos_sim):
+                simrank.append(cos_sim)
         simrank = np.array(simrank)
 
         # -pick_top_n gives desc sorted list

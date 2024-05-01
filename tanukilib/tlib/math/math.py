@@ -74,7 +74,7 @@ def is_coprime(m: int, n: int) -> bool:
     return gcd(m, n) == 1
 
 
-def cosaine_similarity2d(a: Coordinate, b: Coordinate) -> float:
+def cosaine_similarity2d(a: Coordinate, b: Coordinate, verbose:bool = False) -> float:
     """
     Calculate cosaine similarty for 2 coordinates a and b.
     As the value closes to -1, 2 vecs are unsimilar.
@@ -83,10 +83,12 @@ def cosaine_similarity2d(a: Coordinate, b: Coordinate) -> float:
     """
     am = np.array(a.as_tuple2d())
     bm = np.array(b.as_tuple2d())
-    m = am.dot(bm)
+    m = np.dot(am, bm)
     n1 = norm(am, ord=2)
     n2 = norm(bm, ord=2)
     n = n1 * n2
+    if verbose:
+        print(f"{m}/({n1} * {n2}) = {m / n}")
     return m / n
 
 
