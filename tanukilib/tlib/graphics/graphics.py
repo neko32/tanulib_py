@@ -345,6 +345,20 @@ def fill_rect(
         lineType=line_type.value)
 
 
+def blackout(
+        a: MatLike,
+        st: Tuple[int, int],
+        end: Tuple[int, int]
+) -> None:
+    """An util function to black out particially in the given image"""
+    fill_rect(
+        a = a,
+        st = st,
+        end = end,
+        color = BGRA(0, 0, 0)
+    )
+
+
 def draw_line(
         a: MatLike,
         st: Tuple[int, int],
