@@ -42,3 +42,14 @@ def from_snake_case_to_pascal_case(s: str) -> str:
 def from_snake_to_chain_case(s: str) -> str:
     """Convert given string s from snake ase to chain case"""
     return s.replace('_', '-').lower()
+
+
+def ROT13(s: str) -> str:
+    """encode/decode str by ROT13"""
+    rot_tbl = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm"
+    alpha = string.ascii_letters.swapcase()
+    m = {a: b for a, b in zip(alpha, rot_tbl)}
+    buf = ""
+    for c in s:
+        buf += m[c]
+    return buf

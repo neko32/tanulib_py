@@ -60,6 +60,13 @@ class StringTest(TestCase):
         self.assertEqual(from_snake_to_chain_case(s4), 'neko-tako')
         self.assertEqual(from_snake_to_chain_case(s5), 'neko-tako')
 
+    def test_ROT13(self):
+        orig_input = "TakogaZ"
+        encoded = ROT13(orig_input)
+        self.assertEqual(encoded, "GnxbtnM")
+        decoded = ROT13(encoded)
+        self.assertEqual(decoded, orig_input)
+
 
 if __name__ == "__main__":
     main()
