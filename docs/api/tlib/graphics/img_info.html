@@ -33,6 +33,15 @@
             <li>
                     <a class="function" href="#get_exif_data">get_exif_data</a>
             </li>
+            <li>
+                    <a class="function" href="#aspect_ratio">aspect_ratio</a>
+            </li>
+            <li>
+                    <a class="function" href="#aspect_ratio_of_image">aspect_ratio_of_image</a>
+            </li>
+            <li>
+                    <a class="function" href="#is_horizontal_image_by_aspect_ratio">is_horizontal_image_by_aspect_ratio</a>
+            </li>
     </ul>
 
 
@@ -55,29 +64,53 @@
                         <label class="view-source-button" for="mod-img_info-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span> <span class="nn">tlib.core</span> <span class="kn">import</span> <span class="n">exec_cmd</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">def</span> <span class="nf">get_exif_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;get exif info from a file. exiftool must be installed in your PC&quot;&quot;&quot;</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> is not a file&quot;</span><span class="p">)</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="p">(</span><span class="n">retcode</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;exiftool&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">])</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="k">if</span> <span class="n">retcode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;executing exiftool command failed&quot;</span><span class="p">)</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="n">exif_dict</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="n">line_l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">line_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line_l</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="n">exif_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="k">return</span> <span class="n">exif_dict</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">cv2.typing</span> <span class="kn">import</span> <span class="n">MatLike</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">import</span> <span class="nn">math</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="k">def</span> <span class="nf">get_exif_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;get exif info from a file. exiftool must be installed in your PC&quot;&quot;&quot;</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> is not a file&quot;</span><span class="p">)</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>    <span class="p">(</span><span class="n">retcode</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;exiftool&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">])</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">if</span> <span class="n">retcode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;executing exiftool command failed&quot;</span><span class="p">)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="n">exif_dict</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">line_l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">line_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line_l</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="n">exif_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="k">return</span> <span class="n">exif_dict</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="k">def</span> <span class="nf">aspect_ratio</span><span class="p">(</span><span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate aspect ratio of provided width and height&quot;&quot;&quot;</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="n">gcd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">)</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="k">def</span> <span class="nf">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate aspect ratio of provided image&quot;&quot;&quot;</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">gcd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="k">def</span> <span class="nf">is_horizontal_image_by_aspect_ratio</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">    Check whether the provided image is horizontal image or vertical one.</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">    If aspect ratio is &gt; 1, then assume it&#39;s horizontal. Else vertical.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="n">ar</span> <span class="o">=</span> <span class="n">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="k">return</span> <span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
 </span></pre></div>
 
 
@@ -93,29 +126,103 @@
 
     </div>
     <a class="headerlink" href="#get_exif_data"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="get_exif_data-7"><a href="#get_exif_data-7"><span class="linenos"> 7</span></a><span class="k">def</span> <span class="nf">get_exif_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-</span><span id="get_exif_data-8"><a href="#get_exif_data-8"><span class="linenos"> 8</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;get exif info from a file. exiftool must be installed in your PC&quot;&quot;&quot;</span>
-</span><span id="get_exif_data-9"><a href="#get_exif_data-9"><span class="linenos"> 9</span></a>
-</span><span id="get_exif_data-10"><a href="#get_exif_data-10"><span class="linenos">10</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-</span><span id="get_exif_data-11"><a href="#get_exif_data-11"><span class="linenos">11</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> is not a file&quot;</span><span class="p">)</span>
-</span><span id="get_exif_data-12"><a href="#get_exif_data-12"><span class="linenos">12</span></a>
-</span><span id="get_exif_data-13"><a href="#get_exif_data-13"><span class="linenos">13</span></a>    <span class="p">(</span><span class="n">retcode</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;exiftool&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">])</span>
-</span><span id="get_exif_data-14"><a href="#get_exif_data-14"><span class="linenos">14</span></a>    <span class="k">if</span> <span class="n">retcode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="get_exif_data-15"><a href="#get_exif_data-15"><span class="linenos">15</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;executing exiftool command failed&quot;</span><span class="p">)</span>
-</span><span id="get_exif_data-16"><a href="#get_exif_data-16"><span class="linenos">16</span></a>
-</span><span id="get_exif_data-17"><a href="#get_exif_data-17"><span class="linenos">17</span></a>    <span class="n">exif_dict</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span id="get_exif_data-18"><a href="#get_exif_data-18"><span class="linenos">18</span></a>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-</span><span id="get_exif_data-19"><a href="#get_exif_data-19"><span class="linenos">19</span></a>        <span class="n">line_l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
-</span><span id="get_exif_data-20"><a href="#get_exif_data-20"><span class="linenos">20</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">line_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="get_exif_data-21"><a href="#get_exif_data-21"><span class="linenos">21</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line_l</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</span><span id="get_exif_data-22"><a href="#get_exif_data-22"><span class="linenos">22</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="get_exif_data-23"><a href="#get_exif_data-23"><span class="linenos">23</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span id="get_exif_data-24"><a href="#get_exif_data-24"><span class="linenos">24</span></a>        <span class="n">exif_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-</span><span id="get_exif_data-25"><a href="#get_exif_data-25"><span class="linenos">25</span></a>    <span class="k">return</span> <span class="n">exif_dict</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="get_exif_data-9"><a href="#get_exif_data-9"><span class="linenos"> 9</span></a><span class="k">def</span> <span class="nf">get_exif_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><span id="get_exif_data-10"><a href="#get_exif_data-10"><span class="linenos">10</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;get exif info from a file. exiftool must be installed in your PC&quot;&quot;&quot;</span>
+</span><span id="get_exif_data-11"><a href="#get_exif_data-11"><span class="linenos">11</span></a>
+</span><span id="get_exif_data-12"><a href="#get_exif_data-12"><span class="linenos">12</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span id="get_exif_data-13"><a href="#get_exif_data-13"><span class="linenos">13</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2"> is not a file&quot;</span><span class="p">)</span>
+</span><span id="get_exif_data-14"><a href="#get_exif_data-14"><span class="linenos">14</span></a>
+</span><span id="get_exif_data-15"><a href="#get_exif_data-15"><span class="linenos">15</span></a>    <span class="p">(</span><span class="n">retcode</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">exec_cmd</span><span class="p">([</span><span class="s1">&#39;exiftool&#39;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">])</span>
+</span><span id="get_exif_data-16"><a href="#get_exif_data-16"><span class="linenos">16</span></a>    <span class="k">if</span> <span class="n">retcode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="get_exif_data-17"><a href="#get_exif_data-17"><span class="linenos">17</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;executing exiftool command failed&quot;</span><span class="p">)</span>
+</span><span id="get_exif_data-18"><a href="#get_exif_data-18"><span class="linenos">18</span></a>
+</span><span id="get_exif_data-19"><a href="#get_exif_data-19"><span class="linenos">19</span></a>    <span class="n">exif_dict</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="get_exif_data-20"><a href="#get_exif_data-20"><span class="linenos">20</span></a>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">stdout</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+</span><span id="get_exif_data-21"><a href="#get_exif_data-21"><span class="linenos">21</span></a>        <span class="n">line_l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+</span><span id="get_exif_data-22"><a href="#get_exif_data-22"><span class="linenos">22</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">line_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="get_exif_data-23"><a href="#get_exif_data-23"><span class="linenos">23</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line_l</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</span><span id="get_exif_data-24"><a href="#get_exif_data-24"><span class="linenos">24</span></a>        <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="get_exif_data-25"><a href="#get_exif_data-25"><span class="linenos">25</span></a>        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="get_exif_data-26"><a href="#get_exif_data-26"><span class="linenos">26</span></a>        <span class="n">exif_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+</span><span id="get_exif_data-27"><a href="#get_exif_data-27"><span class="linenos">27</span></a>    <span class="k">return</span> <span class="n">exif_dict</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>get exif info from a file. exiftool must be installed in your PC</p>
+</div>
+
+
+                </section>
+                <section id="aspect_ratio">
+                            <input id="aspect_ratio-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">aspect_ratio</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">w</span><span class="p">:</span> <span class="nb">float</span>, </span><span class="param"><span class="n">h</span><span class="p">:</span> <span class="nb">float</span></span><span class="return-annotation">) -> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="aspect_ratio-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#aspect_ratio"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="aspect_ratio-30"><a href="#aspect_ratio-30"><span class="linenos">30</span></a><span class="k">def</span> <span class="nf">aspect_ratio</span><span class="p">(</span><span class="n">w</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span id="aspect_ratio-31"><a href="#aspect_ratio-31"><span class="linenos">31</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate aspect ratio of provided width and height&quot;&quot;&quot;</span>
+</span><span id="aspect_ratio-32"><a href="#aspect_ratio-32"><span class="linenos">32</span></a>    <span class="n">gcd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+</span><span id="aspect_ratio-33"><a href="#aspect_ratio-33"><span class="linenos">33</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>calculate aspect ratio of provided width and height</p>
+</div>
+
+
+                </section>
+                <section id="aspect_ratio_of_image">
+                            <input id="aspect_ratio_of_image-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">aspect_ratio_of_image</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">img</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="aspect_ratio_of_image-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#aspect_ratio_of_image"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="aspect_ratio_of_image-36"><a href="#aspect_ratio_of_image-36"><span class="linenos">36</span></a><span class="k">def</span> <span class="nf">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span id="aspect_ratio_of_image-37"><a href="#aspect_ratio_of_image-37"><span class="linenos">37</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate aspect ratio of provided image&quot;&quot;&quot;</span>
+</span><span id="aspect_ratio_of_image-38"><a href="#aspect_ratio_of_image-38"><span class="linenos">38</span></a>    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="aspect_ratio_of_image-39"><a href="#aspect_ratio_of_image-39"><span class="linenos">39</span></a>    <span class="n">gcd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+</span><span id="aspect_ratio_of_image-40"><a href="#aspect_ratio_of_image-40"><span class="linenos">40</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>calculate aspect ratio of provided image</p>
+</div>
+
+
+                </section>
+                <section id="is_horizontal_image_by_aspect_ratio">
+                            <input id="is_horizontal_image_by_aspect_ratio-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">is_horizontal_image_by_aspect_ratio</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">img</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="is_horizontal_image_by_aspect_ratio-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#is_horizontal_image_by_aspect_ratio"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="is_horizontal_image_by_aspect_ratio-43"><a href="#is_horizontal_image_by_aspect_ratio-43"><span class="linenos">43</span></a><span class="k">def</span> <span class="nf">is_horizontal_image_by_aspect_ratio</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="is_horizontal_image_by_aspect_ratio-44"><a href="#is_horizontal_image_by_aspect_ratio-44"><span class="linenos">44</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="is_horizontal_image_by_aspect_ratio-45"><a href="#is_horizontal_image_by_aspect_ratio-45"><span class="linenos">45</span></a><span class="sd">    Check whether the provided image is horizontal image or vertical one.</span>
+</span><span id="is_horizontal_image_by_aspect_ratio-46"><a href="#is_horizontal_image_by_aspect_ratio-46"><span class="linenos">46</span></a><span class="sd">    If aspect ratio is &gt; 1, then assume it&#39;s horizontal. Else vertical.</span>
+</span><span id="is_horizontal_image_by_aspect_ratio-47"><a href="#is_horizontal_image_by_aspect_ratio-47"><span class="linenos">47</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="is_horizontal_image_by_aspect_ratio-48"><a href="#is_horizontal_image_by_aspect_ratio-48"><span class="linenos">48</span></a>    <span class="n">ar</span> <span class="o">=</span> <span class="n">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="is_horizontal_image_by_aspect_ratio-49"><a href="#is_horizontal_image_by_aspect_ratio-49"><span class="linenos">49</span></a>    <span class="k">return</span> <span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Check whether the provided image is horizontal image or vertical one.
+If aspect ratio is &gt; 1, then assume it's horizontal. Else vertical.</p>
 </div>
 
 
