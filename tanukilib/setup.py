@@ -11,6 +11,7 @@ setup(
         'opencv-python',
         'python-magic',
         'keras',
+        'keras_facenet',
         'tensorflow==2.13',
         'tensorflow_hub',
         'boto3',
@@ -20,7 +21,9 @@ setup(
         'flask',
         'matplotlib',
         'protobuf3',
-        'grpcio-tools'
+        'grpcio-tools',
+        'mira',
+        'dnspython',
     ]
 )
 
