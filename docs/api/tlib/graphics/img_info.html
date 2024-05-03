@@ -42,6 +42,9 @@
             <li>
                     <a class="function" href="#is_horizontal_image_by_aspect_ratio">is_horizontal_image_by_aspect_ratio</a>
             </li>
+            <li>
+                    <a class="function" href="#is_square_image_by_aspect_ratio">is_square_image_by_aspect_ratio</a>
+            </li>
     </ul>
 
 
@@ -111,6 +114,15 @@
 </span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="n">ar</span> <span class="o">=</span> <span class="n">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="k">return</span> <span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ar</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="k">def</span> <span class="nf">is_square_image_by_aspect_ratio</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">    Check whether the provided image is square image or not.</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    If aspect ratio is 0, then assume it&#39;s square.</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">ar</span> <span class="o">=</span> <span class="n">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ar</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mf">1.</span>
 </span></pre></div>
 
 
@@ -223,6 +235,33 @@
 
             <div class="docstring"><p>Check whether the provided image is horizontal image or vertical one.
 If aspect ratio is &gt; 1, then assume it's horizontal. Else vertical.</p>
+</div>
+
+
+                </section>
+                <section id="is_square_image_by_aspect_ratio">
+                            <input id="is_square_image_by_aspect_ratio-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">is_square_image_by_aspect_ratio</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">img</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">Mat</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="is_square_image_by_aspect_ratio-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#is_square_image_by_aspect_ratio"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="is_square_image_by_aspect_ratio-52"><a href="#is_square_image_by_aspect_ratio-52"><span class="linenos">52</span></a><span class="k">def</span> <span class="nf">is_square_image_by_aspect_ratio</span><span class="p">(</span><span class="n">img</span><span class="p">:</span> <span class="n">MatLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="is_square_image_by_aspect_ratio-53"><a href="#is_square_image_by_aspect_ratio-53"><span class="linenos">53</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="is_square_image_by_aspect_ratio-54"><a href="#is_square_image_by_aspect_ratio-54"><span class="linenos">54</span></a><span class="sd">    Check whether the provided image is square image or not.</span>
+</span><span id="is_square_image_by_aspect_ratio-55"><a href="#is_square_image_by_aspect_ratio-55"><span class="linenos">55</span></a><span class="sd">    If aspect ratio is 0, then assume it&#39;s square.</span>
+</span><span id="is_square_image_by_aspect_ratio-56"><a href="#is_square_image_by_aspect_ratio-56"><span class="linenos">56</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="is_square_image_by_aspect_ratio-57"><a href="#is_square_image_by_aspect_ratio-57"><span class="linenos">57</span></a>    <span class="n">ar</span> <span class="o">=</span> <span class="n">aspect_ratio_of_image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span><span id="is_square_image_by_aspect_ratio-58"><a href="#is_square_image_by_aspect_ratio-58"><span class="linenos">58</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">ar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">ar</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mf">1.</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Check whether the provided image is square image or not.
+If aspect ratio is 0, then assume it's square.</p>
 </div>
 
 

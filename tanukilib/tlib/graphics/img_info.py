@@ -46,3 +46,12 @@ def is_horizontal_image_by_aspect_ratio(img: MatLike) -> bool:
     """
     ar = aspect_ratio_of_image(img)
     return ar[0] / ar[1] > 1
+
+
+def is_square_image_by_aspect_ratio(img: MatLike) -> bool:
+    """
+    Check whether the provided image is square image or not.
+    If aspect ratio is 0, then assume it's square.
+    """
+    ar = aspect_ratio_of_image(img)
+    return (ar[0] / ar[1]) == 1.

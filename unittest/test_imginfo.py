@@ -35,6 +35,12 @@ class ImgInfoTest(TestCase):
         img2 = imread_wrapper(testimg_path2)
         self.assertTupleEqual(aspect_ratio_of_image(img2), (14., 15.))
         self.assertFalse(is_horizontal_image_by_aspect_ratio(img2))
+        testimg_path3 = str(Path(__file__).parent.joinpath(
+            "testdata", "img", "200_200.png"))
+        img3 = imread_wrapper(testimg_path3)
+        self.assertTupleEqual(aspect_ratio_of_image(img3), (1, 1))
+        self.assertFalse(is_horizontal_image_by_aspect_ratio(img3))
+        self.assertTrue(is_square_image_by_aspect_ratio(img3))
 
 
 if __name__ == "__main__":
