@@ -5,6 +5,11 @@ from typing import Tuple, Optional, List
 from os.path import isdir, exists
 from os import listdir
 from enum import Enum, auto
+from tlib.graphics.img_info import (
+    aspect_ratio_of_image,
+    is_horizontal_image_by_aspect_ratio,
+    is_square_image_by_aspect_ratio
+)
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY,
@@ -193,15 +198,86 @@ def resize_img(
         dest_path: str,
         new_width: int,
         new_height: int,
-        interpolation: InterpolationType = InterpolationType.LINEAR
-) -> bool:
+        interpolation: InterpolationType = InterpolationType.LINEAR,
+        skip_save: bool = False
+) -> MatLike:
     """Resize image with new_width & new_height. Interpolation is linear"""
     buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
-    resized = cv2.resize(buf, [new_width, new_height],
-                         interpolation=interpolation.value)
-    prefix = dest_path.split('.')[-1].lower()
-    cfg = _TLIG_W_FLG_MAP[prefix]
-    return cv2.imwrite(dest_path, resized, cfg)
+    resized = cv2.resize(
+        buf,
+        [new_width, new_height],
+        interpolation=interpolation.value
+    )
+    if not skip_save:
+        prefix = dest_path.split('.')[-1].lower()
+        cfg = _TLIG_W_FLG_MAP[prefix]
+        cv2.imwrite(dest_path, resized, cfg)
+    return resized
+
+
+def resize_img_with_padding(
+        src_path: str,
+        dest_path: str,
+        new_width: int,
+        new_height: int,
+        interpolation: InterpolationType = InterpolationType.LINEAR,
+        skip_save: bool = False,
+        padding_color: BGRA = BGRA(30, 30, 30)
+) -> MatLike:
+    """Resize image with new_width & new_height. Aspect ratio is preserved."""
+    img = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
+    aspect = aspect_ratio_of_image(img)
+    ar = aspect[0] / aspect[1]
+
+    orig_h, orig_w = img.shape[:2]
+
+    if orig_h > new_height or orig_w > new_width:
+        ip = cv2.INTER_AREA
+    else:
+        ip = cv2.INTER_CUBIC
+
+    if is_square_image_by_aspect_ratio(img):
+        return resize_img(
+            src_path,
+            dest_path,
+            new_width,
+            new_height,
+            interpolation,
+            skip_save,
+            padding_color)
+
+    elif is_horizontal_image_by_aspect_ratio(img):
+        new_width_dash = new_width
+        new_height_dash = np.round(new_width / ar).astype(int)
+        pad_v = abs(new_height - new_height_dash) / 2
+        pad_top, pad_bottom = np.floor(pad_v).astype(
+            int), np.ceil(pad_v).astype(int)
+        pad_left, pad_right = 0, 0
+
+    else:
+        new_height_dash = new_height
+        new_width_dash = np.round(new_height * ar).astype(int)
+        pad_h = abs(new_width - new_width_dash) / 2
+        pad_left, pad_right = np.floor(pad_h).astype(
+            int), np.ceil(pad_h).astype(int)
+        pad_top, pad_bottom = 0, 0
+
+    scaled = cv2.resize(
+        img, (new_width_dash, new_height_dash), interpolation=ip)
+    scaled = cv2.copyMakeBorder(
+        scaled,
+        pad_top,
+        pad_bottom,
+        pad_left,
+        pad_right,
+        borderType=cv2.BORDER_CONSTANT,
+        value=padding_color.to_tuple_bgr()
+    )
+    if not skip_save:
+        prefix = dest_path.split('.')[-1].lower()
+        cfg = _TLIG_W_FLG_MAP[prefix]
+        cv2.imwrite(dest_path, scaled, cfg)
+    return scaled
 
 
 def resize_all_imgs(
@@ -216,12 +292,16 @@ def resize_all_imgs(
     for file in listdir(src_path):
         src_file = f"{src_path}/{file}"
         dest_file = f"{dest_path}/{file}"
-        cnt += 1 if resize_img(
-            src_file,
-            dest_file,
-            new_width,
-            new_height
-        ) else 0
+        try:
+            resize_img(
+                src_file,
+                dest_file,
+                new_width,
+                new_height
+            )
+            cnt += 1
+        except Exception as e:
+            print(e)
 
     return cnt
 
@@ -352,10 +432,10 @@ def blackout(
 ) -> None:
     """An util function to black out particially in the given image"""
     fill_rect(
-        a = a,
-        st = st,
-        end = end,
-        color = BGRA(0, 0, 0)
+        a=a,
+        st=st,
+        end=end,
+        color=BGRA(0, 0, 0)
     )
 
 

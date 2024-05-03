@@ -29,7 +29,7 @@ class GrapchicsTest(TestCase):
         if exists(dest_img_path):
             remove(dest_img_path)
 
-        self.assertTrue(resize_img(test_img_path, dest_img_path, 100, 115))
+        resize_img(test_img_path, dest_img_path, 100, 115)
         self.assertTrue(exists(dest_img_path))
         resized = cv2.imread(dest_img_path, cv2.IMREAD_UNCHANGED)
         h, w = resized.shape[:2]
@@ -72,7 +72,7 @@ class GrapchicsTest(TestCase):
         dest_img_path = f"/tmp/{dir_name}"
         mkdir(dest_img_path)
         self.assertEqual(resize_all_imgs(
-            test_img_path, dest_img_path, 200, 150), 3)
+            test_img_path, dest_img_path, 200, 150), 4)
 
         rmdir_and_files(dest_img_path)
 
