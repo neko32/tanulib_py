@@ -17,6 +17,19 @@ class DNSTest(TestCase):
         self.assertTrue(q.last_answer_size > 0)
         self.assertEqual(q.qname, "sony.co.jp.")
 
+    def test_query_addr(self):
+        q = DNSResolver("sony.co.jp", RDataType.ADDRESS)
+        q.query(verbose=True)
+        self.assertTrue(len(q.addresses) > 0)
+        self.assertTrue(q.last_answer_size > 0)
+        self.assertEqual(q.qname, "sony.co.jp.")
+
+    def test_query_addr(self):
+        q = DNSResolver("google.com", RDataType.IPV6_ADDRESS)
+        q.query(verbose=True)
+        self.assertTrue(len(q._addresses_v6) > 0)
+        self.assertTrue(q.last_answer_size > 0)
+        self.assertEqual(q.qname, "google.com.")
 
 if __name__ == "__main__":
     main()

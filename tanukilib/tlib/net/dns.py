@@ -10,7 +10,9 @@ class RDataType(Enum):
     SOA = 'SOA'
     NAMESERVER = 'NS'
     ADDRESS = 'A'
-    MAIL_EXCHANGE = "MX"
+    MAIL_EXCHANGE = 'MX'
+    HINFO = 'HINFO'
+    IPV6_ADDRESS = 'AAAA'
 
 
 class DNSResolver:
@@ -29,6 +31,7 @@ class DNSResolver:
         self._txt = None
         self._nameservers = None
         self._addresses = None
+        self._addresses_v6 = None
 
     @property
     def txt(self) -> Optional[str]:
@@ -37,6 +40,14 @@ class DNSResolver:
     @property
     def nameservers(self) -> Optional[List[str]]:
         return self._nameservers
+
+    @property
+    def addresses(self) -> Optional[List[str]]:
+        return self._addresses
+
+    @property
+    def address_v6(self) -> Optional[List[str]]:
+        return self._addresses_v6
 
     @property
     def qname(self) -> Optional[str]:
@@ -62,9 +73,25 @@ class DNSResolver:
             ns_list = []
             for rdata in ans:
                 if verbose:
-                    print(type(rdata).__name__)
+                    print(str(rdata.target))
                 ns_list.append(str(rdata.target))
             self._nameservers = ns_list
+
+        if self.rdata_type == RDataType.ADDRESS:
+            addr_list = []
+            for rdata in ans:
+                if verbose:
+                    print(str(rdata.address))
+                addr_list.append(str(rdata.address))
+            self._addresses = addr_list
+
+        if self.rdata_type == RDataType.IPV6_ADDRESS:
+            addr_list = []
+            for rdata in ans:
+                if verbose:
+                    print(str(rdata.address))
+                addr_list.append(str(rdata.address))
+            self._addresses_v6 = addr_list
 
         self._qname = str(ans.qname)
         self._ans_size = len(ans)
