@@ -12,7 +12,6 @@ class VectorTest(TestCase):
         deduped = dedupe(v)
         self.assertListEqual(deduped, expected)
 
-
     def test_coalesce(self):
         v = [None, None, 23, None, 35, 40]
         self.assertEqual(coalesce(v), 23)
@@ -57,7 +56,28 @@ class VectorTest(TestCase):
             print(e)
             self.assertTrue(False)
 
+    def test_discard_till(self):
+        v1 = ["tako", "neko", "pako", "pako", "poko", "piko"]
+        v1_1 = discard_till(v1, "pako", True)
+        v1_2 = discard_till(v1, "pako", False)
+        self.assertListEqual(v1_1, ["pako", "poko", "piko"])
+        self.assertListEqual(v1_2, ["pako", "pako", "poko", "piko"])
 
+        v2 = []
+        v2 = discard_till(v2, "")
+        self.assertListEqual(v2, [])
+
+        v3 = ["tako", "miko", "puko"]
+        v3_1 = discard_till(v3, "ziko")
+        v3_2 = discard_till(v3, "tako")
+        v3_3 = discard_till(v3, "tako", True)
+        self.assertListEqual(v3_1, [])
+        self.assertListEqual(v3_2, ["tako", "miko", "puko"])
+        self.assertListEqual(v3_3, ["miko", "puko"])
+
+    def test_pprint(self):
+        v = ["tako", "neko", "poko"]
+        pprint(v)
 
 
 if __name__ == "__main__":
