@@ -24,6 +24,7 @@ setup(
         'grpcio-tools',
         'mira',
         'dnspython',
+        'beautifulsoup4',
     ]
 )
 

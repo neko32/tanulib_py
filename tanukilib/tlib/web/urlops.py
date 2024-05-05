@@ -41,6 +41,16 @@ class URL:
             buf += f":{self.parsed.port}"
         return buf
 
+    def domain_port(self) -> str:
+        """
+        Returns cancatenated string of parsed domain and port
+        e.g. takoneko.org:3000
+        """
+        buf = f"{self.parsed.hostname}"
+        if self.parsed.port is not None:
+            buf += f":{self.parsed.port}"
+        return buf
+
     def path(self) -> Optional[List[str]]:
         """
         Returns list of path if exists. If not, None
@@ -80,6 +90,12 @@ class URL:
     def add_header(self, k: str, v: str) -> None:
         """Add headers used in http request"""
         self.headers[k] = v
+
+    def get_str_response(self, encoding: str) -> str:
+        """Send GET method and expect ro receive string response"""
+        req = Request(self.raw_url, headers=self.headers, method='GET')
+        with urlopen(req) as resp:
+            return resp.read().decode(encoding)
 
     def get_with_json_resp(
         self,

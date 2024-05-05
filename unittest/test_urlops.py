@@ -11,6 +11,7 @@ class URLOpsTest(TestCase):
 
     def test_URL_noport_nopath_noquery(self):
         url_str = "https://tanuki.org"
+        host = "tanuki.org"
         url = URL(url_str)
         self.assertEqual(url.scheme, "https")
         self.assertEqual(url.scheme_domain_port(), url_str)
@@ -21,13 +22,16 @@ class URLOpsTest(TestCase):
         url2 = URL(url_str2)
         self.assertEqual(url2.scheme, "https")
         self.assertEqual(url2.scheme_domain_port(), url_str)
+        self.assertEqual(url2.domain_port(), host)
         self.assertIsNone(url2.path())
         self.assertIsNone(url2.query())
 
     def test_URL_withport_nopath_noquery(self):
         url_str = "https://tanuki.org:3378"
+        host = "tanuki.org"
         url = URL(url_str)
         self.assertEqual(url.scheme_domain_port(), url_str)
+        self.assertEqual(url.domain_port(), f"{host}:3378")
         self.assertIsNone(url.path())
         self.assertIsNone(url.query())
 
