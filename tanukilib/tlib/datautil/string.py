@@ -1,5 +1,6 @@
 import string
 from enum import Enum
+from typing import List
 
 
 class BracketType(Enum):
@@ -74,3 +75,11 @@ def extract_from_bracket(s: str, bracket: BracketType) -> None:
         return None
     else:
         return s[sbidx + 1:ebidx]
+
+
+def split_by_multiple_spaces(s: str) -> List[str]:
+    """
+    Split a string by a single white space
+    or multiple continuous white spaces
+    """
+    return " ".join(s.split()).split(" ")
