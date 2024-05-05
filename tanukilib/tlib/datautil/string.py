@@ -1,4 +1,13 @@
 import string
+from enum import Enum
+
+
+class BracketType(Enum):
+    """Bracket types"""
+    ROUND = '()'
+    SQUARE = '[]'
+    CURLY = '{}'
+    CHEVRON = '<>'
 
 
 def is_str_alnum(s: str) -> bool:
@@ -53,3 +62,15 @@ def ROT13(s: str) -> str:
     for c in s:
         buf += m[c]
     return buf
+
+
+def extract_from_bracket(s: str, bracket: BracketType) -> None:
+    """Extract values from the specified brackets"""
+    sb = bracket.value[0]
+    eb = bracket.value[1]
+    sbidx = s.find(sb)
+    ebidx = s.find(eb)
+    if sbidx == -1 or ebidx == -1:
+        return None
+    else:
+        return s[sbidx + 1:ebidx]

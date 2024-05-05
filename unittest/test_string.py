@@ -67,6 +67,22 @@ class StringTest(TestCase):
         decoded = ROT13(encoded)
         self.assertEqual(decoded, orig_input)
 
+    def test_extract_from_bracket(self):
+        a = "[Domain Name]"
+        self.assertEqual(extract_from_bracket(
+            a, BracketType.SQUARE), "Domain Name")
+        b = "(WAIWAI)"
+        self.assertEqual(extract_from_bracket(
+            b, BracketType.ROUND), "WAIWAI")
+        c = "{a b c d e}"
+        self.assertEqual(extract_from_bracket(
+            c, BracketType.CURLY), "a b c d e")
+        d = "<a href='tako'>"
+        self.assertEqual(extract_from_bracket(
+            d, BracketType.CHEVRON), "a href='tako'")
+        self.assertIsNone(extract_from_bracket(
+            a, BracketType.CHEVRON))
+
 
 if __name__ == "__main__":
     main()
