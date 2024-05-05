@@ -25,6 +25,9 @@ setup(
         'mira',
         'dnspython',
         'beautifulsoup4',
+        'mecab-python',
+        'unidic-lite',
+        'chardet',
     ]
 )
 
