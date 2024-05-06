@@ -3,6 +3,7 @@ from enum import Enum
 from typing import List, Any, Optional
 from pathlib import Path
 from tlib.core import exec_cmd
+from tlib.dateutil.date_repr import cur_datetime_as_std_fmt_str
 
 
 class ColumnType(Enum):
@@ -232,3 +233,8 @@ def create_db(path: str) -> bool:
 
     rez, _, _ = exec_cmd(["sqlite3", str(dbpath), "\"VACUUM;\""])
     return rez == 1
+
+
+def current_datetime_as_str() -> str:
+    """An util function to get datetime string representation"""
+    return cur_datetime_as_std_fmt_str(with_ssec=True)

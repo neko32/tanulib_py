@@ -12,7 +12,9 @@ class Wakatigaki:
 
     def parse(self, s: str) -> str:
         """Do wakatigaki for Japanese sentences"""
-        self.buffer = self.engine.parse(s).strip()
+        #self.buffer = self.engine.parse(s).strip()
+        self.buffer = self.engine.parse(s)
+        print(self.buffer)
         return self.buffer
 
     def persist_as_csv(self, csv_path:str) -> None:

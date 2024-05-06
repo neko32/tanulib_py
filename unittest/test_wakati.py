@@ -10,7 +10,7 @@ class WakatigakiTest(TestCase):
         w = Wakatigaki()
         rez = w.parse("たぬきとねこが楽しく遊びましたとさ。")
         expected = "たぬき と ねこ が 楽しく 遊び まし た と さ 。"
-        self.assertEqual(rez, expected)
+        self.assertEqual(rez.strip(), expected)
 
         key = "WakatigakiTest_test_wakati"
 

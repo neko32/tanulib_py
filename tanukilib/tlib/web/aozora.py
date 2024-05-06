@@ -10,7 +10,7 @@ class AozoraExtractor:
         if self.url.domain_port() != "www.aozora.gr.jp":
             raise Exception("URL specified is not valid Aozora bunko site")
 
-    def extract(self, out_file: str) -> None:
+    def extract(self, out_file: str) -> str:
         """
         Retrieve Aozora bunko data and extract content as text format.
         Then the extracted text is persisted to out_file.
@@ -25,3 +25,9 @@ class AozoraExtractor:
         with open(out_file, "w") as fd:
             fd.write(f"{title}\n\n{body}")
             print(f"{out_file} is written.")
+
+        return f"{title}\n\n{body}"
+
+
+
+
