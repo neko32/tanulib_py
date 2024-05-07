@@ -45,6 +45,30 @@ class DNSTest(TestCase):
             q = DNSResolver("sony.co.jp", RDataType.HOST_INFO)
             q.query(verbose=True)
 
+    def test_query_srv(self):
+        # not able to find cases with SRV
+        with self.assertRaises(NoAnswer):
+            q = DNSResolver("sony.co.jp", RDataType.SERVICE)
+            q.query(verbose=True)
+
+    def test_query_mx(self):
+        q = DNSResolver("cloudflare.com", RDataType.MAIL_EXCHANGE)
+        q.query(verbose=True)
+        self.assertTrue(len(q.mail_exchanges) > 0)
+        self.assertTrue(q.last_answer_size > 0)
+        self.assertEqual(q.qname, "cloudflare.com.")
+
+    def test_query_ptr(self):
+        q = DNSResolver("76.127.6.52.in-addr.arpa", RDataType.POINTER)
+        q.query(verbose=True)
+        self.assertTrue(len(q.pointers) > 0)
+        self.assertTrue(q.last_answer_size > 0)
+        self.assertEqual(q.qname, "76.127.6.52.in-addr.arpa.")
+
+
+if __name__ == "__main__":
+    main()
+
 
 if __name__ == "__main__":
     main()

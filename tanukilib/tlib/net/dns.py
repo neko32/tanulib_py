@@ -10,9 +10,30 @@ class RDataType(Enum):
     SOA = 'SOA'
     NAMESERVER = 'NS'
     ADDRESS = 'A'
+    SERVICE = 'SRV'
     MAIL_EXCHANGE = 'MX'
     HOST_INFO = 'HINFO'
     IPV6_ADDRESS = 'AAAA'
+    POINTER = 'PTR'
+
+
+class MXRecord:
+    """MX Record"""
+
+    def __init__(self, preference: int, exchange_name: str):
+        self._preference = preference
+        self._exchange_name = exchange_name
+
+    @property
+    def preference(self) -> int:
+        return self._preference
+
+    @property
+    def exchange_name(self) -> str:
+        return self._exchange_name
+
+    def __repr__(self) -> str:
+        return f"{{preference:{self.preference},exchange_name:{self.exchange_name}}}"
 
 
 class DNSResolver:
@@ -30,10 +51,12 @@ class DNSResolver:
         self._mname = None
         self._txt = None
         self._nameservers = None
+        self._mailexchanges = None
         self._addresses = None
         self._addresses_v6 = None
         self._canonial_names = None
         self._host_information = None
+        self._pointers = None
 
     @property
     def txt(self) -> Optional[str]:
@@ -58,6 +81,14 @@ class DNSResolver:
     @property
     def host_information(self) -> Optional[List[str]]:
         return self._host_information
+
+    @property
+    def mail_exchanges(self) -> Optional[List[MXRecord]]:
+        return self._mailexchanges
+
+    @property
+    def pointers(self) -> Optional[List[str]]:
+        return self._pointers
 
     @property
     def qname(self) -> Optional[str]:
@@ -111,6 +142,15 @@ class DNSResolver:
                 addr_list.append(str(rdata.address))
             self._addresses_v6 = addr_list
 
+        elif self.rdata_type == RDataType.MAIL_EXCHANGE:
+            mx_list = []
+            for rdata in ans:
+                mx = MXRecord(rdata.preference, rdata.exchange)
+                if verbose:
+                    print(mx)
+                mx_list.append(mx)
+            self._mailexchanges = mx_list
+
         elif self.rdata_type == RDataType.HOST_INFO:
             host_info = []
             for rdata in ans:
@@ -118,6 +158,17 @@ class DNSResolver:
                     print(rdata.to_text())
                 host_info.append(rdata.to_text())
             self._host_information = host_info
+
+        elif self.rdata_type == RDataType.POINTER:
+            pointers = []
+            for rdata in ans:
+                if verbose:
+                    print(rdata.target)
+                pointers.append(rdata.target)
+            self._pointers = pointers
+
+        elif self.rdata_type == RDataType.SERVICE:
+            raise NotImplementedError()
 
         self._qname = str(ans.qname)
         self._ans_size = len(ans)
