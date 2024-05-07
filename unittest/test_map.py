@@ -14,6 +14,12 @@ class TestMap(TestCase):
         self.assertTrue(dkm.get_by_k(2), 30.40)
         self.assertTrue(dkm.get_by_q("tako"), 27.45)
 
+        for k, q, v in dkm:
+            self.assertTrue(k in [1, 2])
+            self.assertTrue(q in ["tako", "poko"])
+            self.assertTrue(v in [27.45, 30.40])
+
+
     def test_dump_hist(self):
 
         ls = [7, 3, 1, 10, 5, 3, 3, 7, 8, 10, 2, 5, 3]

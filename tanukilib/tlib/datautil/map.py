@@ -13,6 +13,22 @@ class DualKeyMap(Generic[K, Q, V]):
 
     def __init__(self):
         self.dict = {}
+        self.iter_index = 0
+
+    def __iter__(self):
+        self.iter_index = 0
+        return self
+
+    def __next__(self) -> Tuple[K, Q, V]:
+        if self.iter_index < len(self.dict):
+            keys = list(self.dict.keys())
+            vals = list(self.dict.values())
+            (k, q) = keys[self.iter_index]
+            v = vals[self.iter_index]
+            self.iter_index += 1
+            return (k, q, v)
+        else:
+            raise StopIteration
 
     def put(self, k: K, q: Q, v: V) -> None:
         """put item with dual key"""
