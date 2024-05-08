@@ -67,3 +67,11 @@ def pprint(v: List[T]) -> None:
     """Print each item with line breaking"""
     for elem in v:
         print(elem)
+
+
+def find_single_dupe(v: List[int]) -> int:
+    """
+    Assume there's single dupe number, find it.
+    If v contains multiple dupes not single one, then the output becomes sum of dupes.
+    """
+    return sum(v) - sum(set(v))

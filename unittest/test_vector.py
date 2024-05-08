@@ -79,6 +79,20 @@ class VectorTest(TestCase):
         v = ["tako", "neko", "poko"]
         pprint(v)
 
+    def test_find_single_dupe(self):
+        v = [1, 2, 2, 4]
+        self.assertEqual(find_single_dupe(v), 2)
+        v = [3]
+        self.assertEqual(find_single_dupe(v), 0)
+        v = [1, 2, 3, 4]
+        self.assertEqual(find_single_dupe(v), 0)
+        v = []
+        self.assertEqual(find_single_dupe(v), 0)
+        v = [1, 2, 2, 2, 4]
+        self.assertEqual(find_single_dupe(v), 4)
+        v = [1, 2, 2, 2, 4, 4]
+        self.assertEqual(find_single_dupe(v), 8)
+
 
 if __name__ == "__main__":
     main()

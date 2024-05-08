@@ -45,6 +45,9 @@
             <li>
                     <a class="function" href="#pprint">pprint</a>
             </li>
+            <li>
+                    <a class="function" href="#find_single_dupe">find_single_dupe</a>
+            </li>
     </ul>
 
 
@@ -135,6 +138,14 @@
 </span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Print each item with line breaking&quot;&quot;&quot;</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
 </span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="nb">print</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="k">def</span> <span class="nf">find_single_dupe</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="sd">    Assume there&#39;s single dupe number, find it.</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="sd">    If v contains multiple dupes not single one, then the output becomes sum of dupes.</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -286,6 +297,32 @@ Item size (which is required to derive the n-gram) is assumed by first elem of v
 
 
             <div class="docstring"><p>Print each item with line breaking</p>
+</div>
+
+
+                </section>
+                <section id="find_single_dupe">
+                            <input id="find_single_dupe-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">find_single_dupe</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></span><span class="return-annotation">) -> <span class="nb">int</span>:</span></span>
+
+                <label class="view-source-button" for="find_single_dupe-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#find_single_dupe"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="find_single_dupe-73"><a href="#find_single_dupe-73"><span class="linenos">73</span></a><span class="k">def</span> <span class="nf">find_single_dupe</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="find_single_dupe-74"><a href="#find_single_dupe-74"><span class="linenos">74</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="find_single_dupe-75"><a href="#find_single_dupe-75"><span class="linenos">75</span></a><span class="sd">    Assume there&#39;s single dupe number, find it.</span>
+</span><span id="find_single_dupe-76"><a href="#find_single_dupe-76"><span class="linenos">76</span></a><span class="sd">    If v contains multiple dupes not single one, then the output becomes sum of dupes.</span>
+</span><span id="find_single_dupe-77"><a href="#find_single_dupe-77"><span class="linenos">77</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="find_single_dupe-78"><a href="#find_single_dupe-78"><span class="linenos">78</span></a>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Assume there's single dupe number, find it.
+If v contains multiple dupes not single one, then the output becomes sum of dupes.</p>
 </div>
 
 
