@@ -65,6 +65,12 @@ class DNSTest(TestCase):
         self.assertTrue(q.last_answer_size > 0)
         self.assertEqual(q.qname, "76.127.6.52.in-addr.arpa.")
 
+    def test_query_soa(self):
+        q = DNSResolver("sony.co.jp", RDataType.SOA)
+        q.query(verbose=True)
+        self.assertTrue(q.last_answer_size > 0)
+        self.assertEqual(q.qname, "sony.co.jp.")
+
 
 if __name__ == "__main__":
     main()
