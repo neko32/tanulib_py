@@ -6,3 +6,4 @@ from tlib.datautil.number import *
 from tlib.datautil.wrangling import *
 from tlib.datautil.map import *
 from tlib.datautil.vector import *
+from tlib.datautil.yaml import *

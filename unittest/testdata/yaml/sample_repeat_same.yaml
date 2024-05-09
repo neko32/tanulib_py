@@ -1,0 +1,25 @@
+book1:
+  title: Introduction to YAML
+  author:
+    name: Taro Yamada
+    age: 38
+  year: 2023
+  pages: 120
+  chapters:
+    - Introduction
+    - Basics
+    - Advanced Techniques
+
+book2:
+  title: Tako to Neko
+  author:
+    name: Takorou
+    age: 50
+  year: 1950
+  pages: 1200
+  chapters:
+    - Introduction
+    - Tako
+    - Neko
+    - Pako
+    - Poko

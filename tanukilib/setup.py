@@ -28,6 +28,7 @@ setup(
         'mecab-python',
         'unidic-lite',
         'chardet',
+        'pyyaml',
     ]
 )
 
