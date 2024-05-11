@@ -1,6 +1,6 @@
 from tlib.math.math import Coordinate
 from tlib.graphics import Rect
-from enum import Enum, auto
+from enum import Enum
 
 
 class RectCoordLocState(Enum):
@@ -8,9 +8,9 @@ class RectCoordLocState(Enum):
     Indicate location state of specified coordinate against the specified rect.
     State is either of inside or outside or at edge
     """
-    INSIDE = auto()
-    AT_EDGE = auto()
-    OUTSIDE = auto()
+    INSIDE = 1
+    AT_EDGE = 0
+    OUTSIDE = -1
 
 
 def get_locstate_rect_coord_2d(rect: Rect, coord: Coordinate) -> RectCoordLocState:
@@ -27,3 +27,8 @@ def get_locstate_rect_coord_2d(rect: Rect, coord: Coordinate) -> RectCoordLocSta
         return RectCoordLocState.AT_EDGE
     else:
         return RectCoordLocState.OUTSIDE
+
+
+def is_within_rect(state: RectCoordLocState) -> bool:
+    """Convert RecordCoordLocState to bool if it's INSIDE or AT, true. else false"""
+    return state.value >= 0

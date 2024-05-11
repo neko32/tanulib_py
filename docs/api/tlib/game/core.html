@@ -48,6 +48,9 @@
             <li>
                     <a class="function" href="#get_locstate_rect_coord_2d">get_locstate_rect_coord_2d</a>
             </li>
+            <li>
+                    <a class="function" href="#is_within_rect">is_within_rect</a>
+            </li>
     </ul>
 
 
@@ -71,7 +74,7 @@
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span> <span class="nn">tlib.math.math</span> <span class="kn">import</span> <span class="n">Coordinate</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="kn">from</span> <span class="nn">tlib.graphics</span> <span class="kn">import</span> <span class="n">Rect</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">class</span> <span class="nc">RectCoordLocState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
@@ -79,9 +82,9 @@
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">    Indicate location state of specified coordinate against the specified rect.</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">    State is either of inside or outside or at edge</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="n">INSIDE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="n">AT_EDGE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="n">OUTSIDE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="n">INSIDE</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="n">AT_EDGE</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="n">OUTSIDE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
 </span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
 </span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="k">def</span> <span class="nf">get_locstate_rect_coord_2d</span><span class="p">(</span><span class="n">rect</span><span class="p">:</span> <span class="n">Rect</span><span class="p">,</span> <span class="n">coord</span><span class="p">:</span> <span class="n">Coordinate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RectCoordLocState</span><span class="p">:</span>
@@ -98,6 +101,10 @@
 </span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="k">return</span> <span class="n">RectCoordLocState</span><span class="o">.</span><span class="n">AT_EDGE</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">else</span><span class="p">:</span>
 </span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="k">return</span> <span class="n">RectCoordLocState</span><span class="o">.</span><span class="n">OUTSIDE</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="k">def</span> <span class="nf">is_within_rect</span><span class="p">(</span><span class="n">state</span><span class="p">:</span><span class="n">RectCoordLocState</span><span class="p">)</span> <span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RecordCoordLocState to bool if it&#39;s INSIDE or AT, true. else false&quot;&quot;&quot;</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span>
 </span></pre></div>
 
 
@@ -118,9 +125,9 @@
 </span><span id="RectCoordLocState-9"><a href="#RectCoordLocState-9"><span class="linenos"> 9</span></a><span class="sd">    Indicate location state of specified coordinate against the specified rect.</span>
 </span><span id="RectCoordLocState-10"><a href="#RectCoordLocState-10"><span class="linenos">10</span></a><span class="sd">    State is either of inside or outside or at edge</span>
 </span><span id="RectCoordLocState-11"><a href="#RectCoordLocState-11"><span class="linenos">11</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="RectCoordLocState-12"><a href="#RectCoordLocState-12"><span class="linenos">12</span></a>    <span class="n">INSIDE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-</span><span id="RectCoordLocState-13"><a href="#RectCoordLocState-13"><span class="linenos">13</span></a>    <span class="n">AT_EDGE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-</span><span id="RectCoordLocState-14"><a href="#RectCoordLocState-14"><span class="linenos">14</span></a>    <span class="n">OUTSIDE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+</span><span id="RectCoordLocState-12"><a href="#RectCoordLocState-12"><span class="linenos">12</span></a>    <span class="n">INSIDE</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="RectCoordLocState-13"><a href="#RectCoordLocState-13"><span class="linenos">13</span></a>    <span class="n">AT_EDGE</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="RectCoordLocState-14"><a href="#RectCoordLocState-14"><span class="linenos">14</span></a>    <span class="n">OUTSIDE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 </span></pre></div>
 
 
@@ -144,7 +151,7 @@ State is either of inside or outside or at edge</p>
                             <div id="RectCoordLocState.AT_EDGE" class="classattr">
                                 <div class="attr variable">
             <span class="name">AT_EDGE</span>        =
-<span class="default_value">&lt;<a href="#RectCoordLocState.AT_EDGE">RectCoordLocState.AT_EDGE</a>: 2&gt;</span>
+<span class="default_value">&lt;<a href="#RectCoordLocState.AT_EDGE">RectCoordLocState.AT_EDGE</a>: 0&gt;</span>
 
         
     </div>
@@ -156,7 +163,7 @@ State is either of inside or outside or at edge</p>
                             <div id="RectCoordLocState.OUTSIDE" class="classattr">
                                 <div class="attr variable">
             <span class="name">OUTSIDE</span>        =
-<span class="default_value">&lt;<a href="#RectCoordLocState.OUTSIDE">RectCoordLocState.OUTSIDE</a>: 3&gt;</span>
+<span class="default_value">&lt;<a href="#RectCoordLocState.OUTSIDE">RectCoordLocState.OUTSIDE</a>: -1&gt;</span>
 
         
     </div>
@@ -205,6 +212,28 @@ State is either of inside or outside or at edge</p>
 
 
             <div class="docstring"><p>Detect location state of the specified coordinate against the specified rect</p>
+</div>
+
+
+                </section>
+                <section id="is_within_rect">
+                            <input id="is_within_rect-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">is_within_rect</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">state</span><span class="p">:</span> <span class="n"><a href="#RectCoordLocState">RectCoordLocState</a></span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="is_within_rect-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#is_within_rect"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="is_within_rect-32"><a href="#is_within_rect-32"><span class="linenos">32</span></a><span class="k">def</span> <span class="nf">is_within_rect</span><span class="p">(</span><span class="n">state</span><span class="p">:</span><span class="n">RectCoordLocState</span><span class="p">)</span> <span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
+</span><span id="is_within_rect-33"><a href="#is_within_rect-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RecordCoordLocState to bool if it&#39;s INSIDE or AT, true. else false&quot;&quot;&quot;</span>
+</span><span id="is_within_rect-34"><a href="#is_within_rect-34"><span class="linenos">34</span></a>    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Convert RecordCoordLocState to bool if it's INSIDE or AT, true. else false</p>
 </div>
 
 
