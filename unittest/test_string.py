@@ -87,8 +87,10 @@ class StringTest(TestCase):
         s1 = "takuwan"
         self.assertListEqual(split_by_multiple_spaces(s1), ["takuwan"])
         s2 = "takuwan tabetai"
-        self.assertListEqual(split_by_multiple_spaces(s2),
-                             ["takuwan", "tabetai"])
+        self.assertListEqual(
+            split_by_multiple_spaces(s2),
+            ["takuwan", "tabetai"]
+        )
         s3 = "takuwan     tabetai kui tai      de  su"
         self.assertListEqual(
             split_by_multiple_spaces(s3),

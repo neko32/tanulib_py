@@ -1,6 +1,6 @@
 import yaml
 from csv import writer
-from typing import Dict, Optional, Any, List
+from typing import Optional, Any
 
 
 def to_csv(yaml_file: str, csv_file: str, verbose: bool = False) -> None:
@@ -35,10 +35,10 @@ def to_csv(yaml_file: str, csv_file: str, verbose: bool = False) -> None:
 
 
 def _trav(
-        h: Optional[Dict[Any, Any]],
-        tbl: Dict[Any, Any],
-        headers: List[str],
-        rows: List[Any],
+        h: Optional[dict[Any, Any]],
+        tbl: dict[Any, Any],
+        headers: list[str],
+        rows: list[Any],
         parent_name: str = ""):
     for k, v in h.items():
         if isinstance(v, dict):
