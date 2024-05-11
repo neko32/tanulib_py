@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import norm
 from typing import Tuple, Optional
-from math import gcd, sin, cos, radians
+from math import gcd, sin, cos, radians, exp
 
 
 class Coordinate:
@@ -115,6 +115,11 @@ def odds_ratio(p: float, q: float) -> float:
 def logit(p: float) -> float:
     """Calculate logit"""
     return np.log(odds(p))
+
+def from_logit_to_p(l: float) -> float:
+    """Derive back probability from logit"""
+    return exp(l) / (1 + exp(l))
+
 
 
 def avg_change_formula(

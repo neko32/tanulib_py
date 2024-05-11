@@ -107,6 +107,8 @@ class MathTest(TestCase):
         like_bean_o = odds(like_bean_p)
         like_choco_logit = logit(like_choco_p)
         like_bean_logit = logit(like_bean_p)
+        self.assertEqual(from_logit_to_p(like_choco_logit), like_choco_p)
+        self.assertEqual(from_logit_to_p(like_bean_logit), like_bean_p)
         self.assertEqual(int(like_odds), 16)
         self.assertEqual(int(like_choco_o), 4)
         self.assertEqual(like_bean_o, 0.25)
