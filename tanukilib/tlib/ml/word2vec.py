@@ -50,6 +50,7 @@ class Word2Vec:
         m.add(
             Dense(
                 units=self.input_dim,
+                use_bias=False,
                 kernel_initializer=glorot_uniform(seed=20170719)
             )
         )
@@ -57,7 +58,7 @@ class Word2Vec:
 
         self.model = m
         self.model.compile(
-            optimizer='RMSProp',
+            optimizer='RMSprop',
             loss='categorical_crossentropy',
             metrics=['categorical_accuracy']
         )

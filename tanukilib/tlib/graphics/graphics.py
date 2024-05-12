@@ -10,6 +10,7 @@ from tlib.graphics.img_info import (
     is_horizontal_image_by_aspect_ratio,
     is_square_image_by_aspect_ratio
 )
+import random
 
 _TLIBG_W_JPG_DEFAULT = [cv2.IMWRITE_JPEG_QUALITY, 100]
 _TLIBG_W_PNG_DEFAULT = [cv2.IMWRITE_PNG_STRATEGY,
@@ -114,6 +115,9 @@ class Rect:
 
     def as_tuple(self) -> Tuple[int, int, int, int]:
         return (self._x, self._y, self._w, self._h)
+
+    def __repr__(self) -> str:
+        return f"{{x:{self.loc_x},y:{self.loc_y},w:{self.width},y:{self.height}}}"
 
 
 class BGRA:
@@ -927,3 +931,25 @@ def from_2dimage_to_1dimage(m: MatLike) -> Tuple[MatLike, int]:
             for dim in range(d):
                 buf[r_offset + c_offset + dim] = m[r][c][dim]
     return (buf, stride)
+
+
+def cutout(
+        m: MatLike,
+        region: Optional[Rect] = None,
+        color: BGRA = BGRA(0, 0, 0)
+) -> None:
+    """Cut out image. If region is not provided, length and location are randomly chosen"""
+
+    if region is None:
+        src_h, src_w = m.shape[:2]
+        x = random.randint(0, src_w - 1)
+        y = random.randint(0, src_h - 1)
+        w = random.randint(1, x)
+        h = random.randint(1, y)
+        region = Rect(x, y, w, h)
+    fill_rect(
+        a=m,
+        st=(region.loc_x, region.loc_y),
+        end=(region.loc_x + region.width, region.loc_y + region.height),
+        color=color
+    )
