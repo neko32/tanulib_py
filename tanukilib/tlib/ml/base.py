@@ -10,6 +10,7 @@ from keras.layers import (
     TextVectorization
 )
 from keras.optimizers import SGD
+from keras.callbacks import EarlyStopping
 import tensorflow as tf
 from typing import List, Any, Optional, Tuple
 import os
@@ -377,3 +378,18 @@ def get_available_gpu_devices() -> bool:
 
 def gen_default_SGD(lr: float = 0.01) -> SGD:
     return SGD(learning_rate=lr)
+
+
+def early_stopping(
+    monitor: str = "val_loss",
+    min_delta: int = 0,
+    patience: int = 5,
+    mode: str = "auto"
+) -> EarlyStopping:
+    """Generate an early stopping"""
+    return EarlyStopping(
+        monitor=monitor,
+        min_delta=min_delta,
+        patience=patience,
+        mode=mode
+    )

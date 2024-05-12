@@ -102,9 +102,10 @@
 </span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">else</span><span class="p">:</span>
 </span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="k">return</span> <span class="n">RectCoordLocState</span><span class="o">.</span><span class="n">OUTSIDE</span>
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="k">def</span> <span class="nf">is_within_rect</span><span class="p">(</span><span class="n">state</span><span class="p">:</span><span class="n">RectCoordLocState</span><span class="p">)</span> <span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RecordCoordLocState to bool if it&#39;s INSIDE or AT, true. else false&quot;&quot;&quot;</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="k">def</span> <span class="nf">is_within_rect</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">RectCoordLocState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RecordCoordLocState to bool if it&#39;s INSIDE or AT, true. else false&quot;&quot;&quot;</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span>
 </span></pre></div>
 
 
@@ -227,9 +228,9 @@ State is either of inside or outside or at edge</p>
 
     </div>
     <a class="headerlink" href="#is_within_rect"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="is_within_rect-32"><a href="#is_within_rect-32"><span class="linenos">32</span></a><span class="k">def</span> <span class="nf">is_within_rect</span><span class="p">(</span><span class="n">state</span><span class="p">:</span><span class="n">RectCoordLocState</span><span class="p">)</span> <span class="o">-&gt;</span><span class="nb">bool</span><span class="p">:</span>
-</span><span id="is_within_rect-33"><a href="#is_within_rect-33"><span class="linenos">33</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RecordCoordLocState to bool if it&#39;s INSIDE or AT, true. else false&quot;&quot;&quot;</span>
-</span><span id="is_within_rect-34"><a href="#is_within_rect-34"><span class="linenos">34</span></a>    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="is_within_rect-33"><a href="#is_within_rect-33"><span class="linenos">33</span></a><span class="k">def</span> <span class="nf">is_within_rect</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">RectCoordLocState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="is_within_rect-34"><a href="#is_within_rect-34"><span class="linenos">34</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RecordCoordLocState to bool if it&#39;s INSIDE or AT, true. else false&quot;&quot;&quot;</span>
+</span><span id="is_within_rect-35"><a href="#is_within_rect-35"><span class="linenos">35</span></a>    <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span>
 </span></pre></div>
 
 

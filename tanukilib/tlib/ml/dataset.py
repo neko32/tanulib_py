@@ -168,7 +168,7 @@ def show_multiple_images_as_rank(
         image_size_to_show: Tuple[int, int],
         begin_rank_num: int = 0,
         figure_size: Tuple[int, int] = (20, 20),
-        feature_image_idx:Optional[int] = None
+        feature_image_idx: Optional[int] = None
 ) -> None:
     """
     Show multiple images specified in indices_to_show from images
@@ -179,7 +179,8 @@ def show_multiple_images_as_rank(
     plt.figure(figsize=figure_size)
 
     if feature_image_idx is not None:
-        featured_img = load_img(images[feature_image_idx], target_size=image_size_to_show)
+        featured_img = load_img(
+            images[feature_image_idx], target_size=image_size_to_show)
         plt.title(f"feature img {images[feature_image_idx].name}")
         plt.imshow(featured_img)
     for idx, score in zip(indices_to_show, scores):
@@ -207,3 +208,11 @@ def derive_path_for_dataset(
         if not ml_data_path.exists():
             raise Exception(f"{str(ml_data_path)} doesn't exist")
     return str(ml_data_path)
+
+
+def get_data_dir() -> str:
+    """Get ML data dir registered"""
+    path = Path(os.environ["TLIB_ML_DATA_DIR"])
+    if not path.exists():
+        raise Exception("TLIB_ML_DATA_DIR env variable must be set")
+    return str(path)
