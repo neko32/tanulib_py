@@ -29,6 +29,7 @@ setup(
         'unidic-lite',
         'chardet',
         'pyyaml',
+        'pexels-api',
     ]
 )
 
