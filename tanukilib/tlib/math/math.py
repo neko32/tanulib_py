@@ -130,3 +130,43 @@ def avg_change_formula(
 ) -> float:
     """Calcurate average of change formula"""
     return (f2_rez - f1_rez) / (f2_ipt - f1_ipt)
+
+
+def isdigit(s:str) -> bool:
+    """
+    detects whether s is digit or not. If empty, False.
+    Standard library's is_digit() doesn't work for negative number but this works.
+    """
+    s = s.replace(".", "").replace(",", "")
+    if len(s) == 0:
+        return False
+    if s[0] == '-' and len(s) > 1:
+        return s[1:].isdigit()
+    else:
+        return s.isdigit()
+
+def isnumeric(s:str) -> bool:
+    """
+    detects whether s is numeric or not. If empty, False.
+    Standard library's isnumeric() doesn't work for negative number but this works.
+    """
+    s = s.replace(".", "").replace(",", "")
+    if len(s) == 0:
+        return False
+    if s[0] == '-' and len(s) > 1:
+        return s[1:].isnumeric()
+    else:
+        return s.isnumeric()
+
+def isdecimal(s:str) -> bool:
+    """
+    detects whether s is decimal or not. If empty, False.
+    Standard library's isdecimal() doesn't work for negative number but this works.
+    """
+    s = s.replace(".", "").replace(",", "")
+    if len(s) == 0:
+        return False
+    if s[0] == '-' and len(s) > 1:
+        return s[1:].isdecimal()
+    else:
+        return s.isdecimal()

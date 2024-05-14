@@ -93,6 +93,15 @@
             <li>
                     <a class="function" href="#avg_change_formula">avg_change_formula</a>
             </li>
+            <li>
+                    <a class="function" href="#isdigit">isdigit</a>
+            </li>
+            <li>
+                    <a class="function" href="#isnumeric">isnumeric</a>
+            </li>
+            <li>
+                    <a class="function" href="#isdecimal">isdecimal</a>
+            </li>
     </ul>
 
 
@@ -246,6 +255,46 @@
 </span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Calcurate average of change formula&quot;&quot;&quot;</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>    <span class="k">return</span> <span class="p">(</span><span class="n">f2_rez</span> <span class="o">-</span> <span class="n">f1_rez</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">f2_ipt</span> <span class="o">-</span> <span class="n">f1_ipt</span><span class="p">)</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="k">def</span> <span class="nf">isdigit</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="sd">    detects whether s is digit or not. If empty, False.</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="sd">    Standard library&#39;s is_digit() doesn&#39;t work for negative number but this works.</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="k">def</span> <span class="nf">isnumeric</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="sd">    detects whether s is numeric or not. If empty, False.</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="sd">    Standard library&#39;s isnumeric() doesn&#39;t work for negative number but this works.</span>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="k">def</span> <span class="nf">isdecimal</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    detects whether s is decimal or not. If empty, False.</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">    Standard library&#39;s isdecimal() doesn&#39;t work for negative number but this works.</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -733,6 +782,102 @@ As the value closes to 0, 2 vecs are unrelated.</p>
 
 
             <div class="docstring"><p>Calcurate average of change formula</p>
+</div>
+
+
+                </section>
+                <section id="isdigit">
+                            <input id="isdigit-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">isdigit</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">s</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="isdigit-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#isdigit"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="isdigit-136"><a href="#isdigit-136"><span class="linenos">136</span></a><span class="k">def</span> <span class="nf">isdigit</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="isdigit-137"><a href="#isdigit-137"><span class="linenos">137</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="isdigit-138"><a href="#isdigit-138"><span class="linenos">138</span></a><span class="sd">    detects whether s is digit or not. If empty, False.</span>
+</span><span id="isdigit-139"><a href="#isdigit-139"><span class="linenos">139</span></a><span class="sd">    Standard library&#39;s is_digit() doesn&#39;t work for negative number but this works.</span>
+</span><span id="isdigit-140"><a href="#isdigit-140"><span class="linenos">140</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="isdigit-141"><a href="#isdigit-141"><span class="linenos">141</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="isdigit-142"><a href="#isdigit-142"><span class="linenos">142</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="isdigit-143"><a href="#isdigit-143"><span class="linenos">143</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="isdigit-144"><a href="#isdigit-144"><span class="linenos">144</span></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="isdigit-145"><a href="#isdigit-145"><span class="linenos">145</span></a>        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+</span><span id="isdigit-146"><a href="#isdigit-146"><span class="linenos">146</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="isdigit-147"><a href="#isdigit-147"><span class="linenos">147</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>detects whether s is digit or not. If empty, False.
+Standard library's is_digit() doesn't work for negative number but this works.</p>
+</div>
+
+
+                </section>
+                <section id="isnumeric">
+                            <input id="isnumeric-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">isnumeric</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">s</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="isnumeric-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#isnumeric"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="isnumeric-149"><a href="#isnumeric-149"><span class="linenos">149</span></a><span class="k">def</span> <span class="nf">isnumeric</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="isnumeric-150"><a href="#isnumeric-150"><span class="linenos">150</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="isnumeric-151"><a href="#isnumeric-151"><span class="linenos">151</span></a><span class="sd">    detects whether s is numeric or not. If empty, False.</span>
+</span><span id="isnumeric-152"><a href="#isnumeric-152"><span class="linenos">152</span></a><span class="sd">    Standard library&#39;s isnumeric() doesn&#39;t work for negative number but this works.</span>
+</span><span id="isnumeric-153"><a href="#isnumeric-153"><span class="linenos">153</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="isnumeric-154"><a href="#isnumeric-154"><span class="linenos">154</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="isnumeric-155"><a href="#isnumeric-155"><span class="linenos">155</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="isnumeric-156"><a href="#isnumeric-156"><span class="linenos">156</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="isnumeric-157"><a href="#isnumeric-157"><span class="linenos">157</span></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="isnumeric-158"><a href="#isnumeric-158"><span class="linenos">158</span></a>        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span>
+</span><span id="isnumeric-159"><a href="#isnumeric-159"><span class="linenos">159</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="isnumeric-160"><a href="#isnumeric-160"><span class="linenos">160</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>detects whether s is numeric or not. If empty, False.
+Standard library's isnumeric() doesn't work for negative number but this works.</p>
+</div>
+
+
+                </section>
+                <section id="isdecimal">
+                            <input id="isdecimal-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">isdecimal</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">s</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="isdecimal-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#isdecimal"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="isdecimal-162"><a href="#isdecimal-162"><span class="linenos">162</span></a><span class="k">def</span> <span class="nf">isdecimal</span><span class="p">(</span><span class="n">s</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="isdecimal-163"><a href="#isdecimal-163"><span class="linenos">163</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="isdecimal-164"><a href="#isdecimal-164"><span class="linenos">164</span></a><span class="sd">    detects whether s is decimal or not. If empty, False.</span>
+</span><span id="isdecimal-165"><a href="#isdecimal-165"><span class="linenos">165</span></a><span class="sd">    Standard library&#39;s isdecimal() doesn&#39;t work for negative number but this works.</span>
+</span><span id="isdecimal-166"><a href="#isdecimal-166"><span class="linenos">166</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="isdecimal-167"><a href="#isdecimal-167"><span class="linenos">167</span></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="isdecimal-168"><a href="#isdecimal-168"><span class="linenos">168</span></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="isdecimal-169"><a href="#isdecimal-169"><span class="linenos">169</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="isdecimal-170"><a href="#isdecimal-170"><span class="linenos">170</span></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="isdecimal-171"><a href="#isdecimal-171"><span class="linenos">171</span></a>        <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span>
+</span><span id="isdecimal-172"><a href="#isdecimal-172"><span class="linenos">172</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="isdecimal-173"><a href="#isdecimal-173"><span class="linenos">173</span></a>        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>detects whether s is decimal or not. If empty, False.
+Standard library's isdecimal() doesn't work for negative number but this works.</p>
 </div>
 
 

@@ -31,6 +31,8 @@ setup(
         'pyyaml',
         'pexels-api',
         'tqdm',
+        'cvat-sdk',
+        'scikit-image',
     ]
 )
 

@@ -132,7 +132,41 @@ class MathTest(TestCase):
         self.assertEqual(round_to_nearest_half_up(case2_r, 2), 34.0)
 
 
+    def test_isdigit(self):
+        self.assertTrue(isdigit("723"))
+        self.assertFalse(isdigit("723K"))
+        self.assertTrue(isdigit("723.34"))
+        self.assertTrue(isdigit("72,334"))
+        self.assertTrue(isdigit("-723"))
+        self.assertTrue(isdigit("-723.3234"))
+        self.assertFalse(isdigit("-723K"))
+        self.assertTrue(isdigit("-1"))
+        self.assertFalse(isdigit("-"))
+        self.assertFalse(isdigit("ↁ"))
 
+    def test_isnumeric(self):
+        self.assertTrue(isnumeric("723"))
+        self.assertFalse(isnumeric("723K"))
+        self.assertTrue(isnumeric("723.34"))
+        self.assertTrue(isnumeric("72,334"))
+        self.assertTrue(isnumeric("-723"))
+        self.assertTrue(isnumeric("-723.3234"))
+        self.assertFalse(isnumeric("-723K"))
+        self.assertTrue(isnumeric("-1"))
+        self.assertFalse(isnumeric("-"))
+        self.assertTrue(isnumeric("ↁ"))
+
+    def test_isdecimal(self):
+        self.assertTrue(isdecimal("723"))
+        self.assertFalse(isdecimal("723K"))
+        self.assertTrue(isdecimal("723.34"))
+        self.assertTrue(isdecimal("72,334"))
+        self.assertTrue(isdecimal("-723"))
+        self.assertTrue(isdecimal("-723.3234"))
+        self.assertFalse(isdecimal("-723K"))
+        self.assertTrue(isdecimal("-1"))
+        self.assertFalse(isdecimal("-"))
+        self.assertFalse(isdecimal("ↁ"))
 
 
 if __name__ == "__main__":
