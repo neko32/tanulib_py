@@ -30,6 +30,7 @@ setup(
         'chardet',
         'pyyaml',
         'pexels-api',
+        'tqdm',
     ]
 )
 

@@ -31,6 +31,7 @@ alias ap8='autopep8 -i'
 alias apf='apf.bash'
 alias tlibdgen='docgen.bash'
 alias tlibdoc="${TANULIB_BROWSER} ${TANULIB_DOC_DIR}/api/index.html > dev/null 2>&1"
+alias gomld="cd ${TLIB_ML_DATA_DIR}"
 
 FLASKAPP_CFG_PATH=${TANULIB_CONF_DIR}/flaskapp
 FLASKAPP_CATDOG_UI_{ENV}_CFG_PATH=xxx

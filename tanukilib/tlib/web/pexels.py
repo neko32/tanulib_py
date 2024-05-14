@@ -5,6 +5,7 @@ from pathlib import Path
 from tlib.ml.dataset import get_data_dir
 from pexels_api import API as PexelAPI
 from requests import get
+import tqdm
 
 
 class PexelDownloader:
@@ -35,16 +36,15 @@ class PexelDownloader:
 
         save_path.mkdir(parents=True, exist_ok=True)
         cnt = 0
-        for page in range(page_st, page_end):
+        for page in tqdm.tqdm(range(page_st, page_end), desc = "Pexels Page"):
             rez = self.pexel_api.search(
                 keyword, page=page, results_per_page=50)
             photos = rez["photos"]
-            for photo in photos:
+            for photo in tqdm.tqdm(photos, desc = "Photos per page"):
                 img_id = photo["id"]
                 img_url = photo["src"]["medium"]
                 resp = get(img_url)
                 fname = f"{img_id}.jpg"
-                print(f"processing {img_id} ({img_url}) ...")
                 self._persist(str(save_path.joinpath(fname)), resp.content)
                 cnt += 1
 
