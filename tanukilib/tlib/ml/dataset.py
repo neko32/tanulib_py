@@ -216,3 +216,8 @@ def get_data_dir() -> str:
     if not path.exists():
         raise Exception("TLIB_ML_DATA_DIR env variable must be set")
     return str(path)
+
+
+def load_img(img_path:str):
+    """Load and show CVAT 1.1"""
+    datasets.load_

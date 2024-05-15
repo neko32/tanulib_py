@@ -4,3 +4,4 @@ from tlib.ml.ais_v1 import *
 from tlib.ml.dataset import *
 from tlib.ml.feature import *
 from tlib.ml.word2vec import *
+from tlib.ml.annotated import *

@@ -22,7 +22,6 @@ setup(
         'matplotlib',
         'protobuf3',
         'grpcio-tools',
-        'mira',
         'dnspython',
         'beautifulsoup4',
         'mecab-python',
@@ -33,6 +32,7 @@ setup(
         'tqdm',
         'cvat-sdk',
         'scikit-image',
+        'fiftyone',
     ]
 )
 
