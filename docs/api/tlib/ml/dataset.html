@@ -57,6 +57,9 @@
             <li>
                     <a class="function" href="#get_data_dir">get_data_dir</a>
             </li>
+            <li>
+                    <a class="function" href="#load_img">load_img</a>
+            </li>
     </ul>
 
 
@@ -296,6 +299,11 @@
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;TLIB_ML_DATA_DIR env variable must be set&quot;</span><span class="p">)</span>
 </span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="k">def</span> <span class="nf">load_img</span><span class="p">(</span><span class="n">img_path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load and show CVAT 1.1&quot;&quot;&quot;</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>    <span class="n">datasets</span><span class="o">.</span><span class="n">load_</span>
 </span></pre></div>
 
 
@@ -655,6 +663,28 @@ Stride is derived from given height, width and dimension hint.</p>
 
 
             <div class="docstring"><p>Get ML data dir registered</p>
+</div>
+
+
+                </section>
+                <section id="load_img">
+                            <input id="load_img-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">load_img</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">img_path</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="load_img-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#load_img"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="load_img-222"><a href="#load_img-222"><span class="linenos">222</span></a><span class="k">def</span> <span class="nf">load_img</span><span class="p">(</span><span class="n">img_path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+</span><span id="load_img-223"><a href="#load_img-223"><span class="linenos">223</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load and show CVAT 1.1&quot;&quot;&quot;</span>
+</span><span id="load_img-224"><a href="#load_img-224"><span class="linenos">224</span></a>    <span class="n">datasets</span><span class="o">.</span><span class="n">load_</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Load and show CVAT 1.1</p>
 </div>
 
 
