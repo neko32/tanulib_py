@@ -33,6 +33,7 @@ setup(
         'cvat-sdk',
         'scikit-image',
         'fiftyone',
+        'scikit-learn',
     ]
 )
 
