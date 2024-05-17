@@ -34,6 +34,9 @@ setup(
         'scikit-image',
         'fiftyone',
         'scikit-learn',
+        'umap-learn',
+        'torch',
+        'torchvision',
     ]
 )
 
