@@ -6,3 +6,4 @@ from tlib.ml.feature import *
 from tlib.ml.word2vec import *
 from tlib.ml.annotated import *
 from tlib.ml.gpu import *
+from tlib.ml.input import *
