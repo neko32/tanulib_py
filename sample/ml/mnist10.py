@@ -1,5 +1,6 @@
 from tlib.ml import make_model_with_scalar_input_single_hidden_fc
 from tlib.ml.input import MNIST10Input
+from tlib.ml.base import StepDecay
 from keras.models import Model
 from keras.optimizers import Adam
 
@@ -17,6 +18,8 @@ def main():
         output_layer_activiation='softmax'
     )
     opt = Adam()
+    step_decay = StepDecay(init_r=0.001, drop=0.5, epochs_per_step=10)
+    lr_sched = step_decay.step_decay()
     m.compile(
         optimizer=opt,
         loss="categorical_crossentropy",
@@ -29,7 +32,8 @@ def main():
         ipt_mgr.y_train,
         batch_size=128,
         validation_split=0.2,
-        epochs=30
+        epochs=30,
+        callbacks=[lr_sched]
     )
     score = m.evaluate(ipt_mgr.x_test, ipt_mgr.y_test)
     print(score)

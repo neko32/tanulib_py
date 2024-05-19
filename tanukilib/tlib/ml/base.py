@@ -10,7 +10,7 @@ from keras.layers import (
     TextVectorization
 )
 from keras.optimizers import SGD
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, LearningRateScheduler
 import tensorflow as tf
 from typing import List, Any, Optional, Tuple
 import os
@@ -18,6 +18,7 @@ from pathlib import Path
 from enum import Enum
 from os.path import exists
 import io
+import math
 
 PREFERRED_IMG_SIZE_CATDOG = (180, 180)
 # PREFERRED_BATCH_SIZE_CATDOG = 128
@@ -393,3 +394,30 @@ def early_stopping(
         patience=patience,
         mode=mode
     )
+
+
+class StepDecay:
+    """Step Decay feature using LearningRateScheduler"""
+
+    def __init__(
+            self,
+            init_r: float = 1e-5,
+            drop: float = 0.5,
+            epochs_per_step: int = 10
+    ):
+        self.init_r = init_r
+        self.drop = drop
+        self.epochs_per_step = epochs_per_step
+
+    def _step_decay(
+        self,
+        epoch: int
+    ) -> float:
+        """A function used for step decay"""
+        return self.init_r * math.pow(self.drop, math.floor(epoch / self.epochs_per_step))
+
+    def step_decay(self) -> LearningRateScheduler:
+        """Instantiate LR Scheduler"""
+        return LearningRateScheduler(
+            self._step_decay,
+        )
