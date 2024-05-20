@@ -9,6 +9,9 @@ from keras.layers import (
 )
 from keras.initializers import random_uniform, glorot_uniform
 import numpy as np
+import tensorflow as tf
+import string
+import re
 
 
 class Word2Vec:
@@ -81,6 +84,17 @@ class Word2Vec:
             batch_size=batch_size,
             epochs=epochs,
             shuffle=True,
-            # callbacks = [es],
+            callbacks=[es],
             validation_split=0.0
         )
+
+
+def standardize_strinput_remove_html_tags(input_data):
+    """Standardize input by removing HTML tags"""
+    lowercase = tf.strings.lower(input_data)
+    stripped_html = tf.strings.regex_replace(lowercase, '<br[ ]*/>', ' ')
+    return tf.strings.regex_replace(
+        stripped_html,
+        '[%s]' % re.escape(string.punctuation),
+        ''
+    )

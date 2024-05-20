@@ -7,25 +7,14 @@ from tlib.ml.base import (
     make_model_VE_2FC_GAP_2FC,
     generate_weight_vocab_files_as_tsv
 )
+from tlib.ml.word2vec import standardize_strinput_remove_html_tags
 import tensorflow as tf
 from tf_keras.layers import TextVectorization
 from tf_keras.metrics import BinaryAccuracy
 from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.optimizers import Adam
 from keras.losses import BinaryCrossentropy
-import re
-import string
 import shutil
-
-
-def custom_standardization(input_data):
-    lowercase = tf.strings.lower(input_data)
-    stripped_html = tf.strings.regex_replace(lowercase, '<br />', ' ')
-    return tf.strings.regex_replace(
-        stripped_html,
-        '[%s]' % re.escape(string.punctuation),
-        ''
-    )
 
 
 def main():
@@ -64,7 +53,7 @@ def main():
     seq_len = 100
 
     vec_layer = TextVectorization(
-        standardize=custom_standardization,
+        standardize=standardize_strinput_remove_html_tags,
         max_tokens=vocab_size,
         output_mode='int',
         output_sequence_length=seq_len
