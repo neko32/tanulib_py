@@ -9,6 +9,7 @@ from tlib.ml.base import (
 )
 import tensorflow as tf
 from tf_keras.layers import TextVectorization
+from tf_keras.metrics import BinaryAccuracy
 from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.optimizers import Adam
 from keras.losses import BinaryCrossentropy
@@ -84,7 +85,7 @@ def main():
     model.compile(
         optimizer=Adam(),
         loss=BinaryCrossentropy(from_logits=True),
-        metrics=['accuracy']
+        metrics=BinaryAccuracy(threshold=0.0)
     )
 
     model.fit(
