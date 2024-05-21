@@ -219,6 +219,31 @@ def resize_img(
     return resized
 
 
+def resize_img_by_percentage(
+        src_path: str,
+        dest_path: str,
+        percentage: int,
+        interpolation: InterpolationType = InterpolationType.LINEAR,
+        skip_save: bool = False
+) -> MatLike:
+    """Resize image with designated percentage scale. Interpolation is linear"""
+    buf = cv2.imread(src_path, cv2.IMREAD_UNCHANGED)
+    h, w = buf.shape[:2]
+    new_height = (h * percentage) // 100
+    new_width = (w * percentage) // 100
+    print(f"old_w:{w},new_w:{new_width},old_h:{h},hew_h:{new_height}")
+    resized = cv2.resize(
+        buf,
+        [new_width, new_height],
+        interpolation=interpolation.value
+    )
+    if not skip_save:
+        prefix = dest_path.split('.')[-1].lower()
+        cfg = _TLIG_W_FLG_MAP[prefix]
+        cv2.imwrite(dest_path, resized, cfg)
+    return resized
+
+
 def resize_img_with_padding(
         src_path: str,
         dest_path: str,
