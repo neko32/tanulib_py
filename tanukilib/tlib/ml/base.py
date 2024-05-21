@@ -10,7 +10,11 @@ from keras.layers import (
     TextVectorization
 )
 from keras.optimizers import SGD
-from keras.callbacks import EarlyStopping, LearningRateScheduler
+from keras.callbacks import (
+    EarlyStopping,
+    LearningRateScheduler,
+    ModelCheckpoint
+)
 import tensorflow as tf
 from typing import List, Any, Optional, Tuple
 import os
@@ -421,3 +425,20 @@ class StepDecay:
         return LearningRateScheduler(
             self._step_decay,
         )
+
+
+def prepare_model_persistence(name: str) -> str:
+    """Get a dir for model is stored"""
+    model_store_loc = Path(os.environ["TANUAPP_ML_DIR"]).joinpath(name)
+    model_store_loc.mkdir(exist_ok=True)
+    return str(model_store_loc)
+
+
+def model_auto_saver(name: str) -> ModelCheckpoint:
+    """Create ModelCheckPoint"""
+    return ModelCheckpoint(prepare_model_persistence(name))
+
+
+def load_model(name: str) -> keras.Model:
+    """Load Keras model"""
+    return keras.models.load_model(prepare_model_persistence(name))

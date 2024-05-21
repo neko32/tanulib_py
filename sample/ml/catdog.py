@@ -1,15 +1,11 @@
 from tlib.ml.base import *
-from os import mkdir
-from os.path import exists
 import tensorflow as tf
 # from os import remove
 
 
 def main():
 
-    model_store_loc = os.path.join(os.environ["TANUAPP_ML_DIR"], "catdog")
-    if not exists(model_store_loc):
-        mkdir(model_store_loc)
+    model_name = "catdog"
 
     preprocessor = InputDataPreprocessor("cat_and_dog/PetImages")
     tr_ds, val_ds = preprocessor.load(
@@ -56,7 +52,7 @@ def main():
 
     epochs = 30
     callbacks = [
-        keras.callbacks.ModelCheckpoint(model_store_loc)
+        model_auto_saver(model_name)
     ]
     adam = keras.optimizers.Adam(learning_rate=3e-4)
     model.compile(
