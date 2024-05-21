@@ -13,6 +13,7 @@ class InputManager(ABC):
         self.y_trian = None
         self.x_test = None
         self.y_test = None
+        self.raw_data = None
 
     @abstractmethod
     def load_data(self) -> None:
@@ -20,13 +21,47 @@ class InputManager(ABC):
         pass
 
     @abstractmethod
+    def preprocess_x_train(self):
+        """preprocess x_train"""
+
+    @abstractmethod
+    def preprocess_y_train(self):
+        """preprocess y_train"""
+
+    @abstractmethod
+    def preprocess_x_test(self):
+        """preprocess x_test"""
+
+    @abstractmethod
+    def preprocess_y_test(self):
+        """preprocess y_test"""
+
+    def preprocess_in_bulk(self):
+        """If preprocessing needs to be done in one shot for x and y train & val, use this"""
+        pass
+
+    @abstractmethod
     def name(self) -> str:
         """get data set name"""
         pass
 
-    @abstractmethod
     def do_preprocessing(self) -> None:
         """Perform preprocessing"""
+        try:
+            self.show_message_before_preprocess()
+            self.preprocess_x_train()
+            self.preprocess_y_train()
+            self.preprocess_x_test()
+            self.preprocess_y_test()
+            self.preprocess_in_bulk()
+            self.raw_data = None
+        except Exception as e:
+            print(e)
+            raise e
+
+    @abstractmethod
+    def show_message_before_preprocess(self):
+        """Show some useful info before starting preprocess"""
         pass
 
     def process(self) -> None:
@@ -43,6 +78,9 @@ class InputManager(ABC):
         self.do_preprocessing()
         print("STEP2: [DONE] preprocessing complete. ")
         print("All input data loading & preprocessing complete.")
+        if self.x_train is None or self.y_train is None or \
+                self.x_test is None or self.y_test is None:
+            raise Exception("input data prep is not done fully")
 
     @abstractmethod
     def input_shape(self) -> list[int]:
@@ -62,31 +100,32 @@ class MNIST10Input(InputManager):
         """Load data DMZ"""
         self.datapath = str(
             Path(os.environ["TLIB_ML_DATA_DIR"]).joinpath("MNIST10", "mnist.npz"))
+        self.raw_data = load_dataset_from_npz(str(self.datapath))
+
+    def show_message_before_preprocess(self):
+        print("x_train, x_test's value range is 0..=255")
+        print("for the training and validation, apply /.255 ..")
 
     def do_preprocessing(self) -> None:
         """
         perform preprocessing.
         MNIST10 data consists of 1 channel 28*28 and category 10
         """
-        d = load_dataset_from_npz(str(self.datapath))
 
-        print("x_train, x_test's value range is 0..=255")
-        print("for the training and validation, apply /.255 ..")
-
+    def preprocess_x_train(self):
         # redact tensor from 2D to scalar
-        x_train = d["x_train"].reshape(-1, 28 * 28)
-        x_train = x_train / 255
-        y_train = to_categorical(d["y_train"], 10)
+        x_train = self.raw_data["x_train"].reshape(-1, 28 * 28)
+        self.x_train = x_train / 255
 
-        # redact tensor from 2D to scalar
-        x_test = d["x_test"].reshape(-1, 28 * 28)
-        x_test = x_test / 255
-        y_test = to_categorical(d["y_test"], 10)
+    def preprocess_y_train(self):
+        self.y_train = to_categorical(self.raw_data["y_train"], 10)
 
-        self.x_train = x_train
-        self.y_train = y_train
-        self.x_test = x_test
-        self.y_test = y_test
+    def preprocess_x_test(self):
+        x_test = self.raw_data["x_test"].reshape(-1, 28 * 28)
+        self.x_test = x_test / 255
+
+    def preprocess_y_test(self):
+        self.y_test = to_categorical(self.raw_data["y_test"], 10)
 
     def name(self) -> str:
         return "MNIST10"
