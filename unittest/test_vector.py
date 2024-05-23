@@ -104,6 +104,20 @@ class VectorTest(TestCase):
         cc = transform_tensor_with_fixed_2d_bottom(c, [1, 1])
         self.assertTupleEqual(cc.shape, (20, 1, 1))
 
+    def test_transform_tensor_with_topdim(self):
+        a = np.zeros([16])
+        aa = transform_tensor_with_fixed_top(a, 4)
+        self.assertTupleEqual(aa.shape, (4, 4))
+        b = np.zeros([12, 12])
+        bb = transform_tensor_with_fixed_top(b, 3)
+        self.assertTupleEqual(bb.shape, (3, 48))
+        c = np.zeros([12, 12, 3])
+        cc = transform_tensor_with_fixed_top(c, 6)
+        self.assertTupleEqual(cc.shape, (6, 72))
+        
+
+        
+
 
 if __name__ == "__main__":
     main()
