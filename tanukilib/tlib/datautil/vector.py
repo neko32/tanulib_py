@@ -1,5 +1,6 @@
 from typing import List, TypeVar, Optional
 from numpy.lib.stride_tricks import as_strided
+from numpy.typing import NDArray
 import numpy as np
 
 T = TypeVar('T')
@@ -75,3 +76,10 @@ def find_single_dupe(v: List[int]) -> int:
     If v contains multiple dupes not single one, then the output becomes sum of dupes.
     """
     return sum(v) - sum(set(v))
+
+
+def transform_tensor_with_fixed_2d_bottom(n: NDArray, deep_dim: tuple[int, int]) -> NDArray:
+    """
+    Transform array n to array with X number of dimensions which has deep_dim dimensions at bottom
+    """
+    return np.reshape(n, [-1, deep_dim[0], deep_dim[1]])

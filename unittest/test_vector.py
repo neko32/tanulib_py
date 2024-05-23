@@ -93,6 +93,17 @@ class VectorTest(TestCase):
         v = [1, 2, 2, 2, 4, 4]
         self.assertEqual(find_single_dupe(v), 8)
 
+    def test_transform_tensor_with_2dbottom(self):
+        a = np.zeros([16])
+        aa = transform_tensor_with_fixed_2d_bottom(a, [2, 4])
+        self.assertTupleEqual(aa.shape, (2, 2, 4))
+        b = np.zeros([4, 3, 3])
+        bb = transform_tensor_with_fixed_2d_bottom(b, [2, 2])
+        self.assertTupleEqual(bb.shape, (9, 2, 2))
+        c = np.zeros([10, 2])
+        cc = transform_tensor_with_fixed_2d_bottom(c, [1, 1])
+        self.assertTupleEqual(cc.shape, (20, 1, 1))
+
 
 if __name__ == "__main__":
     main()
