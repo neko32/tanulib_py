@@ -91,3 +91,9 @@ def transform_tensor_with_fixed_top(n: NDArray, top_dim: int) -> NDArray:
     """
     return np.reshape(n, [top_dim, -1])
 
+
+def transform_tensor_with_fixed_2d(a: NDArray, m: int, n: int) -> NDArray:
+    """
+    Transform array n to array with dimension (m, n)
+    """
+    return np.reshape(a, [m, n])
