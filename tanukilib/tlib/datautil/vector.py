@@ -85,6 +85,13 @@ def transform_tensor_with_fixed_2d_bottom(n: NDArray, deep_dim: tuple[int, int])
     return np.reshape(n, [-1, deep_dim[0], deep_dim[1]])
 
 
+def transform_tensor_with_folded_1d_bottom(n: NDArray, deep_dim: int) -> NDArray:
+    """
+    Transform array n to array with X number of dimensions which has deep_dim dimensions at bottom
+    """
+    return np.reshape(n, [-1, deep_dim])
+
+
 def transform_tensor_with_fixed_top(n: NDArray, top_dim: int) -> NDArray:
     """
     Transform array n to array with X number of top dimension

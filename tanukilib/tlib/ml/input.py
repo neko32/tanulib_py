@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import os
 from pathlib import Path
+from tlib.datautil.vector import transform_tensor_with_folded_1d_bottom
 from tlib.ml import load_dataset_from_npz
 from keras.utils import to_categorical
 
@@ -113,14 +114,14 @@ class MNIST10Input(InputManager):
 
     def preprocess_x_train(self):
         # redact tensor from 2D to scalar
-        x_train = self.raw_data["x_train"].reshape(-1, 28 * 28)
+        x_train = transform_tensor_with_folded_1d_bottom(self.raw_data["x_train"], 28 * 28)
         self.x_train = x_train / 255
 
     def preprocess_y_train(self):
         self.y_train = to_categorical(self.raw_data["y_train"], 10)
 
     def preprocess_x_test(self):
-        x_test = self.raw_data["x_test"].reshape(-1, 28 * 28)
+        x_test = transform_tensor_with_folded_1d_bottom(self.raw_data["x_test"], 28 * 28)
         self.x_test = x_test / 255
 
     def preprocess_y_test(self):
