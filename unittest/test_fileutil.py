@@ -76,8 +76,10 @@ class FileutilTest(TestCase):
         remove(test_file)
 
     def test_is_JFIF_img_file(self):
-        broken_file = str(Path(__file__).parent.joinpath("testdata", "img", "broken_img.jpg"))
-        valid_file = str(Path(__file__).parent.joinpath("testdata", "img", "cat_img1.jpg"))
+        broken_file = str(Path(__file__).parent.joinpath(
+            "testdata", "img", "broken_img.jpg"))
+        valid_file = str(Path(__file__).parent.joinpath(
+            "testdata", "img", "cat_img1.jpg"))
         self.assertTrue(is_JFIF_img_file(valid_file))
         self.assertFalse(is_JFIF_img_file(broken_file))
 
@@ -193,6 +195,20 @@ class FileutilTest(TestCase):
 
         if len(test_files) > 0:
             raise AssertionError("test_files len must be 0")
+
+    def test_read_file_as_stream(self):
+        fpath = Path(__file__).parent.parent.joinpath(
+            "unittest", "testdata", "text", "tlibs_run.log")
+        fstream = read_file_as_stream(str(fpath))
+        cnt = 0
+        try:
+            while True:
+                line = next(fstream)
+                cnt += 1
+                self.assertIsNotNone(line)
+        except StopIteration:
+            pass
+        self.assertEqual(cnt, 197)
 
 
 if __name__ == "__main__":

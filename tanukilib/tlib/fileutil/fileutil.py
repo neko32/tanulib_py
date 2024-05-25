@@ -211,3 +211,10 @@ class PaginatedFileList:
 
     def __repr__(self) -> str:
         return self.cache.__repr__()
+
+
+def read_file_as_stream(file: str):
+    """Read each line from a file in streaming manner"""
+    with open(file, 'r') as fd:
+        for line in fd.readlines():
+            yield line

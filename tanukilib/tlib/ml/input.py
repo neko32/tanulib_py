@@ -80,6 +80,10 @@ class InputManager(ABC):
         print("All input data loading & preprocessing complete.")
         if self.x_train is None or self.y_train is None or \
                 self.x_test is None or self.y_test is None:
+            print(self.x_train)
+            print(self.y_train)
+            print(self.x_test)
+            print(self.y_test)
             raise Exception("input data prep is not done fully")
 
     @abstractmethod
@@ -106,11 +110,6 @@ class MNIST10Input(InputManager):
         print("x_train, x_test's value range is 0..=255")
         print("for the training and validation, apply /.255 ..")
 
-    def do_preprocessing(self) -> None:
-        """
-        perform preprocessing.
-        MNIST10 data consists of 1 channel 28*28 and category 10
-        """
 
     def preprocess_x_train(self):
         # redact tensor from 2D to scalar

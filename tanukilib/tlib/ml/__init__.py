@@ -8,3 +8,4 @@ from tlib.ml.annotated import *
 from tlib.ml.gpu import *
 from tlib.ml.input import *
 from tlib.ml.custom_layer import *
+from tlib.ml.tfutil import *

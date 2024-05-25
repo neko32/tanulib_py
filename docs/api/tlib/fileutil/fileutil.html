@@ -87,6 +87,9 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="function" href="#read_file_as_stream">read_file_as_stream</a>
+            </li>
     </ul>
 
 
@@ -321,6 +324,13 @@
 </span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="k">def</span> <span class="nf">read_file_as_stream</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read each line from a file in streaming manner&quot;&quot;&quot;</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fd</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>            <span class="k">yield</span> <span class="n">line</span>
 </span></pre></div>
 
 
@@ -886,6 +896,30 @@ if index is already index 0, then False is returned.</p>
 
 
                             </div>
+                </section>
+                <section id="read_file_as_stream">
+                            <input id="read_file_as_stream-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">read_file_as_stream</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">file</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="read_file_as_stream-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#read_file_as_stream"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="read_file_as_stream-217"><a href="#read_file_as_stream-217"><span class="linenos">217</span></a><span class="k">def</span> <span class="nf">read_file_as_stream</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="read_file_as_stream-218"><a href="#read_file_as_stream-218"><span class="linenos">218</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read each line from a file in streaming manner&quot;&quot;&quot;</span>
+</span><span id="read_file_as_stream-219"><a href="#read_file_as_stream-219"><span class="linenos">219</span></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+</span><span id="read_file_as_stream-220"><a href="#read_file_as_stream-220"><span class="linenos">220</span></a>        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fd</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+</span><span id="read_file_as_stream-221"><a href="#read_file_as_stream-221"><span class="linenos">221</span></a>            <span class="k">yield</span> <span class="n">line</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Read each line from a file in streaming manner</p>
+</div>
+
+
                 </section>
     </main>
 <script>

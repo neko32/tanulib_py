@@ -3,10 +3,12 @@ from tlib.ml.input import MNIST10Input
 from tlib.ml.base import StepDecay, model_auto_saver
 from keras.models import Model
 from keras.optimizers import Adam
+import tensorflow as tf
 
 
 def main():
 
+    tf.debugging.set_log_device_placement(False)
     model_name = "mnist10"
     ipt_mgr = MNIST10Input()
     ipt_mgr.process()

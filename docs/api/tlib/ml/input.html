@@ -97,9 +97,6 @@
                                 <a class="function" href="#MNIST10Input.show_message_before_preprocess">show_message_before_preprocess</a>
                         </li>
                         <li>
-                                <a class="function" href="#MNIST10Input.do_preprocessing">do_preprocessing</a>
-                        </li>
-                        <li>
                                 <a class="function" href="#MNIST10Input.preprocess_x_train">preprocess_x_train</a>
                         </li>
                         <li>
@@ -226,63 +223,62 @@
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All input data loading &amp; preprocessing complete.&quot;</span><span class="p">)</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> \
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;input data prep is not done fully&quot;</span><span class="p">)</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input shape&quot;&quot;&quot;</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>        <span class="k">pass</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="k">pass</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="k">class</span> <span class="nc">MNIST10Input</span><span class="p">(</span><span class="n">InputManager</span><span class="p">):</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Input Loading &amp; Preprocessing for MNIST10&quot;&quot;&quot;</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train</span><span class="p">)</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">)</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">)</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;input data prep is not done fully&quot;</span><span class="p">)</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input shape&quot;&quot;&quot;</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>        <span class="k">pass</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>        <span class="k">pass</span>
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data DMZ&quot;&quot;&quot;</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TLIB_ML_DATA_DIR&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;MNIST10&quot;</span><span class="p">,</span> <span class="s2">&quot;mnist.npz&quot;</span><span class="p">))</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">load_dataset_from_npz</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">show_message_before_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x_train, x_test&#39;s value range is 0..=255&quot;</span><span class="p">)</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;for the training and validation, apply /.255 ..&quot;</span><span class="p">)</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="k">class</span> <span class="nc">MNIST10Input</span><span class="p">(</span><span class="n">InputManager</span><span class="p">):</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Input Loading &amp; Preprocessing for MNIST10&quot;&quot;&quot;</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data DMZ&quot;&quot;&quot;</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TLIB_ML_DATA_DIR&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;MNIST10&quot;</span><span class="p">,</span> <span class="s2">&quot;mnist.npz&quot;</span><span class="p">))</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">load_dataset_from_npz</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">do_preprocessing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">        perform preprocessing.</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">        MNIST10 data consists of 1 channel 28*28 and category 10</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="c1"># redact tensor from 2D to scalar</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="mi">255</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="n">x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span> <span class="o">/</span> <span class="mi">255</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="k">return</span> <span class="s2">&quot;MNIST10&quot;</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input image shape&quot;&quot;&quot;</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>        <span class="k">return</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="k">return</span> <span class="mi">10</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="k">def</span> <span class="nf">show_message_before_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x_train, x_test&#39;s value range is 0..=255&quot;</span><span class="p">)</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;for the training and validation, apply /.255 ..&quot;</span><span class="p">)</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>        <span class="c1"># redact tensor from 2D to scalar</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="mi">255</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>        <span class="n">x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span> <span class="o">/</span> <span class="mi">255</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>        <span class="k">return</span> <span class="s2">&quot;MNIST10&quot;</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input image shape&quot;&quot;&quot;</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>        <span class="k">return</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="mi">10</span>
 </span></pre></div>
 
 
@@ -373,17 +369,21 @@
 </span><span id="InputManager-81"><a href="#InputManager-81"><span class="linenos">81</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All input data loading &amp; preprocessing complete.&quot;</span><span class="p">)</span>
 </span><span id="InputManager-82"><a href="#InputManager-82"><span class="linenos">82</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> \
 </span><span id="InputManager-83"><a href="#InputManager-83"><span class="linenos">83</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="InputManager-84"><a href="#InputManager-84"><span class="linenos">84</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;input data prep is not done fully&quot;</span><span class="p">)</span>
-</span><span id="InputManager-85"><a href="#InputManager-85"><span class="linenos">85</span></a>
-</span><span id="InputManager-86"><a href="#InputManager-86"><span class="linenos">86</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="InputManager-87"><a href="#InputManager-87"><span class="linenos">87</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="InputManager-88"><a href="#InputManager-88"><span class="linenos">88</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input shape&quot;&quot;&quot;</span>
-</span><span id="InputManager-89"><a href="#InputManager-89"><span class="linenos">89</span></a>        <span class="k">pass</span>
-</span><span id="InputManager-90"><a href="#InputManager-90"><span class="linenos">90</span></a>
-</span><span id="InputManager-91"><a href="#InputManager-91"><span class="linenos">91</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="InputManager-92"><a href="#InputManager-92"><span class="linenos">92</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="InputManager-93"><a href="#InputManager-93"><span class="linenos">93</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
-</span><span id="InputManager-94"><a href="#InputManager-94"><span class="linenos">94</span></a>        <span class="k">pass</span>
+</span><span id="InputManager-84"><a href="#InputManager-84"><span class="linenos">84</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train</span><span class="p">)</span>
+</span><span id="InputManager-85"><a href="#InputManager-85"><span class="linenos">85</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">)</span>
+</span><span id="InputManager-86"><a href="#InputManager-86"><span class="linenos">86</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">)</span>
+</span><span id="InputManager-87"><a href="#InputManager-87"><span class="linenos">87</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">)</span>
+</span><span id="InputManager-88"><a href="#InputManager-88"><span class="linenos">88</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;input data prep is not done fully&quot;</span><span class="p">)</span>
+</span><span id="InputManager-89"><a href="#InputManager-89"><span class="linenos">89</span></a>
+</span><span id="InputManager-90"><a href="#InputManager-90"><span class="linenos">90</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="InputManager-91"><a href="#InputManager-91"><span class="linenos">91</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="InputManager-92"><a href="#InputManager-92"><span class="linenos">92</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input shape&quot;&quot;&quot;</span>
+</span><span id="InputManager-93"><a href="#InputManager-93"><span class="linenos">93</span></a>        <span class="k">pass</span>
+</span><span id="InputManager-94"><a href="#InputManager-94"><span class="linenos">94</span></a>
+</span><span id="InputManager-95"><a href="#InputManager-95"><span class="linenos">95</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="InputManager-96"><a href="#InputManager-96"><span class="linenos">96</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="InputManager-97"><a href="#InputManager-97"><span class="linenos">97</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
+</span><span id="InputManager-98"><a href="#InputManager-98"><span class="linenos">98</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -691,7 +691,11 @@
 </span><span id="InputManager.process-81"><a href="#InputManager.process-81"><span class="linenos">81</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All input data loading &amp; preprocessing complete.&quot;</span><span class="p">)</span>
 </span><span id="InputManager.process-82"><a href="#InputManager.process-82"><span class="linenos">82</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> \
 </span><span id="InputManager.process-83"><a href="#InputManager.process-83"><span class="linenos">83</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="InputManager.process-84"><a href="#InputManager.process-84"><span class="linenos">84</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;input data prep is not done fully&quot;</span><span class="p">)</span>
+</span><span id="InputManager.process-84"><a href="#InputManager.process-84"><span class="linenos">84</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train</span><span class="p">)</span>
+</span><span id="InputManager.process-85"><a href="#InputManager.process-85"><span class="linenos">85</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="p">)</span>
+</span><span id="InputManager.process-86"><a href="#InputManager.process-86"><span class="linenos">86</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">)</span>
+</span><span id="InputManager.process-87"><a href="#InputManager.process-87"><span class="linenos">87</span></a>            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">)</span>
+</span><span id="InputManager.process-88"><a href="#InputManager.process-88"><span class="linenos">88</span></a>            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;input data prep is not done fully&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -712,10 +716,10 @@
 
     </div>
     <a class="headerlink" href="#InputManager.input_shape"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="InputManager.input_shape-86"><a href="#InputManager.input_shape-86"><span class="linenos">86</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="InputManager.input_shape-87"><a href="#InputManager.input_shape-87"><span class="linenos">87</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="InputManager.input_shape-88"><a href="#InputManager.input_shape-88"><span class="linenos">88</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input shape&quot;&quot;&quot;</span>
-</span><span id="InputManager.input_shape-89"><a href="#InputManager.input_shape-89"><span class="linenos">89</span></a>        <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="InputManager.input_shape-90"><a href="#InputManager.input_shape-90"><span class="linenos">90</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="InputManager.input_shape-91"><a href="#InputManager.input_shape-91"><span class="linenos">91</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="InputManager.input_shape-92"><a href="#InputManager.input_shape-92"><span class="linenos">92</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input shape&quot;&quot;&quot;</span>
+</span><span id="InputManager.input_shape-93"><a href="#InputManager.input_shape-93"><span class="linenos">93</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -736,10 +740,10 @@
 
     </div>
     <a class="headerlink" href="#InputManager.num_category"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="InputManager.num_category-91"><a href="#InputManager.num_category-91"><span class="linenos">91</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="InputManager.num_category-92"><a href="#InputManager.num_category-92"><span class="linenos">92</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="InputManager.num_category-93"><a href="#InputManager.num_category-93"><span class="linenos">93</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
-</span><span id="InputManager.num_category-94"><a href="#InputManager.num_category-94"><span class="linenos">94</span></a>        <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="InputManager.num_category-95"><a href="#InputManager.num_category-95"><span class="linenos">95</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="InputManager.num_category-96"><a href="#InputManager.num_category-96"><span class="linenos">96</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="InputManager.num_category-97"><a href="#InputManager.num_category-97"><span class="linenos">97</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
+</span><span id="InputManager.num_category-98"><a href="#InputManager.num_category-98"><span class="linenos">98</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -760,50 +764,45 @@
 
     </div>
     <a class="headerlink" href="#MNIST10Input"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input-97"><a href="#MNIST10Input-97"><span class="linenos"> 97</span></a><span class="k">class</span> <span class="nc">MNIST10Input</span><span class="p">(</span><span class="n">InputManager</span><span class="p">):</span>
-</span><span id="MNIST10Input-98"><a href="#MNIST10Input-98"><span class="linenos"> 98</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Input Loading &amp; Preprocessing for MNIST10&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input-99"><a href="#MNIST10Input-99"><span class="linenos"> 99</span></a>
-</span><span id="MNIST10Input-100"><a href="#MNIST10Input-100"><span class="linenos">100</span></a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="MNIST10Input-101"><a href="#MNIST10Input-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data DMZ&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input-102"><a href="#MNIST10Input-102"><span class="linenos">102</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-</span><span id="MNIST10Input-103"><a href="#MNIST10Input-103"><span class="linenos">103</span></a>            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TLIB_ML_DATA_DIR&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;MNIST10&quot;</span><span class="p">,</span> <span class="s2">&quot;mnist.npz&quot;</span><span class="p">))</span>
-</span><span id="MNIST10Input-104"><a href="#MNIST10Input-104"><span class="linenos">104</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">load_dataset_from_npz</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
-</span><span id="MNIST10Input-105"><a href="#MNIST10Input-105"><span class="linenos">105</span></a>
-</span><span id="MNIST10Input-106"><a href="#MNIST10Input-106"><span class="linenos">106</span></a>    <span class="k">def</span> <span class="nf">show_message_before_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input-107"><a href="#MNIST10Input-107"><span class="linenos">107</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x_train, x_test&#39;s value range is 0..=255&quot;</span><span class="p">)</span>
-</span><span id="MNIST10Input-108"><a href="#MNIST10Input-108"><span class="linenos">108</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;for the training and validation, apply /.255 ..&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input-101"><a href="#MNIST10Input-101"><span class="linenos">101</span></a><span class="k">class</span> <span class="nc">MNIST10Input</span><span class="p">(</span><span class="n">InputManager</span><span class="p">):</span>
+</span><span id="MNIST10Input-102"><a href="#MNIST10Input-102"><span class="linenos">102</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Input Loading &amp; Preprocessing for MNIST10&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input-103"><a href="#MNIST10Input-103"><span class="linenos">103</span></a>
+</span><span id="MNIST10Input-104"><a href="#MNIST10Input-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="MNIST10Input-105"><a href="#MNIST10Input-105"><span class="linenos">105</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data DMZ&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input-106"><a href="#MNIST10Input-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+</span><span id="MNIST10Input-107"><a href="#MNIST10Input-107"><span class="linenos">107</span></a>            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TLIB_ML_DATA_DIR&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;MNIST10&quot;</span><span class="p">,</span> <span class="s2">&quot;mnist.npz&quot;</span><span class="p">))</span>
+</span><span id="MNIST10Input-108"><a href="#MNIST10Input-108"><span class="linenos">108</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">load_dataset_from_npz</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
 </span><span id="MNIST10Input-109"><a href="#MNIST10Input-109"><span class="linenos">109</span></a>
-</span><span id="MNIST10Input-110"><a href="#MNIST10Input-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">do_preprocessing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="MNIST10Input-111"><a href="#MNIST10Input-111"><span class="linenos">111</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input-112"><a href="#MNIST10Input-112"><span class="linenos">112</span></a><span class="sd">        perform preprocessing.</span>
-</span><span id="MNIST10Input-113"><a href="#MNIST10Input-113"><span class="linenos">113</span></a><span class="sd">        MNIST10 data consists of 1 channel 28*28 and category 10</span>
-</span><span id="MNIST10Input-114"><a href="#MNIST10Input-114"><span class="linenos">114</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="MNIST10Input-115"><a href="#MNIST10Input-115"><span class="linenos">115</span></a>
-</span><span id="MNIST10Input-116"><a href="#MNIST10Input-116"><span class="linenos">116</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input-117"><a href="#MNIST10Input-117"><span class="linenos">117</span></a>        <span class="c1"># redact tensor from 2D to scalar</span>
-</span><span id="MNIST10Input-118"><a href="#MNIST10Input-118"><span class="linenos">118</span></a>        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
-</span><span id="MNIST10Input-119"><a href="#MNIST10Input-119"><span class="linenos">119</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="mi">255</span>
-</span><span id="MNIST10Input-120"><a href="#MNIST10Input-120"><span class="linenos">120</span></a>
-</span><span id="MNIST10Input-121"><a href="#MNIST10Input-121"><span class="linenos">121</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input-122"><a href="#MNIST10Input-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-</span><span id="MNIST10Input-123"><a href="#MNIST10Input-123"><span class="linenos">123</span></a>
-</span><span id="MNIST10Input-124"><a href="#MNIST10Input-124"><span class="linenos">124</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input-125"><a href="#MNIST10Input-125"><span class="linenos">125</span></a>        <span class="n">x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
-</span><span id="MNIST10Input-126"><a href="#MNIST10Input-126"><span class="linenos">126</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span> <span class="o">/</span> <span class="mi">255</span>
-</span><span id="MNIST10Input-127"><a href="#MNIST10Input-127"><span class="linenos">127</span></a>
-</span><span id="MNIST10Input-128"><a href="#MNIST10Input-128"><span class="linenos">128</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input-129"><a href="#MNIST10Input-129"><span class="linenos">129</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
-</span><span id="MNIST10Input-130"><a href="#MNIST10Input-130"><span class="linenos">130</span></a>
-</span><span id="MNIST10Input-131"><a href="#MNIST10Input-131"><span class="linenos">131</span></a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="MNIST10Input-132"><a href="#MNIST10Input-132"><span class="linenos">132</span></a>        <span class="k">return</span> <span class="s2">&quot;MNIST10&quot;</span>
-</span><span id="MNIST10Input-133"><a href="#MNIST10Input-133"><span class="linenos">133</span></a>
-</span><span id="MNIST10Input-134"><a href="#MNIST10Input-134"><span class="linenos">134</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="MNIST10Input-135"><a href="#MNIST10Input-135"><span class="linenos">135</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input image shape&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input-136"><a href="#MNIST10Input-136"><span class="linenos">136</span></a>        <span class="k">return</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</span><span id="MNIST10Input-137"><a href="#MNIST10Input-137"><span class="linenos">137</span></a>
-</span><span id="MNIST10Input-138"><a href="#MNIST10Input-138"><span class="linenos">138</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="MNIST10Input-139"><a href="#MNIST10Input-139"><span class="linenos">139</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input-140"><a href="#MNIST10Input-140"><span class="linenos">140</span></a>        <span class="k">return</span> <span class="mi">10</span>
+</span><span id="MNIST10Input-110"><a href="#MNIST10Input-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">show_message_before_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input-111"><a href="#MNIST10Input-111"><span class="linenos">111</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x_train, x_test&#39;s value range is 0..=255&quot;</span><span class="p">)</span>
+</span><span id="MNIST10Input-112"><a href="#MNIST10Input-112"><span class="linenos">112</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;for the training and validation, apply /.255 ..&quot;</span><span class="p">)</span>
+</span><span id="MNIST10Input-113"><a href="#MNIST10Input-113"><span class="linenos">113</span></a>
+</span><span id="MNIST10Input-114"><a href="#MNIST10Input-114"><span class="linenos">114</span></a>
+</span><span id="MNIST10Input-115"><a href="#MNIST10Input-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input-116"><a href="#MNIST10Input-116"><span class="linenos">116</span></a>        <span class="c1"># redact tensor from 2D to scalar</span>
+</span><span id="MNIST10Input-117"><a href="#MNIST10Input-117"><span class="linenos">117</span></a>        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+</span><span id="MNIST10Input-118"><a href="#MNIST10Input-118"><span class="linenos">118</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="mi">255</span>
+</span><span id="MNIST10Input-119"><a href="#MNIST10Input-119"><span class="linenos">119</span></a>
+</span><span id="MNIST10Input-120"><a href="#MNIST10Input-120"><span class="linenos">120</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input-121"><a href="#MNIST10Input-121"><span class="linenos">121</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="MNIST10Input-122"><a href="#MNIST10Input-122"><span class="linenos">122</span></a>
+</span><span id="MNIST10Input-123"><a href="#MNIST10Input-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input-124"><a href="#MNIST10Input-124"><span class="linenos">124</span></a>        <span class="n">x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+</span><span id="MNIST10Input-125"><a href="#MNIST10Input-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span> <span class="o">/</span> <span class="mi">255</span>
+</span><span id="MNIST10Input-126"><a href="#MNIST10Input-126"><span class="linenos">126</span></a>
+</span><span id="MNIST10Input-127"><a href="#MNIST10Input-127"><span class="linenos">127</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input-128"><a href="#MNIST10Input-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="MNIST10Input-129"><a href="#MNIST10Input-129"><span class="linenos">129</span></a>
+</span><span id="MNIST10Input-130"><a href="#MNIST10Input-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="MNIST10Input-131"><a href="#MNIST10Input-131"><span class="linenos">131</span></a>        <span class="k">return</span> <span class="s2">&quot;MNIST10&quot;</span>
+</span><span id="MNIST10Input-132"><a href="#MNIST10Input-132"><span class="linenos">132</span></a>
+</span><span id="MNIST10Input-133"><a href="#MNIST10Input-133"><span class="linenos">133</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="MNIST10Input-134"><a href="#MNIST10Input-134"><span class="linenos">134</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input image shape&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input-135"><a href="#MNIST10Input-135"><span class="linenos">135</span></a>        <span class="k">return</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span><span id="MNIST10Input-136"><a href="#MNIST10Input-136"><span class="linenos">136</span></a>
+</span><span id="MNIST10Input-137"><a href="#MNIST10Input-137"><span class="linenos">137</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="MNIST10Input-138"><a href="#MNIST10Input-138"><span class="linenos">138</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input-139"><a href="#MNIST10Input-139"><span class="linenos">139</span></a>        <span class="k">return</span> <span class="mi">10</span>
 </span></pre></div>
 
 
@@ -822,11 +821,11 @@
 
     </div>
     <a class="headerlink" href="#MNIST10Input.load_data"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.load_data-100"><a href="#MNIST10Input.load_data-100"><span class="linenos">100</span></a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="MNIST10Input.load_data-101"><a href="#MNIST10Input.load_data-101"><span class="linenos">101</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data DMZ&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input.load_data-102"><a href="#MNIST10Input.load_data-102"><span class="linenos">102</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
-</span><span id="MNIST10Input.load_data-103"><a href="#MNIST10Input.load_data-103"><span class="linenos">103</span></a>            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TLIB_ML_DATA_DIR&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;MNIST10&quot;</span><span class="p">,</span> <span class="s2">&quot;mnist.npz&quot;</span><span class="p">))</span>
-</span><span id="MNIST10Input.load_data-104"><a href="#MNIST10Input.load_data-104"><span class="linenos">104</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">load_dataset_from_npz</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.load_data-104"><a href="#MNIST10Input.load_data-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="MNIST10Input.load_data-105"><a href="#MNIST10Input.load_data-105"><span class="linenos">105</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data DMZ&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input.load_data-106"><a href="#MNIST10Input.load_data-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+</span><span id="MNIST10Input.load_data-107"><a href="#MNIST10Input.load_data-107"><span class="linenos">107</span></a>            <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TLIB_ML_DATA_DIR&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;MNIST10&quot;</span><span class="p">,</span> <span class="s2">&quot;mnist.npz&quot;</span><span class="p">))</span>
+</span><span id="MNIST10Input.load_data-108"><a href="#MNIST10Input.load_data-108"><span class="linenos">108</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">load_dataset_from_npz</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
 </span></pre></div>
 
 
@@ -846,38 +845,13 @@
 
     </div>
     <a class="headerlink" href="#MNIST10Input.show_message_before_preprocess"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.show_message_before_preprocess-106"><a href="#MNIST10Input.show_message_before_preprocess-106"><span class="linenos">106</span></a>    <span class="k">def</span> <span class="nf">show_message_before_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input.show_message_before_preprocess-107"><a href="#MNIST10Input.show_message_before_preprocess-107"><span class="linenos">107</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x_train, x_test&#39;s value range is 0..=255&quot;</span><span class="p">)</span>
-</span><span id="MNIST10Input.show_message_before_preprocess-108"><a href="#MNIST10Input.show_message_before_preprocess-108"><span class="linenos">108</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;for the training and validation, apply /.255 ..&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.show_message_before_preprocess-110"><a href="#MNIST10Input.show_message_before_preprocess-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">show_message_before_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input.show_message_before_preprocess-111"><a href="#MNIST10Input.show_message_before_preprocess-111"><span class="linenos">111</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;x_train, x_test&#39;s value range is 0..=255&quot;</span><span class="p">)</span>
+</span><span id="MNIST10Input.show_message_before_preprocess-112"><a href="#MNIST10Input.show_message_before_preprocess-112"><span class="linenos">112</span></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;for the training and validation, apply /.255 ..&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Show some useful info before starting preprocess</p>
-</div>
-
-
-                            </div>
-                            <div id="MNIST10Input.do_preprocessing" class="classattr">
-                                        <input id="MNIST10Input.do_preprocessing-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">do_preprocessing</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
-
-                <label class="view-source-button" for="MNIST10Input.do_preprocessing-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#MNIST10Input.do_preprocessing"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.do_preprocessing-110"><a href="#MNIST10Input.do_preprocessing-110"><span class="linenos">110</span></a>    <span class="k">def</span> <span class="nf">do_preprocessing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="MNIST10Input.do_preprocessing-111"><a href="#MNIST10Input.do_preprocessing-111"><span class="linenos">111</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input.do_preprocessing-112"><a href="#MNIST10Input.do_preprocessing-112"><span class="linenos">112</span></a><span class="sd">        perform preprocessing.</span>
-</span><span id="MNIST10Input.do_preprocessing-113"><a href="#MNIST10Input.do_preprocessing-113"><span class="linenos">113</span></a><span class="sd">        MNIST10 data consists of 1 channel 28*28 and category 10</span>
-</span><span id="MNIST10Input.do_preprocessing-114"><a href="#MNIST10Input.do_preprocessing-114"><span class="linenos">114</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>perform preprocessing.
-MNIST10 data consists of 1 channel 28*28 and category 10</p>
 </div>
 
 
@@ -893,10 +867,10 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.preprocess_x_train"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_x_train-116"><a href="#MNIST10Input.preprocess_x_train-116"><span class="linenos">116</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input.preprocess_x_train-117"><a href="#MNIST10Input.preprocess_x_train-117"><span class="linenos">117</span></a>        <span class="c1"># redact tensor from 2D to scalar</span>
-</span><span id="MNIST10Input.preprocess_x_train-118"><a href="#MNIST10Input.preprocess_x_train-118"><span class="linenos">118</span></a>        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
-</span><span id="MNIST10Input.preprocess_x_train-119"><a href="#MNIST10Input.preprocess_x_train-119"><span class="linenos">119</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="mi">255</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_x_train-115"><a href="#MNIST10Input.preprocess_x_train-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input.preprocess_x_train-116"><a href="#MNIST10Input.preprocess_x_train-116"><span class="linenos">116</span></a>        <span class="c1"># redact tensor from 2D to scalar</span>
+</span><span id="MNIST10Input.preprocess_x_train-117"><a href="#MNIST10Input.preprocess_x_train-117"><span class="linenos">117</span></a>        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+</span><span id="MNIST10Input.preprocess_x_train-118"><a href="#MNIST10Input.preprocess_x_train-118"><span class="linenos">118</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span> <span class="o">/</span> <span class="mi">255</span>
 </span></pre></div>
 
 
@@ -916,8 +890,8 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.preprocess_y_train"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_y_train-121"><a href="#MNIST10Input.preprocess_y_train-121"><span class="linenos">121</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input.preprocess_y_train-122"><a href="#MNIST10Input.preprocess_y_train-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_y_train-120"><a href="#MNIST10Input.preprocess_y_train-120"><span class="linenos">120</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input.preprocess_y_train-121"><a href="#MNIST10Input.preprocess_y_train-121"><span class="linenos">121</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -937,9 +911,9 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.preprocess_x_test"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_x_test-124"><a href="#MNIST10Input.preprocess_x_test-124"><span class="linenos">124</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input.preprocess_x_test-125"><a href="#MNIST10Input.preprocess_x_test-125"><span class="linenos">125</span></a>        <span class="n">x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
-</span><span id="MNIST10Input.preprocess_x_test-126"><a href="#MNIST10Input.preprocess_x_test-126"><span class="linenos">126</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span> <span class="o">/</span> <span class="mi">255</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_x_test-123"><a href="#MNIST10Input.preprocess_x_test-123"><span class="linenos">123</span></a>    <span class="k">def</span> <span class="nf">preprocess_x_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input.preprocess_x_test-124"><a href="#MNIST10Input.preprocess_x_test-124"><span class="linenos">124</span></a>        <span class="n">x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;x_test&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+</span><span id="MNIST10Input.preprocess_x_test-125"><a href="#MNIST10Input.preprocess_x_test-125"><span class="linenos">125</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span> <span class="o">/</span> <span class="mi">255</span>
 </span></pre></div>
 
 
@@ -959,8 +933,8 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.preprocess_y_test"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_y_test-128"><a href="#MNIST10Input.preprocess_y_test-128"><span class="linenos">128</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="MNIST10Input.preprocess_y_test-129"><a href="#MNIST10Input.preprocess_y_test-129"><span class="linenos">129</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.preprocess_y_test-127"><a href="#MNIST10Input.preprocess_y_test-127"><span class="linenos">127</span></a>    <span class="k">def</span> <span class="nf">preprocess_y_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="MNIST10Input.preprocess_y_test-128"><a href="#MNIST10Input.preprocess_y_test-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -980,8 +954,8 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.name"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.name-131"><a href="#MNIST10Input.name-131"><span class="linenos">131</span></a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="MNIST10Input.name-132"><a href="#MNIST10Input.name-132"><span class="linenos">132</span></a>        <span class="k">return</span> <span class="s2">&quot;MNIST10&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.name-130"><a href="#MNIST10Input.name-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="MNIST10Input.name-131"><a href="#MNIST10Input.name-131"><span class="linenos">131</span></a>        <span class="k">return</span> <span class="s2">&quot;MNIST10&quot;</span>
 </span></pre></div>
 
 
@@ -1001,9 +975,9 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.input_shape"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.input_shape-134"><a href="#MNIST10Input.input_shape-134"><span class="linenos">134</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-</span><span id="MNIST10Input.input_shape-135"><a href="#MNIST10Input.input_shape-135"><span class="linenos">135</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input image shape&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input.input_shape-136"><a href="#MNIST10Input.input_shape-136"><span class="linenos">136</span></a>        <span class="k">return</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.input_shape-133"><a href="#MNIST10Input.input_shape-133"><span class="linenos">133</span></a>    <span class="k">def</span> <span class="nf">input_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+</span><span id="MNIST10Input.input_shape-134"><a href="#MNIST10Input.input_shape-134"><span class="linenos">134</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;get input image shape&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input.input_shape-135"><a href="#MNIST10Input.input_shape-135"><span class="linenos">135</span></a>        <span class="k">return</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -1023,9 +997,9 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
 
     </div>
     <a class="headerlink" href="#MNIST10Input.num_category"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.num_category-138"><a href="#MNIST10Input.num_category-138"><span class="linenos">138</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="MNIST10Input.num_category-139"><a href="#MNIST10Input.num_category-139"><span class="linenos">139</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
-</span><span id="MNIST10Input.num_category-140"><a href="#MNIST10Input.num_category-140"><span class="linenos">140</span></a>        <span class="k">return</span> <span class="mi">10</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MNIST10Input.num_category-137"><a href="#MNIST10Input.num_category-137"><span class="linenos">137</span></a>    <span class="k">def</span> <span class="nf">num_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="MNIST10Input.num_category-138"><a href="#MNIST10Input.num_category-138"><span class="linenos">138</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;num of category&quot;&quot;&quot;</span>
+</span><span id="MNIST10Input.num_category-139"><a href="#MNIST10Input.num_category-139"><span class="linenos">139</span></a>        <span class="k">return</span> <span class="mi">10</span>
 </span></pre></div>
 
 
@@ -1044,6 +1018,7 @@ MNIST10 data consists of 1 channel 28*28 and category 10</p>
                 <dd id="MNIST10Input.y_test" class="variable"><a href="#InputManager.y_test">y_test</a></dd>
                 <dd id="MNIST10Input.raw_data" class="variable"><a href="#InputManager.raw_data">raw_data</a></dd>
                 <dd id="MNIST10Input.preprocess_in_bulk" class="function"><a href="#InputManager.preprocess_in_bulk">preprocess_in_bulk</a></dd>
+                <dd id="MNIST10Input.do_preprocessing" class="function"><a href="#InputManager.do_preprocessing">do_preprocessing</a></dd>
                 <dd id="MNIST10Input.process" class="function"><a href="#InputManager.process">process</a></dd>
 
             </div>

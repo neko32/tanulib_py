@@ -15,6 +15,6 @@ if [ ! -e ${TANULIB_HOME}/sample/${category}/${fname}.py ]; then
 fi
 
 cd ${TANULIB_HOME}/sample/${category}
-python3 ./${fname}.py
+python3 ./${fname}.py 2>&1 |tee /tmp/tlibs_run.log
 
 echo "done".
