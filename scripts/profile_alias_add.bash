@@ -44,3 +44,6 @@ export PATH=${PATH}:${TANULIB_HOME}/scripts
 CVAT_DIR={dir for cvat}
 export FIFTYONE_CVAT_USERNAME=<YOUR_USERNAME>
 export FIFTYONE_CVAT_PASSWORD=<YOUR_PASSWORD>
+
+alias kubectl='minikube kubectl --'
+alias kubels='kubectl get pod -A'

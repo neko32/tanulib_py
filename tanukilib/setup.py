@@ -37,6 +37,7 @@ setup(
         'umap-learn',
         'torch',
         'torchvision',
+        'pygame',
     ]
 )
 

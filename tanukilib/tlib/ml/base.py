@@ -344,6 +344,27 @@ def make_model_VE_2FC_GAP_2FC(
     ])
 
 
+def make_model_CBACBA_2FC_F_D_ARCFACE(
+        input_shape:Tuple[int, int, int],
+        conv2d_1_filter:int,
+        conv2d_2_filter:int,
+        fc1_num_newrons:int,
+        num_classes:int,
+        conv2d_kernel_size:int = 2,
+        conv2d_padding:str = 'same',
+        activation_after_conv2d:str = 'relu'
+) -> keras.Model:
+    input = Input(shape = input_shape)
+    x = keras.layers.Conv2D(
+        filters = conv2d_1_filter,
+        kernels_size = conv2d_kernel_size,
+        padding = conv2d_padding
+    )(input)
+    x = keras.layers.BatchNormalization()(x)
+    
+
+
+
 def generate_weight_vocab_files_as_tsv(
         model: keras.models.Model,
         vec_layer: keras.layers.TextVectorization,
