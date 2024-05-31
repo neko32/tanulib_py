@@ -149,6 +149,10 @@ class BGRA:
         """Convert to Tuple of [B, G, R]"""
         return (self.blue, self.green, self.red)
 
+    def to_tuple_rgb(self) -> Tuple[int, int, int]:
+        """Convert to Tuple of [R, G, B]"""
+        return (self.red, self.green, self.blue)
+
 
 class HSVColorSchema:
     """Represents HSV Color Scheme"""
