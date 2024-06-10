@@ -38,6 +38,8 @@ setup(
         'torch',
         'torchvision',
         'pygame',
+        'pyexcel',
+        'pyexcel-ods3'
     ]
 )
 
