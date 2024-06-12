@@ -47,3 +47,7 @@ export FIFTYONE_CVAT_PASSWORD=<YOUR_PASSWORD>
 
 alias kubectl='minikube kubectl --'
 alias kubels='kubectl get pod -A'
+
+export TXFR_OUT=${HOME_TMP_DIR}/txfr_out
+alias txfr_out='txfr_out.bash'
+
