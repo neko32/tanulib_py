@@ -50,4 +50,8 @@ alias kubels='kubectl get pod -A'
 
 export TXFR_OUT=${HOME_TMP_DIR}/txfr_out
 alias txfr_out='txfr_out.bash'
+alias txfr_ls='txfr_ls.bash'
+alias txfr_clear='txfr_clear.bash'
+alias txfr_in='txfr_in.bash'
+alias txfr_go='cd ${TXFR_OUT}'
 
