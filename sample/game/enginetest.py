@@ -3,7 +3,7 @@ from tlib.graphics.graphics import BGRA
 
 def main():
     tanu = TanuGameEngine(
-        base_background_fill_color=BGRA(255, 255, 255),
+        base_background_fill_color=BGRA(0, 0, 0),
         start_after_right_after_init=True
     )
 

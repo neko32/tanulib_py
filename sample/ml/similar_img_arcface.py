@@ -8,6 +8,9 @@ def main():
     ipt_mgr = MNIST10Input()
     ipt_mgr.process()
 
+    m = Arc
+    
+
     
 
 

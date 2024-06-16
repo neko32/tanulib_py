@@ -23,6 +23,7 @@ from enum import Enum
 from os.path import exists
 import io
 import math
+from tlib.ml.custom_layer import ArcFaceLayer
 
 PREFERRED_IMG_SIZE_CATDOG = (180, 180)
 # PREFERRED_BATCH_SIZE_CATDOG = 128
@@ -358,9 +359,30 @@ def make_model_CBACBA_2FC_F_D_ARCFACE(
     x = keras.layers.Conv2D(
         filters = conv2d_1_filter,
         kernels_size = conv2d_kernel_size,
-        padding = conv2d_padding
+        padding = conv2d_padding,
+        activation = activation_after_conv2d
     )(input)
     x = keras.layers.BatchNormalization()(x)
+    x = keras.layers.Conv2D(
+        filters = conv2d_2_filter,
+        kernel_size = conv2d_kernel_size, 
+        padding = conv2d_padding,
+        activation = activation_after_conv2d
+    )(x)
+    x = keras.layers.BatchNormalization()(x)
+    x = keras.layers.Flatten()(x)
+    x = keras.layers.Dense(
+        units = fc1_num_newrons,
+        activation = None
+    )(x)
+    y = keras.layers.Input(shape = (num_classes,))
+    output = ArcFaceLayer(
+        n_classes = num_classes,
+        regularizer = keras.regularizers.l2(1e-4)
+    )([x, y])
+    
+    return keras.Model([input, y], output)
+
     
 
 
