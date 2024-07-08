@@ -144,17 +144,18 @@ def cramer_2d(m: NDArray, dest_loc: NDArray, verbose: bool = False) -> NDArray:
         print(f"[X,Y] = {rez}")
     return rez
 
+
 def polynominal_derivative_by_mat4(
-        a:float,
-        b:float,
-        c:float,
-        d:float
+        a: float,
+        b: float,
+        c: float,
+        d: float
 ) -> Tuple[float, float, float]:
     """
     Calculate derivatives using matrix for the below polynominal
     ax^3 + bx^2 + cx + d
     """
-    m = np.diag(range(4), k = 0)
+    m = np.diag(range(4), k=0)
     s = np.array([
         [d],
         [c],
@@ -163,3 +164,9 @@ def polynominal_derivative_by_mat4(
     ])
     r = m.dot(s)
     return (r[3][0], r[2][0], r[1][0])
+
+
+def is_linearly_independent(a: NDArray, b: NDArray) -> (bool, int):
+    x = np.hstack([a, b])
+    rank = LA.matrix_rank(x)
+    return (LA.matrix_rank(x) in x.shape, rank)

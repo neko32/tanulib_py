@@ -97,7 +97,7 @@ class MathTest(TestCase):
         self.assertTrue(can_make_triangle(tr[0], tr[1], tr[2]))
 
     def test_logit(self):
-        like_choco = 8    
+        like_choco = 8
         like_bean = 2
         sample_num = like_choco + like_bean
         like_choco_p = like_choco / sample_num
@@ -114,23 +114,24 @@ class MathTest(TestCase):
         self.assertEqual(like_bean_o, 0.25)
         self.assertEqual(round_to_nearest_half_up(like_choco_logit, 3), 1.39)
         self.assertEqual(round_to_nearest_half_up(like_bean_logit, 3), -1.39)
-        
+
     def test_avg_change_formula(self):
         case1_f1_rez = -7
         case1_f2_rez = 3
         case1_f1_ipt = 0
         case1_f2_ipt = 9
-        case1_r = avg_change_formula(case1_f1_rez, case1_f2_rez, case1_f1_ipt, case1_f2_ipt)
+        case1_r = avg_change_formula(
+            case1_f1_rez, case1_f2_rez, case1_f1_ipt, case1_f2_ipt)
         self.assertEqual(round_to_nearest_half_up(case1_r, 2), 1.1)
 
         case2_f1_rez = -8
         case2_f2_rez = 162
         case2_f1_ipt = 1
         case2_f2_ipt = 6
-        case2_r = avg_change_formula(case2_f1_rez, case2_f2_rez, case2_f1_ipt, case2_f2_ipt)
+        case2_r = avg_change_formula(
+            case2_f1_rez, case2_f2_rez, case2_f1_ipt, case2_f2_ipt)
 
         self.assertEqual(round_to_nearest_half_up(case2_r, 2), 34.0)
-
 
     def test_isdigit(self):
         self.assertTrue(isdigit("723"))
@@ -167,6 +168,18 @@ class MathTest(TestCase):
         self.assertTrue(isdecimal("-1"))
         self.assertFalse(isdecimal("-"))
         self.assertFalse(isdecimal("ↁ"))
+
+    def test_is_linearly_independent(self):
+        a1 = np.array([[1], [2]])
+        b1 = np.array([[3], [1]])
+        self.assertTrue(is_linearly_independent(a1, b1)[0])
+        a2 = np.array([[1], [-2]])
+        b2 = np.array(([-2], [4]))
+        self.assertFalse(is_linearly_independent(a2, b2)[0])
+        a3 = np.array([[1], [2], [-3]])
+        b3 = np.array([[2], [-1], [2]])
+        three_is_ind, three_rank = is_linearly_independent(a3, b3)
+        self.assertTrue(three_is_ind and three_rank == 2)
 
 
 if __name__ == "__main__":
