@@ -167,6 +167,13 @@ def polynominal_derivative_by_mat4(
 
 
 def is_linearly_independent(a: NDArray, b: NDArray) -> (bool, int):
+    """Check whether given matrix a and b are linearly independent or not"""
     x = np.hstack([a, b])
     rank = LA.matrix_rank(x)
     return (LA.matrix_rank(x) in x.shape, rank)
+
+def swap_columns(a: NDArray, i_idx:int, j_idx) -> NDArray:
+    """Swap a_idx column with b_idx column"""
+    t = a.copy()
+    t[:,[i_idx, j_idx]] = a[:, [j_idx, i_idx]]
+    return t

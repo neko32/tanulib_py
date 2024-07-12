@@ -181,6 +181,22 @@ class MathTest(TestCase):
         three_is_ind, three_rank = is_linearly_independent(a3, b3)
         self.assertTrue(three_is_ind and three_rank == 2)
 
+    def test_swap_columns(self):
+        a = np.array([
+            [2, -3, 1],
+            [1, -2, 3],
+            [-2, 2, -1]
+        ])
+        c = np.array([
+            [1, -3, 2],
+            [3, -2, 1],
+            [-1, 2, -2]
+        ])
+        b = swap_columns(a, 2, 0)
+        self.assertTrue(np.array_equal(b, c))
+        
+
+
 
 if __name__ == "__main__":
     main()
